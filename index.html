@@ -2929,7 +2929,114 @@
     rows.innerHTML = html;
   }
 
-  // Gegner-Slots (KI oder Mensch) – gleiche Logik wie bei Tschigg
+  // ----- Shared setup functions (extracted from Tschigg section) -----
+  function fillHellSetupFromSession() {
+    const sess = hell.session;
+    if (!sess || !sess.playerNames || sess.playerNames.length < 2) return;
+    const humans = sess.humans || [];
+    $('h-name-input').value = sess.playerNames[0];
+    selectOpp('h-opp-grid', sess.playerNames.length - 1);
+    rebuildPlayerSlots('h');
+    document.querySelectorAll('#h-player-slots .player-slot').forEach((slot, i) => {
+      const human = !!humans[i + 1];
+      slot.querySelectorAll('.type-btn').forEach(b => b.classList.toggle('selected', b.dataset.type === (human ? 'human' : 'ai')));
+      const inp = slot.querySelector('.slot-name-input');
+      inp.value = sess.playerNames[i + 1];
+      inp.classList.toggle('is-ai', !human);
+    });
+  }
+
+  function readSetupOpponents(prefix, numOpp, usedNames) {
+    const slotEls = document.querySelectorAll('#' + prefix + '-player-slots .player-slot');
+    const out = [];
+    for (let i = 0; i < numOpp; i++) {
+      const slot = slotEls[i];
+      const tb = slot && slot.querySelector('.type-btn.selected');
+      const isHuman = !!tb && tb.dataset.type === 'human';
+      const inp = slot && slot.querySelector('.slot-name-input');
+      const v = ((inp && inp.value) || '').trim();
+      let name = v || (isHuman ? `Spieler ${i + 2}` : OPPONENT_NAMES[i]);
+      const base = name; let k = 2;
+      while (usedNames.has(name)) name = `${base} ${k++}`;
+      usedNames.add(name);
+      out.push({ name, isHuman, aiKey: isHuman ? undefined : OPPONENT_NAMES[i] });
+    }
+    return out;
+  }
+
+  function rebuildPlayerSlots(prefix) {
+    const wrap = $(prefix + '-player-slots');
+    const sel = document.querySelector('#' + prefix + '-opp-grid .opp-btn.selected');
+    if (!wrap || !sel) return;
+    const numOpp = parseInt(sel.dataset.n, 10);
+    const prevSlots = wrap.querySelectorAll('.player-slot');
+    const prev = [];
+    prevSlots.forEach((s, i) => {
+      const tb = s.querySelector('.type-btn.selected');
+      const inp = s.querySelector('.slot-name-input');
+      prev[i] = { type: tb ? tb.dataset.type : 'ai', name: inp ? inp.value : '' };
+    });
+    wrap.innerHTML = '';
+    for (let i = 0; i < numOpp; i++) {
+      const prevSlot = prev[i] || { type: 'ai', name: '' };
+      const slot = document.createElement('div');
+      slot.className = 'player-slot';
+      const defaultAIName = OPPONENT_NAMES[i];
+      const isHuman = prevSlot.type === 'human';
+      const defaultHumanName = `Spieler ${i + 2}`;
+      const isDefault = (v) => !v || v === defaultAIName || v === defaultHumanName;
+      const displayName = !isDefault(prevSlot.name) ? prevSlot.name : (isHuman ? defaultHumanName : defaultAIName);
+      slot.innerHTML = `
+        <div class="slot-row">
+          <div class="slot-label">Gegner ${i + 1}</div>
+          <div class="slot-type">
+            <button type="button" class="type-btn ${!isHuman ? 'selected' : ''}" data-type="ai">KI</button>
+            <button type="button" class="type-btn ${isHuman ? 'selected' : ''}" data-type="human">Mensch</button>
+          </div>
+        </div>
+        <input type="text" class="slot-name-input${isHuman ? '' : ' is-ai'}" maxlength="24" autocomplete="off" autocapitalize="words" enterkeyhint="done" aria-label="Name Gegner ${i + 1}">
+      `;
+      wrap.appendChild(slot);
+      const input = slot.querySelector('.slot-name-input');
+      input.value = displayName;
+      input.addEventListener('focus', () => { try { input.select(); } catch (e) {} });
+      slot.querySelectorAll('.type-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          slot.querySelectorAll('.type-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          const human = btn.dataset.type === 'human';
+          input.classList.toggle('is-ai', !human);
+          if (isDefault(input.value.trim())) input.value = human ? defaultHumanName : defaultAIName;
+        });
+      });
+    }
+  }
+
+  function wireOppGrid(prefix) {
+    document.querySelectorAll('#' + prefix + '-opp-grid .opp-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#' + prefix + '-opp-grid .opp-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        rebuildPlayerSlots(prefix);
+      });
+    });
+  }
+
+  // Eigener Name: wird gemerkt und vorbelegt
+  const MYNAME_KEY = 'wuerfelhalle_myname';
+  function loadMyName() { try { return localStorage.getItem(MYNAME_KEY) || 'Du'; } catch (e) { return 'Du'; } }
+  ['h'].forEach(pre => {
+    const el = $(pre + '-name-input');
+    if (!el) return;
+    el.value = loadMyName();
+    el.addEventListener('focus', () => { try { el.select(); } catch (e) {} });
+    el.addEventListener('change', () => {
+      const v = el.value.trim();
+      try { localStorage.setItem(MYNAME_KEY, v || 'Du'); } catch (e) {}
+    });
+  });
+
+  // Gegner-Slots (KI oder Mensch)
   wireOppGrid('h');
   rebuildPlayerSlots('h');
   function hellHumanCount() {
