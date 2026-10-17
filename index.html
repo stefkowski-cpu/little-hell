@@ -1782,8 +1782,7 @@
       return ctx;
     }
 
-    // iOS: Web Audio stumm bei Lautlos-Schalter → „playback”-Sitzung
-    try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) {}
+    // iOS: Stumm-Schalter wird respektiert (default „ambient”-Sitzung)
     let keepAlive = null;
     function silentWavUrl() {
       const n = 4410, b = new ArrayBuffer(44 + n * 2), v = new DataView(b);
