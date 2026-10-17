@@ -1530,7 +1530,7 @@
         <div class="round-num"><span id="h-round-num">1</span><span style="font-size:14px; color:var(--cream-dim)"> / 16</span></div>
       </div>
       <div style="text-align:center;flex:1">
-        <div id="h-current-name" style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream)">Du</div>
+        <div id="h-current-name" style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);cursor:pointer" title="Name ändern">Du</div>
       </div>
       <div class="target-box">
         <div class="round-label">Ziel</div>
@@ -4084,6 +4084,7 @@
     } else {
       curEl.textContent = p ? shortName(p.name) : '';
     }
+    curEl.style.cursor = (p && p.isHuman) ? 'pointer' : 'default';
     hell.renderDice();
     renderHellSide();
     hell.renderStatus();
@@ -4091,6 +4092,23 @@
     alignHellRollBtn();
     checkpointHell();
   };
+
+  // Eigenen Namen im laufenden Spiel ändern (Klick auf Name in der Kopfzeile)
+  $('h-current-name').addEventListener('click', () => {
+    if (!hell.state) return;
+    const p = hell.state.players[hell.state.currentIdx];
+    if (!p || !p.isHuman) return;
+    const neu = prompt('Dein Name:', p.name);
+    if (neu === null || !neu.trim() || neu.trim() === p.name) return;
+    p.name = neu.trim();
+    // Session und localStorage aktualisieren
+    if (hell.session) {
+      const idx = hell.state.players.indexOf(p);
+      if (idx >= 0) hell.session.playerNames[idx] = p.name;
+    }
+    try { localStorage.setItem(MYNAME_KEY, p.name); } catch (e) {}
+    hell.renderUI();
+  });
 
   // Rot, wenn mit diesem Würfel kein Treffer mehr möglich ist – unter Berücksichtigung des
   // bereits gespeicherten Würfels (ab Wurf 2) und der Zahl der noch zu werfenden Würfel:
