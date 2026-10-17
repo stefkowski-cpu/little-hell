@@ -2055,6 +2055,21 @@
     }
     function hellpasch() { fanfare(); }
     function pasch() { reaction(4); }
+    const DISAPPOINT_FILES = ['aww.mp3', 'booing.mp3', 'crowd-groan.mp3'];
+    function disappointment() {
+      if (!masterOn || !chOn.reaction || chVol.reaction === 0) return;
+      const c = ensure(); if (!c || c.state === 'closed') return;
+      if (activeReaction) { try { activeReaction.src.stop(); } catch (e) {} activeReaction = null; }
+      if (rndPlaying) { try { rndPlaying.stop(); } catch (e) {} rndPlaying = null; }
+      if (rndTimer) { clearTimeout(rndTimer); rndTimer = null; }
+      const file = DISAPPOINT_FILES[Math.floor(Math.random() * DISAPPOINT_FILES.length)];
+      playOnBus('reactions/' + file, 'reaction').then(src => {
+        if (src) {
+          activeReaction = { src };
+          src.onended = () => { activeReaction = null; scheduleRandomEvent(); };
+        } else { scheduleRandomEvent(); }
+      });
+    }
     function minus(pts) {
       // -3 bis 0: Langeweile/Gähnen, < -3: Schadenfreude, ≤ -8: Katastrophe
       if (pts > -4) reaction(4);
@@ -2130,7 +2145,7 @@
     }
 
     return {
-      dice, select, coin, cheer, hellpasch, minus, pasch, reaction,
+      dice, select, coin, cheer, hellpasch, minus, pasch, reaction, disappointment,
       setOn, setChOn, setChVol, setAmbience,
       test, stateText,
       isOn: () => masterOn,
@@ -2974,7 +2989,11 @@
     if (opts.hell) SFX.hellpasch();
     else if (opts.pasch) SFX.pasch();
     else if (cheer) SFX.cheer(!!cheer.big, delta, opts.hitRoll);
-    else if (delta < 0) SFX.minus(delta);
+    else if (delta < 0) {
+      // Enttäuschung: Chance nach 2. Wurf war >10% und trotzdem >3 Minus
+      if (opts.probAfter2 > 10 && delta <= -4) SFX.disappointment();
+      else SFX.minus(delta);
+    }
     // Höllenpasch rettet immer aus dem Minus → Konfetti
     if (opts.hell) launchConfetti(60);
     if (cheer) {
@@ -3723,6 +3742,12 @@
           $(id).classList.add('banked');
         }
       });
+      // Vor dem 3. Wurf: Gesamtchance merken (für Enttäuschungs-Sound)
+      if (p.rollsUsed === 2) {
+        const savedN = p.saved.filter(s => s).length;
+        const savedSum = p.dice.reduce((s, v, i) => s + (p.saved[i] && v > 0 ? v : 0), 0);
+        p.probAfter2 = hellProb(hell.state.target, savedSum, 3 - savedN).pct;
+      }
       p.rollsUsed++;
       hell.afterRoll();
     }, animMs);
@@ -3805,7 +3830,7 @@
       hell.renderDice();
       renderHellSide();
       if (pasch) showScorePop(0, { pasch: true });
-      else if (dist > 0) showScorePop(-dist);
+      else if (dist > 0) showScorePop(-dist, { probAfter2: p.probAfter2 });
       setTimeout(() => {
         sl.classList.remove('schrott');
         hell.advanceTurn();
