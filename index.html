@@ -1714,10 +1714,12 @@
     let activeReaction = null; // { src, gain } – aktuell spielende Reaktion
     let duckTimeout = null;
 
+    // Kanal-spezifische Gain-Skalierung
+    const CH_SCALE = { music: 0.35, ambience: 1, reaction: 1, dice: 1 };
     function volToGain(ch) {
-      // 0-10 Skala → 0.0-1.0 Gain, mit leichter Kurve
+      // 0-10 Skala → Gain, quadratische Kurve × Kanal-Faktor
       const v = chVol[ch] / 10;
-      return v * v; // quadratisch für natürlicheres Hörempfinden
+      return v * v * (CH_SCALE[ch] || 1);
     }
 
     function ensure() {
@@ -2828,9 +2830,10 @@
     $('h-score-pop-label').textContent = opts.hell ? 'Höllenpasch 6-6-6' : (opts.pasch ? 'Pasch – kein Minus' : (cheer ? cheer.label : ''));
     pop.classList.toggle('big', !!(cheer && cheer.big) || !!opts.hell);
     // Töne
+    // Reaktionssounds nur nach dem 3. Wurf oder bei Höllenpasch
     if (opts.hell) SFX.hellpasch();
     else if (opts.pasch) SFX.pasch();
-    else if (cheer) SFX.cheer(!!cheer.big, delta);
+    else if (cheer && opts.hitRoll === 3) SFX.cheer(!!cheer.big, delta);
     else if (delta < 0) SFX.minus(delta);
     // Höllenpasch rettet immer aus dem Minus → Konfetti
     if (opts.hell) launchConfetti(60);
