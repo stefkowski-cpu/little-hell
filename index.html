@@ -3412,6 +3412,28 @@
       const gb = s.querySelector('.gender-btn.selected');
       prev[i] = { type: tb ? tb.dataset.type : 'ai', name: inp ? inp.value : '', gender: gb ? gb.dataset.gender : OPPONENT_GENDER[i] || 'm', avIdx: pk ? parseInt(pk.dataset.idx) || 0 : 0 };
     });
+    // Belegte Avatare aller AI-Slots ermitteln (für Duplikat-Vermeidung)
+    function getUsedAvatars(excludeIdx) {
+      const used = new Set();
+      wrap.querySelectorAll('.player-slot').forEach((s, j) => {
+        if (j === excludeIdx) return;
+        const tb = s.querySelector('.type-btn[data-type].selected');
+        if (tb && tb.dataset.type === 'human') return;
+        const pk = s.querySelector('.avatar-picker');
+        if (pk) used.add(pk.dataset.gender + ':' + (parseInt(pk.dataset.idx) || 0));
+      });
+      return used;
+    }
+    // Nächsten freien Avatar-Index finden
+    function nextFreeIdx(gender, startIdx, dir, excludeSlot) {
+      const pool = AVATARS[gender] || AVATARS.m;
+      const used = getUsedAvatars(excludeSlot);
+      for (let step = 0; step < pool.length; step++) {
+        const idx = ((startIdx + dir * step) % pool.length + pool.length) % pool.length;
+        if (!used.has(gender + ':' + idx)) return idx;
+      }
+      return startIdx; // Fallback: alle belegt
+    }
     wrap.innerHTML = '';
     for (let i = 0; i < numOpp; i++) {
       const prevSlot = prev[i] || { type: 'ai', name: '' };
@@ -3451,7 +3473,7 @@
       input.value = displayName;
       input.addEventListener('focus', () => { try { input.select(); } catch (e) {} });
 
-      // Avatar-Picker Logik — Avatar und Name gekoppelt
+      // Avatar-Picker Logik — Avatar und Name gekoppelt, Duplikate vermeiden
       function syncAvatar() {
         const g = picker.dataset.gender;
         const pool = AVATARS[g] || AVATARS.m;
@@ -3459,11 +3481,15 @@
         if (idx < 0 || idx >= pool.length) idx = 0;
         picker.dataset.idx = idx;
         avImg.src = pool[idx];
-        // Name an Avatar koppeln (nur wenn noch ein Default-Name drinsteht)
         const names = g === 'f' ? OPPONENT_NAMES_F : OPPONENT_NAMES_M;
         if (isDefaultName(input.value.trim())) {
           input.value = names[idx] || names[0];
         }
+      }
+      // Beim Initialisieren: freien Index finden
+      if (!isHuman) {
+        const initIdx = nextFreeIdx(curGender, prevSlot.avIdx || i, 1, i);
+        picker.dataset.idx = initIdx;
       }
       syncAvatar();
 
@@ -3472,20 +3498,26 @@
           slot.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('selected'));
           btn.classList.add('selected');
           picker.dataset.gender = btn.dataset.gender;
-          picker.dataset.idx = 0;
+          picker.dataset.idx = nextFreeIdx(btn.dataset.gender, 0, 1, i);
           syncAvatar();
         });
       });
       slot.querySelector('.av-prev').addEventListener('click', (e) => {
         e.stopPropagation();
-        const pool = AVATARS[picker.dataset.gender] || AVATARS.m;
-        picker.dataset.idx = ((parseInt(picker.dataset.idx) || 0) - 1 + pool.length) % pool.length;
+        const g = picker.dataset.gender;
+        const pool = AVATARS[g] || AVATARS.m;
+        const cur = parseInt(picker.dataset.idx) || 0;
+        const candidate = ((cur - 1) + pool.length) % pool.length;
+        picker.dataset.idx = nextFreeIdx(g, candidate, -1, i);
         syncAvatar();
       });
       slot.querySelector('.av-next').addEventListener('click', (e) => {
         e.stopPropagation();
-        const pool = AVATARS[picker.dataset.gender] || AVATARS.m;
-        picker.dataset.idx = ((parseInt(picker.dataset.idx) || 0) + 1) % pool.length;
+        const g = picker.dataset.gender;
+        const pool = AVATARS[g] || AVATARS.m;
+        const cur = parseInt(picker.dataset.idx) || 0;
+        const candidate = (cur + 1) % pool.length;
+        picker.dataset.idx = nextFreeIdx(g, candidate, 1, i);
         syncAvatar();
       });
 
