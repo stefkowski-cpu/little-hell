@@ -2017,6 +2017,19 @@
     }
     function coin() { select(); } // Fallback
 
+    function applause() {
+      if (!masterOn || !chOn.reaction || chVol.reaction === 0) return;
+      const c = ensure(); if (!c || c.state === 'closed') return;
+      if (activeReaction) { try { activeReaction.src.stop(); } catch (e) {} activeReaction = null; }
+      if (rndPlaying) { try { rndPlaying.stop(); } catch (e) {} rndPlaying = null; }
+      if (rndTimer) { clearTimeout(rndTimer); rndTimer = null; }
+      playOnBus('reactions/applause.mp3', 'reaction').then(src => {
+        if (src) {
+          activeReaction = { src };
+          src.onended = () => { activeReaction = null; scheduleRandomEvent(); };
+        } else { scheduleRandomEvent(); }
+      });
+    }
     function fanfare() {
       if (!masterOn || !chOn.reaction || chVol.reaction === 0) return;
       const c = ensure(); if (!c || c.state === 'closed') return;
@@ -2030,10 +2043,13 @@
         } else { scheduleRandomEvent(); }
       });
     }
-    function cheer(big = false, pts = 0) {
-      // ≥20 Punkte: Fanfare! 15-19 laut, 6-14 mittel, ≤5 leise Anerkennung
-      if (pts >= 20) fanfare();
-      else if (pts >= 15) reaction(1);
+    function cheer(big = false, pts = 0, rollNo) {
+      // ≥20 Punkte: Fanfare!
+      if (pts >= 20) { fanfare(); return; }
+      // Volltreffer im 1. oder 2. Wurf: Applaus
+      if (rollNo && rollNo <= 2) { applause(); return; }
+      // Sonst nach Punkte-Stufe
+      if (pts >= 15) reaction(1);
       else if (pts > 5) reaction(2);
       else reaction(3);
     }
@@ -2957,7 +2973,7 @@
     // Reaktionssounds: Treffer/Volltreffer immer, Minus/Pasch nur nach 3. Wurf
     if (opts.hell) SFX.hellpasch();
     else if (opts.pasch) SFX.pasch();
-    else if (cheer) SFX.cheer(!!cheer.big, delta);
+    else if (cheer) SFX.cheer(!!cheer.big, delta, opts.hitRoll);
     else if (delta < 0) SFX.minus(delta);
     // Höllenpasch rettet immer aus dem Minus → Konfetti
     if (opts.hell) launchConfetti(60);
