@@ -1802,6 +1802,7 @@
       }
       startMusic();
       startAmbience();
+      scheduleRandomEvent();
     }
     ['pointerdown', 'touchstart', 'touchend', 'mousedown', 'click', 'keydown'].forEach(ev =>
       document.addEventListener(ev, unlock, { passive: true, capture: true })
@@ -1977,10 +1978,15 @@
       if (rndHistory.length > 10) rndHistory.shift();
       return file;
     }
+    let rndFirstPlay = true;
     function scheduleRandomEvent() {
       if (rndTimer) { clearTimeout(rndTimer); rndTimer = null; }
       if (!masterOn || !chOn.random || chVol.random === 0) return;
-      const delay = RND_MIN_MS + Math.random() * (RND_MAX_MS - RND_MIN_MS);
+      // Erstes Event schneller (10-30s), danach normal (45-120s)
+      const delay = rndFirstPlay
+        ? 10000 + Math.random() * 20000
+        : RND_MIN_MS + Math.random() * (RND_MAX_MS - RND_MIN_MS);
+      rndFirstPlay = false;
       rndTimer = realSetTimeout(() => { rndTimer = null; playRandomEvent(); }, delay);
     }
     function playRandomEvent() {
@@ -2003,6 +2009,7 @@
     function stopRandomEvents() {
       if (rndTimer) { clearTimeout(rndTimer); rndTimer = null; }
       if (rndPlaying) { try { rndPlaying.stop(); } catch (e) {} rndPlaying = null; }
+      rndFirstPlay = true;
     }
 
     // ---- Ereignis-API (Rückwärtskompatibel) ----
