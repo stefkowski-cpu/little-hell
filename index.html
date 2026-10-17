@@ -1733,7 +1733,7 @@
 
     // ---- Kanaleinstellungen ----
     const CH = ['music','ambience','reaction','dice','random'];
-    const DEFAULTS = { music: 2, ambience: 4, reaction: 5, dice: 2, random: 3 };
+    const DEFAULTS = { music: 5, ambience: 5, reaction: 5, dice: 5, random: 5 };
     const KEY_ON = 'lh_sound_on';
     const chKey = (ch, s) => `lh_${ch}_${s}`; // lh_music_vol, lh_music_on
     let masterOn = true;
@@ -1755,7 +1755,7 @@
     let activeReaction = null; // { src, gain } – aktuell spielende Reaktion
 
     // Kanal-spezifische Gain-Skalierung
-    const CH_SCALE = { music: 0.35, ambience: 1, reaction: 1, dice: 1, random: 0.6 };
+    const CH_SCALE = { music: 1.4, ambience: 0.64, reaction: 4.0, dice: 0.36, random: 1.536 };
     function volToGain(ch) {
       // 0-10 Skala → Gain, quadratische Kurve × Kanal-Faktor
       const v = chVol[ch] / 10;
