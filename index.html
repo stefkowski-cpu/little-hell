@@ -1748,7 +1748,6 @@
     let musicEl = null, musicIdx = -1, musicList = [];
     let ambEl = null;
     let activeReaction = null; // { src, gain } – aktuell spielende Reaktion
-    let duckTimeout = null;
 
     // Kanal-spezifische Gain-Skalierung
     const CH_SCALE = { music: 0.35, ambience: 1, reaction: 1, dice: 1, random: 0.6 };
@@ -1903,21 +1902,6 @@
       if (ambEl) ambEl.volume = (masterOn && chOn.ambience) ? volToGain('ambience') : 0;
     }
 
-    // ---- Ducking: Hintergrund leiser während Reaktion ----
-    function duckAmbience() {
-      if (!ambEl) return;
-      const duckVol = volToGain('ambience') * 0.25;
-      ambEl.volume = duckVol;
-      if (duckTimeout) clearTimeout(duckTimeout);
-    }
-    function unduckAmbience() {
-      if (duckTimeout) clearTimeout(duckTimeout);
-      duckTimeout = realSetTimeout(() => {
-        syncAmbienceVol();
-        duckTimeout = null;
-      }, 400); // sanftes Zurückkommen
-    }
-
     // ---- Reaktionsgeräusche (Kanal 3) ----
     function reaction(tier) {
       if (!masterOn || !chOn.reaction || chVol.reaction === 0) return;
@@ -1933,13 +1917,12 @@
       const list = FILES.reactions[tier];
       if (!list || !list.length) return;
       const file = list[Math.floor(Math.random() * list.length)];
-      duckAmbience();
       playOnBus('reactions/' + file, 'reaction').then(src => {
         if (src) {
           activeReaction = { src };
-          src.onended = () => { activeReaction = null; unduckAmbience(); scheduleRandomEvent(); };
+          src.onended = () => { activeReaction = null; scheduleRandomEvent(); };
         } else {
-          unduckAmbience(); scheduleRandomEvent();
+          scheduleRandomEvent();
         }
       });
     }
