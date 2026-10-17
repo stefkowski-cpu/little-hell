@@ -1837,9 +1837,24 @@
       if (!buf) return null;
       const src = ctx.createBufferSource();
       src.buffer = buf;
-      src.connect(buses[ch]);
+      // Eigener GainNode für Fade-Out-Fähigkeit
+      const gain = ctx.createGain();
+      src.connect(gain);
+      gain.connect(buses[ch]);
       src.start();
+      src._fadeGain = gain;
       return src;
+    }
+
+    // Smooth Fade-Out für laufende Reaktion (300ms)
+    function fadeOutSrc(src, ms = 300) {
+      if (!src || !ctx) return;
+      const g = src._fadeGain;
+      if (g) {
+        g.gain.setValueAtTime(g.gain.value, ctx.currentTime);
+        g.gain.linearRampToValueAtTime(0, ctx.currentTime + ms / 1000);
+      }
+      setTimeout(() => { try { src.stop(); } catch (e) {} }, ms);
     }
 
     // ---- Vorabladen ----
@@ -1913,11 +1928,11 @@
       const c = ensure(); if (!c || c.state === 'closed') return;
       // Vorherige Reaktion abbrechen (kein Stapeln)
       if (activeReaction) {
-        try { activeReaction.src.stop(); } catch (e) {}
+        fadeOutSrc(activeReaction.src);
         activeReaction = null;
       }
-      // Zufallsgeräusch hat niedrigere Priorität – sofort stoppen
-      if (rndPlaying) { try { rndPlaying.stop(); } catch (e) {} rndPlaying = null; }
+      // Zufallsgeräusch hat niedrigere Priorität – ausfaden
+      if (rndPlaying) { fadeOutSrc(rndPlaying); rndPlaying = null; }
       if (rndTimer) { clearTimeout(rndTimer); rndTimer = null; }
       const list = FILES.reactions[tier];
       if (!list || !list.length) return;
@@ -1996,7 +2011,7 @@
     }
     function stopRandomEvents() {
       if (rndTimer) { clearTimeout(rndTimer); rndTimer = null; }
-      if (rndPlaying) { try { rndPlaying.stop(); } catch (e) {} rndPlaying = null; }
+      if (rndPlaying) { fadeOutSrc(rndPlaying); rndPlaying = null; }
       rndFirstPlay = true;
     }
 
@@ -2020,8 +2035,8 @@
     function applause() {
       if (!masterOn || !chOn.reaction || chVol.reaction === 0) return;
       const c = ensure(); if (!c || c.state === 'closed') return;
-      if (activeReaction) { try { activeReaction.src.stop(); } catch (e) {} activeReaction = null; }
-      if (rndPlaying) { try { rndPlaying.stop(); } catch (e) {} rndPlaying = null; }
+      if (activeReaction) { fadeOutSrc(activeReaction.src); activeReaction = null; }
+      if (rndPlaying) { fadeOutSrc(rndPlaying); rndPlaying = null; }
       if (rndTimer) { clearTimeout(rndTimer); rndTimer = null; }
       playOnBus('reactions/applause.mp3', 'reaction').then(src => {
         if (src) {
@@ -2033,8 +2048,8 @@
     function fanfare() {
       if (!masterOn || !chOn.reaction || chVol.reaction === 0) return;
       const c = ensure(); if (!c || c.state === 'closed') return;
-      if (activeReaction) { try { activeReaction.src.stop(); } catch (e) {} activeReaction = null; }
-      if (rndPlaying) { try { rndPlaying.stop(); } catch (e) {} rndPlaying = null; }
+      if (activeReaction) { fadeOutSrc(activeReaction.src); activeReaction = null; }
+      if (rndPlaying) { fadeOutSrc(rndPlaying); rndPlaying = null; }
       if (rndTimer) { clearTimeout(rndTimer); rndTimer = null; }
       playOnBus('reactions/fanfare.mp3', 'reaction').then(src => {
         if (src) {
@@ -2059,8 +2074,8 @@
     function disappointment() {
       if (!masterOn || !chOn.reaction || chVol.reaction === 0) return;
       const c = ensure(); if (!c || c.state === 'closed') return;
-      if (activeReaction) { try { activeReaction.src.stop(); } catch (e) {} activeReaction = null; }
-      if (rndPlaying) { try { rndPlaying.stop(); } catch (e) {} rndPlaying = null; }
+      if (activeReaction) { fadeOutSrc(activeReaction.src); activeReaction = null; }
+      if (rndPlaying) { fadeOutSrc(rndPlaying); rndPlaying = null; }
       if (rndTimer) { clearTimeout(rndTimer); rndTimer = null; }
       const file = DISAPPOINT_FILES[Math.floor(Math.random() * DISAPPOINT_FILES.length)];
       playOnBus('reactions/' + file, 'reaction').then(src => {
