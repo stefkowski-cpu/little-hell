@@ -2012,13 +2012,27 @@
     }
     function coin() { select(); } // Fallback
 
+    function fanfare() {
+      if (!masterOn || !chOn.reaction || chVol.reaction === 0) return;
+      const c = ensure(); if (!c || c.state === 'closed') return;
+      if (activeReaction) { try { activeReaction.src.stop(); } catch (e) {} activeReaction = null; }
+      if (rndPlaying) { try { rndPlaying.stop(); } catch (e) {} rndPlaying = null; }
+      if (rndTimer) { clearTimeout(rndTimer); rndTimer = null; }
+      playOnBus('reactions/fanfare.mp3', 'reaction').then(src => {
+        if (src) {
+          activeReaction = { src };
+          src.onended = () => { activeReaction = null; scheduleRandomEvent(); };
+        } else { scheduleRandomEvent(); }
+      });
+    }
     function cheer(big = false, pts = 0) {
-      // Jubel nach Punkten: ≥15 laut, 6-14 mittel, ≤5 leise Anerkennung
-      if (pts >= 15) reaction(1);
+      // ≥20 Punkte: Fanfare! 15-19 laut, 6-14 mittel, ≤5 leise Anerkennung
+      if (pts >= 20) fanfare();
+      else if (pts >= 15) reaction(1);
       else if (pts > 5) reaction(2);
       else reaction(3);
     }
-    function hellpasch() { reaction(1); }
+    function hellpasch() { fanfare(); }
     function pasch() { reaction(4); }
     function minus(pts) {
       // -3 bis 0: Langeweile/Gähnen, < -3: Schadenfreude, ≤ -8: Katastrophe
