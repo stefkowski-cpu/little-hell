@@ -2241,10 +2241,14 @@
 
   // ----- Personalities (used by tsh.aiDecide / makePlayer) -----
   const PERSONALITIES = {
-    'Vincent „Vinny" Russo':  { tag: 'risikofreudig', stopAt: 280, bankFiveAfter: 3, useJokerProb: 0.25 },
-    'Mae „Cherry" Holloway':  { tag: 'vorsichtig',    stopAt: 160, bankFiveAfter: 1, useJokerProb: 0.15 },
-    'Tony „Knuckles" Marino': { tag: 'Hau-drauf',     stopAt: 320, bankFiveAfter: 99, useJokerProb: 0.5 },
-    'Lula Belle Carter':      { tag: 'unberechenbar', stopAt: null, bankFiveAfter: null, useJokerProb: 0.35 },
+    'Vincent „Vinny" Russo':    { tag: 'risikofreudig', stopAt: 280, bankFiveAfter: 3, useJokerProb: 0.25 },
+    'Mae „Cherry" Holloway':    { tag: 'risikofreudig', stopAt: 280, bankFiveAfter: 3, useJokerProb: 0.25 },
+    'Freddie „Slick" Malone':   { tag: 'vorsichtig',    stopAt: 160, bankFiveAfter: 1, useJokerProb: 0.15 },
+    'Dolores „Dolly" Navarro':  { tag: 'vorsichtig',    stopAt: 160, bankFiveAfter: 1, useJokerProb: 0.15 },
+    'Tony „Knuckles" Marino':   { tag: 'Hau-drauf',     stopAt: 320, bankFiveAfter: 99, useJokerProb: 0.5 },
+    'Ida „The Hammer" Kowalski':{ tag: 'Hau-drauf',     stopAt: 320, bankFiveAfter: 99, useJokerProb: 0.5 },
+    'Lester „Lucky" Dupont':    { tag: 'unberechenbar', stopAt: null, bankFiveAfter: null, useJokerProb: 0.35 },
+    'Lula Belle Carter':        { tag: 'unberechenbar', stopAt: null, bankFiveAfter: null, useJokerProb: 0.35 },
   };
   function getPersonality(p) {
     const def = PERSONALITIES[p.aiKey || p.name];
@@ -2702,13 +2706,23 @@
     if (inMenu || name === 'hellSetup') refreshMenuSummary();
   }
 
-  const OPPONENT_NAMES = [
+  const OPPONENT_NAMES_M = [
     'Vincent „Vinny" Russo',
-    'Mae „Cherry" Holloway',
+    'Freddie „Slick" Malone',
     'Tony „Knuckles" Marino',
+    'Lester „Lucky" Dupont',
+  ];
+  const OPPONENT_NAMES_F = [
+    'Mae „Cherry" Holloway',
+    'Dolores „Dolly" Navarro',
+    'Ida „The Hammer" Kowalski',
     'Lula Belle Carter',
   ];
+  const OPPONENT_NAMES = OPPONENT_NAMES_M; // Rückwärtskompatibel
   const OPPONENT_GENDER = { 0: 'm', 1: 'f', 2: 'm', 3: 'f' };
+  function defaultAIName(i, gender) {
+    return gender === 'f' ? OPPONENT_NAMES_F[i] || OPPONENT_NAMES_F[0] : OPPONENT_NAMES_M[i] || OPPONENT_NAMES_M[0];
+  }
   const AVATARS = { m: ['avatars/m1.webp','avatars/m2.webp','avatars/m3.webp','avatars/m4.webp'], f: ['avatars/f1.webp','avatars/f2.webp','avatars/f3.webp','avatars/f4.webp'] };
   function pickAvatar(gender, usedAvatars) {
     const pool = AVATARS[gender] || AVATARS.m;
@@ -3353,11 +3367,12 @@
       const gender = isHuman ? null : (gb ? gb.dataset.gender : OPPONENT_GENDER[i] || 'm');
       const inp = slot && slot.querySelector('.slot-name-input');
       const v = ((inp && inp.value) || '').trim();
-      let name = v || (isHuman ? `Spieler ${i + 2}` : OPPONENT_NAMES[i]);
+      const aiDefault = defaultAIName(i, gender);
+      let name = v || (isHuman ? `Spieler ${i + 2}` : aiDefault);
       const base = name; let k = 2;
       while (usedNames.has(name)) name = `${base} ${k++}`;
       usedNames.add(name);
-      out.push({ name, isHuman, aiKey: isHuman ? undefined : OPPONENT_NAMES[i], gender });
+      out.push({ name, isHuman, aiKey: isHuman ? undefined : aiDefault, gender });
     }
     return out;
   }
@@ -3380,12 +3395,12 @@
       const prevSlot = prev[i] || { type: 'ai', name: '' };
       const slot = document.createElement('div');
       slot.className = 'player-slot';
-      const defaultAIName = OPPONENT_NAMES[i];
       const isHuman = prevSlot.type === 'human';
       const defaultHumanName = `Spieler ${i + 2}`;
-      const defaultGender = prevSlot.gender || OPPONENT_GENDER[i] || 'm';
-      const isDefault = (v) => !v || v === defaultAIName || v === defaultHumanName;
-      const displayName = !isDefault(prevSlot.name) ? prevSlot.name : (isHuman ? defaultHumanName : defaultAIName);
+      const curGender = prevSlot.gender || OPPONENT_GENDER[i] || 'm';
+      const curAIName = defaultAIName(i, curGender);
+      const isDefaultName = (v) => !v || v === defaultHumanName || OPPONENT_NAMES_M.includes(v) || OPPONENT_NAMES_F.includes(v);
+      const displayName = !isDefaultName(prevSlot.name) ? prevSlot.name : (isHuman ? defaultHumanName : curAIName);
       slot.innerHTML = `
         <div class="slot-row">
           <div class="slot-label">Gegner ${i + 1}</div>
@@ -3397,8 +3412,8 @@
         <div class="slot-row slot-gender-row" style="${isHuman ? 'display:none' : ''}">
           <div class="slot-label">Avatar</div>
           <div class="slot-type">
-            <button type="button" class="type-btn gender-btn ${defaultGender === 'm' ? 'selected' : ''}" data-gender="m">♂</button>
-            <button type="button" class="type-btn gender-btn ${defaultGender === 'f' ? 'selected' : ''}" data-gender="f">♀</button>
+            <button type="button" class="type-btn gender-btn ${curGender === 'm' ? 'selected' : ''}" data-gender="m">♂</button>
+            <button type="button" class="type-btn gender-btn ${curGender === 'f' ? 'selected' : ''}" data-gender="f">♀</button>
           </div>
         </div>
         <input type="text" class="slot-name-input${isHuman ? '' : ' is-ai'}" maxlength="24" autocomplete="off" autocapitalize="words" enterkeyhint="done" aria-label="Name Gegner ${i + 1}">
@@ -3412,6 +3427,10 @@
         btn.addEventListener('click', () => {
           slot.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('selected'));
           btn.classList.add('selected');
+          // Name auf Gender-Default tauschen, wenn noch ein Default-Name drinsteht
+          if (isDefaultName(input.value.trim())) {
+            input.value = defaultAIName(i, btn.dataset.gender);
+          }
         });
       });
       slot.querySelectorAll('.type-btn[data-type]').forEach(btn => {
@@ -3421,7 +3440,9 @@
           const human = btn.dataset.type === 'human';
           input.classList.toggle('is-ai', !human);
           genderRow.style.display = human ? 'none' : '';
-          if (isDefault(input.value.trim())) input.value = human ? defaultHumanName : defaultAIName;
+          const selGender = slot.querySelector('.gender-btn.selected');
+          const g = selGender ? selGender.dataset.gender : curGender;
+          if (isDefaultName(input.value.trim())) input.value = human ? defaultHumanName : defaultAIName(i, g);
         });
       });
     }
