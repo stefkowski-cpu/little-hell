@@ -3371,7 +3371,8 @@
       const chosenAvatar = !isHuman && gender ? (AVATARS[gender] || AVATARS.m)[avIdx] || null : null;
       const inp = slot && slot.querySelector('.slot-name-input');
       const v = ((inp && inp.value) || '').trim();
-      const aiDefault = defaultAIName(i, gender);
+      const names = gender === 'f' ? OPPONENT_NAMES_F : OPPONENT_NAMES_M;
+      const aiDefault = names[avIdx] || names[0];
       let name = v || (isHuman ? `Spieler ${i + 2}` : aiDefault);
       const base = name; let k = 2;
       while (usedNames.has(name)) name = `${base} ${k++}`;
@@ -3434,7 +3435,7 @@
       input.value = displayName;
       input.addEventListener('focus', () => { try { input.select(); } catch (e) {} });
 
-      // Avatar-Picker Logik
+      // Avatar-Picker Logik — Avatar und Name gekoppelt
       function syncAvatar() {
         const g = picker.dataset.gender;
         const pool = AVATARS[g] || AVATARS.m;
@@ -3442,6 +3443,11 @@
         if (idx < 0 || idx >= pool.length) idx = 0;
         picker.dataset.idx = idx;
         avImg.src = pool[idx];
+        // Name an Avatar koppeln (nur wenn noch ein Default-Name drinsteht)
+        const names = g === 'f' ? OPPONENT_NAMES_F : OPPONENT_NAMES_M;
+        if (isDefaultName(input.value.trim())) {
+          input.value = names[idx] || names[0];
+        }
       }
       syncAvatar();
 
@@ -3452,9 +3458,6 @@
           picker.dataset.gender = btn.dataset.gender;
           picker.dataset.idx = 0;
           syncAvatar();
-          if (isDefaultName(input.value.trim())) {
-            input.value = defaultAIName(i, btn.dataset.gender);
-          }
         });
       });
       slot.querySelector('.av-prev').addEventListener('click', (e) => {
