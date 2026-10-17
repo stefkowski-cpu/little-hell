@@ -99,7 +99,8 @@
   .sound-pop { display: none; position: absolute; right: 0; top: calc(100% + 6px); z-index: 60; width: 220px; padding: 12px; background: linear-gradient(180deg, var(--felt-light), var(--felt-deep)); border: 1px solid var(--gold); border-radius: 3px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); flex-direction: column; gap: 8px; }
   .sound-pop.open { display: flex; }
   .sound-pop .type-btn { width: 100%; padding: 8px; }
-  .sound-ch-label { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-light); }
+  .sound-ch-label { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-light); cursor: default; }
+  .sound-ch-label input[type=checkbox] { width: 14px; height: 14px; accent-color: var(--gold); margin: 0; flex-shrink: 0; cursor: pointer; }
   .sound-ch-label .ch-name { flex: 1; }
   .sound-ch-label .ch-val { font-size: 11px; min-width: 18px; text-align: right; color: var(--gold); font-family: 'Cormorant Garamond', serif; }
   .sound-ch-label input[type=range] { width: 100%; accent-color: var(--gold); margin-top: -2px; }
@@ -1463,11 +1464,11 @@
     </button>
     <div class="sound-pop" id="sound-pop" role="dialog" aria-label="Ton">
       <button type="button" class="type-btn" id="sound-master-toggle">Ton an</button>
-      <label class="sound-ch-label"><span class="ch-name">🎵 Musik</span><span class="ch-val" id="ch-val-music">2</span><input type="range" id="ch-music" min="0" max="10" step="1" data-ch="music"></label>
-      <label class="sound-ch-label"><span class="ch-name">🍺 Hintergrund</span><span class="ch-val" id="ch-val-ambience">4</span><input type="range" id="ch-ambience" min="0" max="10" step="1" data-ch="ambience"></label>
-      <label class="sound-ch-label"><span class="ch-name">🎉 Reaktionen</span><span class="ch-val" id="ch-val-reaction">5</span><input type="range" id="ch-reaction" min="0" max="10" step="1" data-ch="reaction"></label>
-      <label class="sound-ch-label"><span class="ch-name">🎲 Würfel</span><span class="ch-val" id="ch-val-dice">2</span><input type="range" id="ch-dice" min="0" max="10" step="1" data-ch="dice"></label>
-      <label class="sound-ch-label"><span class="ch-name">🍻 Zufallsgeräusche</span><span class="ch-val" id="ch-val-random">3</span><input type="range" id="ch-random" min="0" max="10" step="1" data-ch="random"></label>
+      <label class="sound-ch-label"><input type="checkbox" id="ch-on-music" data-ch="music" checked><span class="ch-name">🎵 Musik</span><span class="ch-val" id="ch-val-music">5</span><input type="range" id="ch-music" min="0" max="10" step="1" data-ch="music"></label>
+      <label class="sound-ch-label"><input type="checkbox" id="ch-on-ambience" data-ch="ambience" checked><span class="ch-name">🍺 Hintergrund</span><span class="ch-val" id="ch-val-ambience">5</span><input type="range" id="ch-ambience" min="0" max="10" step="1" data-ch="ambience"></label>
+      <label class="sound-ch-label"><input type="checkbox" id="ch-on-reaction" data-ch="reaction" checked><span class="ch-name">🎉 Reaktionen</span><span class="ch-val" id="ch-val-reaction">5</span><input type="range" id="ch-reaction" min="0" max="10" step="1" data-ch="reaction"></label>
+      <label class="sound-ch-label"><input type="checkbox" id="ch-on-dice" data-ch="dice" checked><span class="ch-name">🎲 Würfel</span><span class="ch-val" id="ch-val-dice">5</span><input type="range" id="ch-dice" min="0" max="10" step="1" data-ch="dice"></label>
+      <label class="sound-ch-label"><input type="checkbox" id="ch-on-random" data-ch="random" checked><span class="ch-name">🍻 Zufallsgeräusche</span><span class="ch-val" id="ch-val-random">5</span><input type="range" id="ch-random" min="0" max="10" step="1" data-ch="random"></label>
       <button type="button" class="type-btn" id="sound-test">Probe hören</button>
       <div class="sound-hint" id="sound-state"></div>
     </div>
@@ -2175,21 +2176,27 @@
     const btn = $('sound-btn'), pop = $('sound-pop');
     if (!btn || !pop) return;
     const tog = $('sound-master-toggle');
-    const sliders = {};
-    ['music','ambience','reaction','dice','random'].forEach(ch => { sliders[ch] = $('ch-' + ch); });
+    const sliders = {}, chkboxes = {};
+    ['music','ambience','reaction','dice','random'].forEach(ch => {
+      sliders[ch] = $('ch-' + ch);
+      chkboxes[ch] = $('ch-on-' + ch);
+    });
 
     const sync = () => {
       btn.classList.toggle('muted', !SFX.isOn());
       tog.textContent = SFX.isOn() ? 'Ton an' : 'Ton aus';
       tog.classList.toggle('selected', SFX.isOn());
       ['music','ambience','reaction','dice','random'].forEach(ch => {
+        const on = SFX.chOn(ch);
+        const cb = chkboxes[ch];
+        if (cb) { cb.checked = on; cb.disabled = !SFX.isOn(); }
         const sl = sliders[ch];
         if (sl) {
           sl.value = SFX.chVol(ch);
-          sl.disabled = !SFX.isOn();
+          sl.disabled = !SFX.isOn() || !on;
         }
         const valEl = $('ch-val-' + ch);
-        if (valEl) valEl.textContent = SFX.chVol(ch);
+        if (valEl) { valEl.textContent = SFX.chVol(ch); valEl.style.opacity = on ? '1' : '0.4'; }
       });
     };
     btn.addEventListener('click', (e) => { e.stopPropagation(); pop.classList.toggle('open'); sync(); });
@@ -2197,6 +2204,16 @@
     $('sound-test').addEventListener('click', () => {
       SFX.test();
       setTimeout(() => { $('sound-state').textContent = 'Audio: ' + SFX.stateText(); }, 300);
+    });
+    // Kanal-Checkboxen
+    ['music','ambience','reaction','dice','random'].forEach(ch => {
+      const cb = chkboxes[ch];
+      if (!cb) return;
+      cb.addEventListener('change', (e) => {
+        e.stopPropagation();
+        SFX.setChOn(ch, cb.checked);
+        sync();
+      });
     });
     // Kanal-Slider
     ['music','ambience','reaction','dice','random'].forEach(ch => {
