@@ -301,7 +301,7 @@
   .cside-row {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     padding: 7px 8px;
     border-bottom: 1px solid rgba(212,175,55,0.1);
     gap: 4px;
@@ -312,6 +312,11 @@
     box-shadow: inset 3px 0 0 var(--gold);
   }
   .cside-row.you .cside-name { color: var(--gold-light); }
+  .avatar-img {
+    width: 24px; height: 24px; border-radius: 50%; object-fit: cover;
+    border: 1.5px solid var(--gold-dim); flex-shrink: 0;
+    vertical-align: middle;
+  }
   .cside-name {
     font-size: 12px;
     color: var(--cream);
@@ -426,7 +431,7 @@
   .cside-order { padding: 7px 8px 8px; border-top: 1px solid rgba(212,175,55,0.35); background: rgba(0,0,0,0.25); }
   .cside-order .ord-title { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.12em; overflow-wrap: anywhere; text-transform: uppercase; color: var(--gold-light); text-align: center; margin-bottom: 5px; line-height: 1.3; }
   .cside-order .ord-title small { display: block; font-size: 8px; letter-spacing: 0.06em; color: var(--cream-dim); text-transform: none; font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 11px; }
-  .cside-order .ord-row { display: flex; align-items: baseline; gap: 6px; padding: 2px 4px; border-radius: 2px; font-family: 'Cormorant Garamond', serif; font-size: 13px; color: var(--cream); }
+  .cside-order .ord-row { display: flex; align-items: center; gap: 6px; padding: 2px 4px; border-radius: 2px; font-family: 'Cormorant Garamond', serif; font-size: 13px; color: var(--cream); }
   .cside-order .ord-num { font-family: 'Cinzel', serif; font-size: 10px; color: var(--gold); width: 14px; }
   .cside-order .ord-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .cside-order .ord-row { flex-wrap: wrap; row-gap: 0; }
@@ -2640,6 +2645,16 @@
     'Tony „Knuckles" Marino',
     'Lula Belle Carter',
   ];
+  const OPPONENT_GENDER = { 0: 'm', 1: 'f', 2: 'm', 3: 'f' };
+  const AVATARS = { m: ['avatars/m1.webp','avatars/m2.webp','avatars/m3.webp','avatars/m4.webp'], f: ['avatars/f1.webp','avatars/f2.webp','avatars/f3.webp','avatars/f4.webp'] };
+  function pickAvatar(gender, usedAvatars) {
+    const pool = AVATARS[gender] || AVATARS.m;
+    const free = pool.filter(a => !usedAvatars.has(a));
+    const list = free.length ? free : pool;
+    const pick = list[Math.floor(Math.random() * list.length)];
+    usedAvatars.add(pick);
+    return pick;
+  }
   const shortName = (n) => n.split(' ')[0].replace(/[„"]/g, '');
 
   const PIP_MAP = {
@@ -3265,15 +3280,17 @@
     const out = [];
     for (let i = 0; i < numOpp; i++) {
       const slot = slotEls[i];
-      const tb = slot && slot.querySelector('.type-btn.selected');
+      const tb = slot && slot.querySelector('.type-btn[data-type].selected');
       const isHuman = !!tb && tb.dataset.type === 'human';
+      const gb = slot && slot.querySelector('.gender-btn.selected');
+      const gender = isHuman ? null : (gb ? gb.dataset.gender : OPPONENT_GENDER[i] || 'm');
       const inp = slot && slot.querySelector('.slot-name-input');
       const v = ((inp && inp.value) || '').trim();
       let name = v || (isHuman ? `Spieler ${i + 2}` : OPPONENT_NAMES[i]);
       const base = name; let k = 2;
       while (usedNames.has(name)) name = `${base} ${k++}`;
       usedNames.add(name);
-      out.push({ name, isHuman, aiKey: isHuman ? undefined : OPPONENT_NAMES[i] });
+      out.push({ name, isHuman, aiKey: isHuman ? undefined : OPPONENT_NAMES[i], gender });
     }
     return out;
   }
@@ -3288,7 +3305,8 @@
     prevSlots.forEach((s, i) => {
       const tb = s.querySelector('.type-btn.selected');
       const inp = s.querySelector('.slot-name-input');
-      prev[i] = { type: tb ? tb.dataset.type : 'ai', name: inp ? inp.value : '' };
+      const gb = s.querySelector('.gender-btn.selected');
+      prev[i] = { type: tb ? tb.dataset.type : 'ai', name: inp ? inp.value : '', gender: gb ? gb.dataset.gender : OPPONENT_GENDER[i] || 'm' };
     });
     wrap.innerHTML = '';
     for (let i = 0; i < numOpp; i++) {
@@ -3298,6 +3316,7 @@
       const defaultAIName = OPPONENT_NAMES[i];
       const isHuman = prevSlot.type === 'human';
       const defaultHumanName = `Spieler ${i + 2}`;
+      const defaultGender = prevSlot.gender || OPPONENT_GENDER[i] || 'm';
       const isDefault = (v) => !v || v === defaultAIName || v === defaultHumanName;
       const displayName = !isDefault(prevSlot.name) ? prevSlot.name : (isHuman ? defaultHumanName : defaultAIName);
       slot.innerHTML = `
@@ -3308,18 +3327,33 @@
             <button type="button" class="type-btn ${isHuman ? 'selected' : ''}" data-type="human">Mensch</button>
           </div>
         </div>
+        <div class="slot-row slot-gender-row" style="${isHuman ? 'display:none' : ''}">
+          <div class="slot-label">Avatar</div>
+          <div class="slot-type">
+            <button type="button" class="type-btn gender-btn ${defaultGender === 'm' ? 'selected' : ''}" data-gender="m">♂</button>
+            <button type="button" class="type-btn gender-btn ${defaultGender === 'f' ? 'selected' : ''}" data-gender="f">♀</button>
+          </div>
+        </div>
         <input type="text" class="slot-name-input${isHuman ? '' : ' is-ai'}" maxlength="24" autocomplete="off" autocapitalize="words" enterkeyhint="done" aria-label="Name Gegner ${i + 1}">
       `;
       wrap.appendChild(slot);
       const input = slot.querySelector('.slot-name-input');
+      const genderRow = slot.querySelector('.slot-gender-row');
       input.value = displayName;
       input.addEventListener('focus', () => { try { input.select(); } catch (e) {} });
-      slot.querySelectorAll('.type-btn').forEach(btn => {
+      slot.querySelectorAll('.gender-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-          slot.querySelectorAll('.type-btn').forEach(b => b.classList.remove('selected'));
+          slot.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+        });
+      });
+      slot.querySelectorAll('.type-btn[data-type]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          slot.querySelectorAll('.type-btn[data-type]').forEach(b => b.classList.remove('selected'));
           btn.classList.add('selected');
           const human = btn.dataset.type === 'human';
           input.classList.toggle('is-ai', !human);
+          genderRow.style.display = human ? 'none' : '';
           if (isDefault(input.value.trim())) input.value = human ? defaultHumanName : defaultAIName;
         });
       });
@@ -3451,15 +3485,23 @@
       }
       if (!sess.saveId) sess.saveId = (hell.state && hell.state.saveId) || newSaveId();
       const aiKeys = sess.aiKeys || [];
-      const players = sess.playerNames.map((n, i) => ({ name: n, aiKey: humans[i] ? undefined : aiKeys[i], score: 0, isHuman: !!humans[i], dice: [-1,-1,-1], saved: [false,false,false], rollsUsed: 0, lockedSave: undefined }));
+      const genders = sess.genders || [];
+      const usedAv = new Set();
+      const players = sess.playerNames.map((n, i) => {
+        const isH = !!humans[i];
+        const avatar = isH ? null : pickAvatar(genders[i] || 'm', usedAv);
+        return { name: n, aiKey: isH ? undefined : aiKeys[i], score: 0, isHuman: isH, dice: [-1,-1,-1], saved: [false,false,false], rollsUsed: 0, lockedSave: undefined, avatar };
+      });
       hell.beginGame(players);
       return;
     }
     const name = $('h-name-input').value.trim() || 'Du';
     const numOpp = parseInt(document.querySelector('#h-opp-grid .opp-btn.selected').dataset.n, 10);
-    const players = [{ name, score: 0, isHuman: true, dice: [-1,-1,-1], saved: [false,false,false], rollsUsed: 0, lockedSave: undefined }];
+    const usedAvatars = new Set();
+    const players = [{ name, score: 0, isHuman: true, dice: [-1,-1,-1], saved: [false,false,false], rollsUsed: 0, lockedSave: undefined, avatar: null }];
     readSetupOpponents('h', numOpp, new Set([name])).forEach(o => {
-      players.push({ name: o.name, aiKey: o.aiKey, score: 0, isHuman: o.isHuman, dice: [-1,-1,-1], saved: [false,false,false], rollsUsed: 0, lockedSave: undefined });
+      const avatar = o.isHuman ? null : pickAvatar(o.gender || 'm', usedAvatars);
+      players.push({ name: o.name, aiKey: o.aiKey, score: 0, isHuman: o.isHuman, dice: [-1,-1,-1], saved: [false,false,false], rollsUsed: 0, lockedSave: undefined, avatar, gender: o.gender || null });
     });
     // Neues Spiel aus dem Setup = immer neue Session (alte Session-Punkte zurückgesetzt)
     hell.session = {
@@ -3467,6 +3509,7 @@
       playerNames: players.map(p => p.name),
       humans: players.map(p => p.isHuman),
       aiKeys: players.map(p => p.aiKey),
+      genders: players.map(p => p.gender || null),
       games: [], // Array of { finals: [score,...], tiers: [tier,...], pts: [pts,...] }
       totals: players.map(() => 0),
     };
@@ -3904,7 +3947,12 @@
     $('h-target-num').textContent = hell.state.target;
     renderHellBonus(hell.state.phase === 'ready' ? 1 : null);
     const p = hell.state.players[hell.state.currentIdx];
-    $('h-current-name').textContent = p ? shortName(p.name) : '';
+    const curEl = $('h-current-name');
+    if (p && p.avatar) {
+      curEl.innerHTML = `<img class="avatar-img" src="${p.avatar}" alt="" style="width:22px;height:22px;margin-right:4px;vertical-align:middle">${shortName(p.name)}`;
+    } else {
+      curEl.textContent = p ? shortName(p.name) : '';
+    }
     hell.renderDice();
     renderHellSide();
     hell.renderStatus();
@@ -3986,9 +4034,10 @@
       // Kleiner Punkt: in dieser Runde noch nicht gewürfelt (kommt nach dem aktuellen Spieler dran)
       const turnPos = typeof st.turnPos === 'number' ? st.turnPos : ord.indexOf(st.currentIdx);
       const pending = st.phase !== 'roundEnd' && st.phase !== 'gameEnd' && ord.indexOf(idx) > turnPos;
+      const avHtml = p.avatar ? `<img class="avatar-img" src="${p.avatar}" alt="">` : '';
       html += `<div class="${classes.join(' ')}">
         <span class="cside-rank">${rank}.${pending ? '<span class="cside-pending" title="noch nicht gewürfelt" aria-label="noch nicht gewürfelt"></span>' : ''}</span>
-        <span class="cside-name">${nm(p)}</span>
+        ${avHtml}<span class="cside-name">${nm(p)}</span>
         <span class="${scoreClass}">${p.score}</span>
       </div>`;
     });
@@ -3998,7 +4047,8 @@
     const nowAward = hellGameAward(st.players.map(p => p.score));
     html += `<div class="cside-order"><div class="ord-title">Reihenfolge<small class="ord-legend">Gesamt · <span class="ord-now">+ aktuell</span></small></div>`;
     ord.forEach((idx, k) => {
-      html += `<div class="ord-row${idx === st.currentIdx ? ' cur' : ''}"><span class="ord-num">${k + 1}.</span><span class="ord-name">${nm(st.players[idx])}</span><span class="ord-sess">(${sessTotals[idx] || 0}<span class="ord-now${nowAward.pts[idx] < 0 ? ' neg' : ''}" title="Session-Punkte (Stufe ${nowAward.tierPts[idx]} + Platz ${nowAward.bonus[idx]}), wenn die Partie jetzt enden würde"> · ${sgn(nowAward.pts[idx])}</span>)</span></div>`;
+      const oAv = st.players[idx].avatar ? `<img class="avatar-img" src="${st.players[idx].avatar}" alt="" style="width:18px;height:18px">` : '';
+      html += `<div class="ord-row${idx === st.currentIdx ? ' cur' : ''}"><span class="ord-num">${k + 1}.</span>${oAv}<span class="ord-name">${nm(st.players[idx])}</span><span class="ord-sess">(${sessTotals[idx] || 0}<span class="ord-now${nowAward.pts[idx] < 0 ? ' neg' : ''}" title="Session-Punkte (Stufe ${nowAward.tierPts[idx]} + Platz ${nowAward.bonus[idx]}), wenn die Partie jetzt enden würde"> · ${sgn(nowAward.pts[idx])}</span>)</span></div>`;
     });
     html += '</div>';
     wrap.innerHTML = html;
@@ -4474,8 +4524,9 @@
       const row = document.createElement('div');
       row.className = 'player-row';
       if (p.isHuman) row.classList.add('you');
+      const avEnd = p.avatar ? `<img class="avatar-img" src="${p.avatar}" alt="" style="width:28px;height:28px;margin-right:6px">` : '';
       row.innerHTML = `
-        <div class="player-name" style="flex:1">${p.name}</div>
+        ${avEnd}<div class="player-name" style="flex:1">${p.name}</div>
         <div style="font-family:'Cinzel',serif;font-size:9px;color:var(--cream-dim);letter-spacing:0.08em;text-align:right;min-width:72px;line-height:1.3">
           <span style="${earned < 0 ? 'color:var(--red-text)' : ''}">${sgn(earned)}</span><br><span style="font-size:8px;letter-spacing:0.05em">${HELL_TIER_LABELS[tier]} ${tierPts[pIdx]} · Platz ${bonus[pIdx]}</span>
         </div>
