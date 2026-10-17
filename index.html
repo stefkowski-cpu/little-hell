@@ -1932,12 +1932,18 @@
     function coin() { select(); } // Fallback
 
     function cheer(big = false, pts = 0) {
-      reaction(big ? 1 : (pts >= 15 ? 2 : 3));
+      // Jubel nach Punkten: ≥15 laut, 6-14 mittel, ≤5 leise Anerkennung
+      if (pts >= 15) reaction(1);
+      else if (pts > 5) reaction(2);
+      else reaction(3);
     }
     function hellpasch() { reaction(1); }
     function pasch() { reaction(4); }
     function minus(pts) {
-      reaction(pts <= -8 ? 6 : 5);
+      // -3 bis 0: Langeweile/Gähnen, < -3: Schadenfreude, ≤ -8: Katastrophe
+      if (pts > -4) reaction(4);
+      else if (pts > -8) reaction(5);
+      else reaction(6);
     }
 
     // ---- Kanalsteuerung ----
