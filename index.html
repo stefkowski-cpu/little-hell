@@ -2830,10 +2830,10 @@
     $('h-score-pop-label').textContent = opts.hell ? 'Höllenpasch 6-6-6' : (opts.pasch ? 'Pasch – kein Minus' : (cheer ? cheer.label : ''));
     pop.classList.toggle('big', !!(cheer && cheer.big) || !!opts.hell);
     // Töne
-    // Reaktionssounds nur nach dem 3. Wurf oder bei Höllenpasch
+    // Reaktionssounds: Treffer/Volltreffer immer, Minus/Pasch nur nach 3. Wurf
     if (opts.hell) SFX.hellpasch();
     else if (opts.pasch) SFX.pasch();
-    else if (cheer && opts.hitRoll === 3) SFX.cheer(!!cheer.big, delta);
+    else if (cheer) SFX.cheer(!!cheer.big, delta);
     else if (delta < 0) SFX.minus(delta);
     // Höllenpasch rettet immer aus dem Minus → Konfetti
     if (opts.hell) launchConfetti(60);
