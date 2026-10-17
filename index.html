@@ -3949,7 +3949,7 @@
     const p = hell.state.players[hell.state.currentIdx];
     const curEl = $('h-current-name');
     if (p && p.avatar) {
-      curEl.innerHTML = `<img class="avatar-img" src="${p.avatar}" alt="" style="width:22px;height:22px;margin-right:4px;vertical-align:middle">${shortName(p.name)}`;
+      curEl.innerHTML = `<img class="avatar-img" src="${p.avatar}" alt="" style="width:36px;height:36px;margin-right:6px;vertical-align:middle">${shortName(p.name)}`;
     } else {
       curEl.textContent = p ? shortName(p.name) : '';
     }
