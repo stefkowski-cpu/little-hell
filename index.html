@@ -1759,11 +1759,17 @@
     let activeReaction = null; // { src, gain } – aktuell spielende Reaktion
 
     // Kanal-spezifische Gain-Skalierung
+    // Balanciert so, dass Default 5 auf allen Kanälen ausgeglichen klingt.
+    // music/ambience laufen über <audio>.volume (max 1.0) → Faktor ≤ 1.
+    // reaction/dice/random laufen über Web Audio GainNode (darf > 1.0).
     const CH_SCALE = { music: 1.4, ambience: 0.64, reaction: 4.0, dice: 0.36, random: 1.536 };
     function volToGain(ch) {
       // 0-10 Skala → Gain, quadratische Kurve × Kanal-Faktor
       const v = chVol[ch] / 10;
-      return v * v * (CH_SCALE[ch] || 1);
+      const g = v * v * (CH_SCALE[ch] || 1);
+      // <audio>-Elemente (music, ambience) brauchen 0-1 Bereich
+      if (ch === 'music' || ch === 'ambience') return Math.min(g, 1);
+      return g;
     }
 
     function ensure() {
