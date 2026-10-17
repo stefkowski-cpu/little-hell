@@ -104,6 +104,8 @@
   .sound-ch-label .ch-name { flex: 1; }
   .sound-ch-label .ch-val { font-size: 11px; min-width: 18px; text-align: right; color: var(--gold); font-family: 'Cormorant Garamond', serif; }
   .sound-ch-label input[type=range] { width: 100%; accent-color: var(--gold); margin-top: -2px; }
+  .sound-btn-row { display: flex; gap: 6px; }
+  .sound-btn-row .type-btn { flex: 1; }
   .sound-hint { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 12px; color: var(--cream-dim); }
   .sound-hint:empty { display: none; }
   .icon-btn {
@@ -1472,7 +1474,7 @@
       <label class="sound-ch-label"><input type="checkbox" id="ch-on-reaction" data-ch="reaction" checked><span class="ch-name">🎉 Reaktionen</span><span class="ch-val" id="ch-val-reaction">5</span><input type="range" id="ch-reaction" min="0" max="10" step="1" data-ch="reaction"></label>
       <label class="sound-ch-label"><input type="checkbox" id="ch-on-dice" data-ch="dice" checked><span class="ch-name">🎲 Würfel</span><span class="ch-val" id="ch-val-dice">5</span><input type="range" id="ch-dice" min="0" max="10" step="1" data-ch="dice"></label>
       <label class="sound-ch-label"><input type="checkbox" id="ch-on-random" data-ch="random" checked><span class="ch-name">🍻 Zufallsgeräusche</span><span class="ch-val" id="ch-val-random">5</span><input type="range" id="ch-random" min="0" max="10" step="1" data-ch="random"></label>
-      <button type="button" class="type-btn" id="sound-test">Probe hören</button>
+      <div class="sound-btn-row"><button type="button" class="type-btn" id="sound-test">Probe hören</button><button type="button" class="type-btn" id="sound-reset">Reset</button></div>
       <div class="sound-hint" id="sound-state"></div>
     </div>
   </div>
@@ -2168,9 +2170,16 @@
       return c;
     }
 
+    function resetDefaults() {
+      ['music','ambience','reaction','dice','random'].forEach(ch => {
+        setChVol(ch, DEFAULTS[ch]);
+        setChOn(ch, true);
+      });
+    }
+
     return {
       dice, select, coin, cheer, hellpasch, minus, pasch, reaction, disappointment,
-      setOn, setChOn, setChVol, setAmbience,
+      setOn, setChOn, setChVol, setAmbience, resetDefaults,
       test, stateText,
       isOn: () => masterOn,
       chOn: (ch) => chOn[ch],
@@ -2213,6 +2222,7 @@
       SFX.test();
       setTimeout(() => { $('sound-state').textContent = 'Audio: ' + SFX.stateText(); }, 300);
     });
+    $('sound-reset').addEventListener('click', () => { SFX.resetDefaults(); sync(); });
     // Kanal-Checkboxen
     ['music','ambience','reaction','dice','random'].forEach(ch => {
       const cb = chkboxes[ch];
