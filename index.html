@@ -120,11 +120,11 @@
   .mp-lobby { text-align: center; }
   .mp-section-title {
     font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 0.2em;
-    color: var(--gold-light); text-transform: uppercase; margin-bottom: 14px;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 14px;
   }
   .mp-card {
-    background: rgba(0,0,0,0.35); border: 1px solid var(--gold-deep);
-    border-radius: 6px; padding: 18px; margin-bottom: 16px;
+    background: rgba(0,0,0,0.45); border: 1px solid var(--gold-deep);
+    border-radius: 8px; padding: 20px; margin-bottom: 16px;
   }
   .mp-code {
     font-family: 'Limelight', serif; font-size: 42px; letter-spacing: 0.3em;
@@ -136,12 +136,12 @@
     font-style: italic; margin-bottom: 12px;
   }
   .mp-code-input {
-    font-family: 'Limelight', serif; font-size: 32px; letter-spacing: 0.4em;
-    text-align: center; width: 180px; background: rgba(0,0,0,0.5);
-    border: 1px solid var(--gold-deep); color: var(--gold); padding: 8px 12px;
+    font-family: 'Limelight', serif; font-size: 28px; letter-spacing: 0.35em;
+    text-align: center; flex: 1; min-width: 0; background: rgba(0,0,0,0.5);
+    border: 1px solid var(--gold-deep); color: var(--gold); padding: 10px 12px;
     border-radius: 4px; text-transform: uppercase;
   }
-  .mp-code-input::placeholder { color: var(--gold-deep); letter-spacing: 0.3em; font-size: 24px; }
+  .mp-code-input::placeholder { color: var(--gold-deep); letter-spacing: 0.25em; font-size: 20px; }
   .mp-player-list { margin: 14px 0; }
   .mp-player-row {
     display: flex; align-items: center; gap: 10px; padding: 8px 12px;
@@ -160,8 +160,8 @@
   .mp-waiting-dot:nth-child(3) { animation-delay: 0.4s; }
   @keyframes mpPulse { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
   .mp-or {
-    font-family: 'IM Fell English', serif; font-size: 13px; color: var(--cream-dim);
-    font-style: italic; margin: 18px 0;
+    font-family: 'IM Fell English', serif; font-size: 14px; color: var(--cream);
+    font-style: italic; margin: 18px 0; opacity: 0.6;
   }
   .mp-profile-row {
     display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
@@ -185,8 +185,9 @@
     padding: 3px 10px; border-radius: 12px; letter-spacing: 0.08em;
   }
   .mp-info-text {
-    font-family: 'IM Fell English', serif; font-size: 12px; color: var(--cream-dim);
+    font-family: 'IM Fell English', serif; font-size: 13px; color: var(--cream);
     line-height: 1.6; text-align: left; margin-top: 14px; font-style: italic;
+    opacity: 0.7;
   }
   .mp-turn-indicator {
     position: fixed; top: 0; left: 0; right: 0; z-index: 10;
@@ -1847,7 +1848,7 @@
 
       <!-- Raum erstellen -->
       <div class="mp-card">
-        <div style="font-family:'Cinzel',serif;font-size:11px;color:var(--gold-light);letter-spacing:0.15em;margin-bottom:10px" data-i18n="mp.openTable">TISCH ERÖFFNEN</div>
+        <div class="mp-section-title" style="margin-bottom:12px" data-i18n="mp.openTable">TISCH ERÖFFNEN</div>
         <button class="primary-btn" id="mp-create-btn" style="width:100%" data-i18n="mp.createTable">Neuen Tisch eröffnen</button>
       </div>
 
@@ -1855,10 +1856,10 @@
 
       <!-- Raum beitreten -->
       <div class="mp-card">
-        <div style="font-family:'Cinzel',serif;font-size:11px;color:var(--gold-light);letter-spacing:0.15em;margin-bottom:10px" data-i18n="mp.joinTableLabel">AN TISCH SETZEN</div>
-        <div style="display:flex;gap:10px;justify-content:center;align-items:center">
+        <div class="mp-section-title" style="margin-bottom:12px" data-i18n="mp.joinTableLabel">AN TISCH SETZEN</div>
+        <div style="display:flex;gap:10px;align-items:stretch">
           <input type="text" id="mp-join-code" class="mp-code-input" placeholder="CODE" maxlength="4" autocomplete="off">
-          <button class="primary-btn" id="mp-join-btn" data-i18n="mp.join">Beitreten</button>
+          <button class="primary-btn" id="mp-join-btn" style="white-space:nowrap;flex:0 0 auto;padding-left:20px;padding-right:20px" data-i18n="mp.join">Beitreten</button>
         </div>
       </div>
 
