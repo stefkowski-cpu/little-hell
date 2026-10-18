@@ -104,6 +104,7 @@
   .sound-ch-label .ch-name { flex: 1; }
   .sound-ch-label .ch-val { font-size: 11px; min-width: 18px; text-align: right; color: var(--gold); font-family: 'Cormorant Garamond', serif; }
   .sound-ch-label input[type=range] { width: 100%; accent-color: var(--gold); margin-top: -2px; }
+  .sound-master-vol { border-bottom: 1px solid var(--gold-dim); padding-bottom: 6px; margin-bottom: 2px; }
   .sound-btn-row { display: flex; gap: 6px; }
   .sound-btn-row .type-btn { flex: 1; }
   .sound-hint { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 12px; color: var(--cream-dim); }
@@ -1469,6 +1470,7 @@
     </button>
     <div class="sound-pop" id="sound-pop" role="dialog" aria-label="Ton">
       <button type="button" class="type-btn" id="sound-master-toggle">Ton an</button>
+      <label class="sound-ch-label sound-master-vol"><span class="ch-name">🔊 Gesamt</span><span class="ch-val" id="ch-val-master">10</span><input type="range" id="ch-master" min="0" max="10" step="1"></label>
       <label class="sound-ch-label"><input type="checkbox" id="ch-on-music" data-ch="music" checked><span class="ch-name">🎵 Musik</span><span class="ch-val" id="ch-val-music">5</span><input type="range" id="ch-music" min="0" max="10" step="1" data-ch="music"></label>
       <label class="sound-ch-label"><input type="checkbox" id="ch-on-ambience" data-ch="ambience" checked><span class="ch-name">🍺 Hintergrund</span><span class="ch-val" id="ch-val-ambience">5</span><input type="range" id="ch-ambience" min="0" max="10" step="1" data-ch="ambience"></label>
       <label class="sound-ch-label"><input type="checkbox" id="ch-on-reaction" data-ch="reaction" checked><span class="ch-name">🎉 Reaktionen</span><span class="ch-val" id="ch-val-reaction">5</span><input type="range" id="ch-reaction" min="0" max="10" step="1" data-ch="reaction"></label>
@@ -1740,11 +1742,14 @@
     const CH = ['music','ambience','reaction','dice','random'];
     const DEFAULTS = { music: 5, ambience: 5, reaction: 6, dice: 5, random: 5 };
     const KEY_ON = 'lh_sound_on';
+    const KEY_MVOL = 'lh_master_vol';
     const chKey = (ch, s) => `lh_${ch}_${s}`; // lh_music_vol, lh_music_on
     let masterOn = true;
+    let masterVol = 10;
     const chOn = {}, chVol = {};
     // Laden aus localStorage
     try { const v = localStorage.getItem(KEY_ON); if (v !== null) masterOn = v === '1'; } catch (e) {}
+    try { const v = localStorage.getItem(KEY_MVOL); if (v !== null) masterVol = Math.max(0, Math.min(10, parseInt(v) || 10)); } catch (e) {}
     CH.forEach(ch => {
       chOn[ch] = true; chVol[ch] = DEFAULTS[ch];
       try { const v = localStorage.getItem(chKey(ch, 'on')); if (v !== null) chOn[ch] = v === '1'; } catch (e) {}
@@ -1764,6 +1769,7 @@
     // music/ambience laufen über <audio>.volume (max 1.0) → Faktor ≤ 1.
     // reaction/dice/random laufen über Web Audio GainNode (darf > 1.0).
     const CH_SCALE = { music: 1.4, ambience: 0.64, reaction: 4.0, dice: 0.36, random: 1.536 };
+    function masterVolGain() { const v = masterVol / 10; return v * v; }
     function volToGain(ch) {
       // 0-10 Skala → Gain, quadratische Kurve × Kanal-Faktor
       const v = chVol[ch] / 10;
@@ -1779,7 +1785,7 @@
       if (!AC) return null;
       ctx = new AC();
       master = ctx.createGain();
-      master.gain.value = masterOn ? 1 : 0;
+      master.gain.value = masterOn ? masterVolGain() : 0;
       master.connect(ctx.destination);
       CH.forEach(ch => {
         buses[ch] = ctx.createGain();
@@ -1909,7 +1915,7 @@
       musicEl = null;
     }
     function syncMusicVol() {
-      if (musicEl) musicEl.volume = (masterOn && chOn.music) ? volToGain('music') : 0;
+      if (musicEl) musicEl.volume = (masterOn && chOn.music) ? Math.min(volToGain('music') * masterVolGain(), 1) : 0;
     }
 
     // ---- Hintergrundgeräusche (Kanal 2) ----
@@ -1929,7 +1935,7 @@
       ambEl = null;
     }
     function syncAmbienceVol() {
-      if (ambEl) ambEl.volume = (masterOn && chOn.ambience) ? volToGain('ambience') : 0;
+      if (ambEl) ambEl.volume = (masterOn && chOn.ambience) ? Math.min(volToGain('ambience') * masterVolGain(), 1) : 0;
     }
 
     // ---- Reaktionsgeräusche (Kanal 3) ----
@@ -2103,10 +2109,17 @@
     }
 
     // ---- Kanalsteuerung ----
+    function setMasterVol(v) {
+      masterVol = Math.max(0, Math.min(10, Math.round(v)));
+      try { localStorage.setItem(KEY_MVOL, String(masterVol)); } catch (e) {}
+      if (ctx && master) master.gain.setTargetAtTime(masterOn ? masterVolGain() : 0, ctx.currentTime, 0.05);
+      syncMusicVol();
+      syncAmbienceVol();
+    }
     function setOn(v) {
       masterOn = !!v;
       try { localStorage.setItem(KEY_ON, masterOn ? '1' : '0'); } catch (e) {}
-      if (ctx) master.gain.setTargetAtTime(masterOn ? 1 : 0, ctx.currentTime, 0.05);
+      if (ctx) master.gain.setTargetAtTime(masterOn ? masterVolGain() : 0, ctx.currentTime, 0.05);
       if (masterOn) { unlock(); scheduleRandomEvent(); }
       else {
         stopMusic(); stopAmbience(); stopRandomEvents();
@@ -2170,6 +2183,7 @@
     }
 
     function resetDefaults() {
+      setMasterVol(10);
       ['music','ambience','reaction','dice','random'].forEach(ch => {
         setChVol(ch, DEFAULTS[ch]);
         setChOn(ch, true);
@@ -2178,9 +2192,10 @@
 
     return {
       dice, select, coin, cheer, hellpasch, minus, pasch, reaction, disappointment,
-      setOn, setChOn, setChVol, setAmbience, resetDefaults,
+      setOn, setChOn, setChVol, setMasterVol, setAmbience, resetDefaults,
       test, stateText,
       isOn: () => masterOn,
+      masterVol: () => masterVol,
       chOn: (ch) => chOn[ch],
       chVol: (ch) => chVol[ch],
       ambience: () => chVol.ambience / 10
@@ -2198,10 +2213,13 @@
       chkboxes[ch] = $('ch-on-' + ch);
     });
 
+    const masterSl = $('ch-master'), masterValEl = $('ch-val-master');
     const sync = () => {
       btn.classList.toggle('muted', !SFX.isOn());
       tog.textContent = SFX.isOn() ? 'Ton an' : 'Ton aus';
       tog.classList.toggle('selected', SFX.isOn());
+      if (masterSl) { masterSl.value = SFX.masterVol(); masterSl.disabled = !SFX.isOn(); }
+      if (masterValEl) masterValEl.textContent = SFX.masterVol();
       ['music','ambience','reaction','dice','random'].forEach(ch => {
         const on = SFX.chOn(ch);
         const cb = chkboxes[ch];
@@ -2222,6 +2240,11 @@
       setTimeout(() => { $('sound-state').textContent = 'Audio: ' + SFX.stateText(); }, 300);
     });
     $('sound-reset').addEventListener('click', () => { SFX.resetDefaults(); sync(); });
+    // Master-Slider
+    if (masterSl) masterSl.addEventListener('input', () => {
+      SFX.setMasterVol(parseInt(masterSl.value));
+      if (masterValEl) masterValEl.textContent = masterSl.value;
+    });
     // Kanal-Checkboxen
     ['music','ambience','reaction','dice','random'].forEach(ch => {
       const cb = chkboxes[ch];
