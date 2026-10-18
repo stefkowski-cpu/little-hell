@@ -94,6 +94,10 @@
   }
   .deco-frame::after { content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 1px; background: var(--gold-deep); opacity: 0.5; }
   .deco-ornament { color: var(--gold); letter-spacing: 0.8em; font-size: 13px; margin-bottom: 6px; opacity: 0.85; }
+  .title-row {
+    display: flex; align-items: flex-end; justify-content: center; gap: 10px;
+  }
+  .title-skyline { flex-shrink: 0; margin-bottom: 2px; }
   h1 {
     font-family: 'Limelight', 'Cinzel', serif;
     font-size: clamp(34px, 10vw, 50px);
@@ -1524,7 +1528,7 @@
 
   <header class="deco-frame">
     <div class="deco-ornament">◆ ◆ ◆</div>
-    <h1 id="header-title">Little Hell</h1>
+    <div class="title-row"><h1 id="header-title">Little Hell</h1><svg class="title-skyline" width="64" height="48" viewBox="0 0 64 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g opacity="0.75"><rect x="4" y="12" width="8" height="36" fill="var(--gold-deep)"/><rect x="5" y="14" width="2" height="3" rx=".3" fill="var(--gold)" opacity=".5"/><rect x="8" y="14" width="2" height="3" rx=".3" fill="var(--gold)" opacity=".3"/><rect x="5" y="19" width="2" height="3" rx=".3" fill="var(--gold)" opacity=".4"/><rect x="8" y="19" width="2" height="3" rx=".3" fill="var(--gold)" opacity=".6"/><rect x="5" y="24" width="2" height="3" rx=".3" fill="var(--gold)" opacity=".3"/><line x1="8" y1="12" x2="8" y2="6" stroke="var(--gold-deep)" stroke-width="1"/><rect x="14" y="4" width="10" height="44" fill="var(--gold-deep)"/><rect x="16" y="0" width="6" height="4" fill="var(--gold-deep)"/><rect x="18" y="-2" width="2" height="2" fill="var(--gold-deep)"/><rect x="15" y="7" width="3" height="2" rx=".3" fill="var(--gold)" opacity=".5"/><rect x="20" y="7" width="3" height="2" rx=".3" fill="var(--gold)" opacity=".3"/><rect x="15" y="12" width="3" height="2" rx=".3" fill="var(--gold)" opacity=".4"/><rect x="20" y="12" width="3" height="2" rx=".3" fill="var(--gold)" opacity=".6"/><rect x="15" y="17" width="3" height="2" rx=".3" fill="var(--gold)" opacity=".3"/><rect x="20" y="17" width="3" height="2" rx=".3" fill="var(--gold)" opacity=".5"/><rect x="15" y="22" width="3" height="2" rx=".3" fill="var(--gold)" opacity=".4"/><rect x="26" y="18" width="8" height="30" fill="var(--gold-deep)"/><rect x="27" y="20" width="2" height="3" rx=".3" fill="var(--gold)" opacity=".5"/><rect x="31" y="20" width="2" height="3" rx=".3" fill="var(--gold)" opacity=".3"/><rect x="27" y="25" width="2" height="3" rx=".3" fill="var(--gold)" opacity=".4"/><polygon points="26,18 30,13 34,18" fill="var(--gold-deep)"/><rect x="37" y="28" width="2" height="14" fill="var(--gold-deep)"/><rect x="35" y="24" width="6" height="6" rx="1" fill="var(--gold-deep)"/><line x1="35" y1="42" x2="38" y2="28" stroke="var(--gold-deep)" stroke-width=".7"/><line x1="41" y1="42" x2="38" y2="28" stroke="var(--gold-deep)" stroke-width=".7"/><rect x="43" y="26" width="7" height="22" fill="var(--gold-deep)"/><rect x="44" y="28" width="2" height="2" rx=".3" fill="var(--gold)" opacity=".5"/><rect x="47" y="28" width="2" height="2" rx=".3" fill="var(--gold)" opacity=".3"/><rect x="52" y="20" width="8" height="28" fill="var(--gold-deep)"/><rect x="53" y="22" width="2" height="3" rx=".3" fill="var(--gold)" opacity=".4"/><rect x="57" y="22" width="2" height="3" rx=".3" fill="var(--gold)" opacity=".6"/><rect x="53" y="27" width="2" height="3" rx=".3" fill="var(--gold)" opacity=".3"/><path d="M52,20 L53,17 L55,19 L56,15 L57,19 L59,17 L60,20" fill="var(--gold-deep)"/></g></svg></div>
     <div class="subtitle" id="header-sub">Drei Würfel · drei Würfe · 16 Runden</div>
   </header>
 
