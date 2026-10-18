@@ -1887,6 +1887,7 @@
         <div style="font-family:'IM Fell English',serif;font-size:13px;color:var(--cream-dim);font-style:italic;margin-bottom:4px">Gib diesen Code an deinen Gegner:</div>
         <div class="mp-code" id="mp-room-code">—</div>
         <div class="mp-code-hint">Dein Gegner gibt diesen Code unter „An Tisch setzen" ein.</div>
+        <button class="primary-btn" id="mp-share-btn" style="width:100%;margin-top:14px;font-size:14px;padding:12px" data-i18n="mp.invite">📩 Gegner einladen</button>
       </div>
       <div class="mp-player-list" id="mp-room-players"></div>
       <div class="mp-waiting" id="mp-waiting">
@@ -6103,6 +6104,26 @@
     showScreen('mpLobby');
   });
 
+  // Gegner einladen (Web Share API)
+  $('mp-share-btn').addEventListener('click', async () => {
+    const code = MP.roomCode;
+    if (!code) return;
+    const url = location.origin + location.pathname + '?code=' + code;
+    const text = `Spiel mit mir Würfelhalle! Code: ${code}`;
+    if (navigator.share) {
+      try { await navigator.share({ title: 'Würfelhalle – Einladung', text, url }); }
+      catch (e) { /* user cancelled */ }
+    } else {
+      // Fallback: Copy to clipboard
+      try {
+        await navigator.clipboard.writeText(url);
+        showToast('Link kopiert', 'Einladungslink in der Zwischenablage');
+      } catch (e) {
+        showToast('Code: ' + code, 'Teile diesen Code mit deinem Gegner');
+      }
+    }
+  });
+
   // Partie starten (nur Host)
   $('mp-start-game-btn').addEventListener('click', () => {
     MP.hostStartGame();
@@ -6160,7 +6181,7 @@
         'mp.playOnline': 'Online Spielen', 'mp.openTable': 'TISCH ERÖFFNEN',
         'mp.createTable': 'Neuen Tisch eröffnen', 'mp.or': '— oder —',
         'mp.joinTableLabel': 'AN TISCH SETZEN', 'mp.join': 'Beitreten', 'mp.back': 'Zurück',
-        'mp.yourTable': 'Dein Tisch', 'mp.startGame': 'Partie starten', 'mp.leaveTable': 'Tisch verlassen',
+        'mp.yourTable': 'Dein Tisch', 'mp.startGame': 'Partie starten', 'mp.leaveTable': 'Tisch verlassen', 'mp.invite': '📩 Gegner einladen',
         'mp.waitingOpponent': 'Warte auf Gegner',
         'mp.codeHint': 'Gib diesen Code an deinen Gegner:',
         'mp.codeExplain': 'Dein Gegner gibt diesen Code unter „An Tisch setzen" ein.',
@@ -6217,7 +6238,7 @@
         'mp.playOnline': 'Play Online', 'mp.openTable': 'OPEN TABLE',
         'mp.createTable': 'Open a new table', 'mp.or': '— or —',
         'mp.joinTableLabel': 'JOIN TABLE', 'mp.join': 'Join', 'mp.back': 'Back',
-        'mp.yourTable': 'Your Table', 'mp.startGame': 'Start game', 'mp.leaveTable': 'Leave table',
+        'mp.yourTable': 'Your Table', 'mp.startGame': 'Start game', 'mp.leaveTable': 'Leave table', 'mp.invite': '📩 Invite opponent',
         'mp.waitingOpponent': 'Waiting for opponent',
         'mp.codeHint': 'Give this code to your opponent:',
         'mp.codeExplain': 'Your opponent enters this code under "Join Table".',
@@ -6270,7 +6291,7 @@
         'mp.playOnline': 'Jouer en ligne', 'mp.openTable': 'OUVRIR UNE TABLE',
         'mp.createTable': 'Ouvrir une nouvelle table', 'mp.or': '— ou —',
         'mp.joinTableLabel': 'REJOINDRE UNE TABLE', 'mp.join': 'Rejoindre', 'mp.back': 'Retour',
-        'mp.yourTable': 'Ta table', 'mp.startGame': 'Lancer la partie', 'mp.leaveTable': 'Quitter la table',
+        'mp.yourTable': 'Ta table', 'mp.startGame': 'Lancer la partie', 'mp.leaveTable': 'Quitter la table', 'mp.invite': '📩 Inviter adversaire',
         'mp.waitingOpponent': 'En attente d\'un adversaire',
         'mp.codeHint': 'Donne ce code à ton adversaire :',
         'mp.codeExplain': 'Ton adversaire entre ce code sous « Rejoindre une table ».',
@@ -6323,7 +6344,7 @@
         'mp.playOnline': 'Jugar en línea', 'mp.openTable': 'ABRIR MESA',
         'mp.createTable': 'Abrir una nueva mesa', 'mp.or': '— o —',
         'mp.joinTableLabel': 'UNIRSE A MESA', 'mp.join': 'Unirse', 'mp.back': 'Volver',
-        'mp.yourTable': 'Tu mesa', 'mp.startGame': 'Iniciar partida', 'mp.leaveTable': 'Dejar mesa',
+        'mp.yourTable': 'Tu mesa', 'mp.startGame': 'Iniciar partida', 'mp.leaveTable': 'Dejar mesa', 'mp.invite': '📩 Invitar oponente',
         'mp.waitingOpponent': 'Esperando oponente',
         'mp.codeHint': 'Dale este código a tu oponente:',
         'mp.codeExplain': 'Tu oponente ingresa este código en "Unirse a mesa".',
@@ -6376,7 +6397,7 @@
         'mp.playOnline': 'Играть онлайн', 'mp.openTable': 'ОТКРЫТЬ СТОЛ',
         'mp.createTable': 'Открыть новый стол', 'mp.or': '— или —',
         'mp.joinTableLabel': 'СЕСТЬ ЗА СТОЛ', 'mp.join': 'Присоединиться', 'mp.back': 'Назад',
-        'mp.yourTable': 'Твой стол', 'mp.startGame': 'Начать партию', 'mp.leaveTable': 'Покинуть стол',
+        'mp.yourTable': 'Твой стол', 'mp.startGame': 'Начать партию', 'mp.leaveTable': 'Покинуть стол', 'mp.invite': '📩 Пригласить соперника',
         'mp.waitingOpponent': 'Ожидание соперника',
         'mp.codeHint': 'Передай этот код сопернику:',
         'mp.codeExplain': 'Соперник вводит этот код в разделе «Сесть за стол».',
@@ -6429,7 +6450,7 @@
         'mp.playOnline': 'اللعب أونلاين', 'mp.openTable': 'فتح طاولة',
         'mp.createTable': 'فتح طاولة جديدة', 'mp.or': '— أو —',
         'mp.joinTableLabel': 'الانضمام لطاولة', 'mp.join': 'انضمام', 'mp.back': 'رجوع',
-        'mp.yourTable': 'طاولتك', 'mp.startGame': 'بدء اللعبة', 'mp.leaveTable': 'مغادرة الطاولة',
+        'mp.yourTable': 'طاولتك', 'mp.startGame': 'بدء اللعبة', 'mp.leaveTable': 'مغادرة الطاولة', 'mp.invite': '📩 دعوة خصم',
         'mp.waitingOpponent': 'بانتظار الخصم',
         'mp.codeHint': 'أعطِ هذا الرمز لخصمك:',
         'mp.codeExplain': 'يدخل خصمك هذا الرمز في "الانضمام لطاولة".',
@@ -6482,7 +6503,7 @@
         'mp.playOnline': '在线游戏', 'mp.openTable': '开设牌桌',
         'mp.createTable': '开设新牌桌', 'mp.or': '— 或 —',
         'mp.joinTableLabel': '加入牌桌', 'mp.join': '加入', 'mp.back': '返回',
-        'mp.yourTable': '你的牌桌', 'mp.startGame': '开始游戏', 'mp.leaveTable': '离开牌桌',
+        'mp.yourTable': '你的牌桌', 'mp.startGame': '开始游戏', 'mp.leaveTable': '离开牌桌', 'mp.invite': '📩 邀请对手',
         'mp.waitingOpponent': '等待对手',
         'mp.codeHint': '将此代码发给你的对手：',
         'mp.codeExplain': '你的对手在"加入牌桌"中输入此代码。',
@@ -6535,7 +6556,7 @@
         'mp.playOnline': 'Gioca online', 'mp.openTable': 'APRI TAVOLO',
         'mp.createTable': 'Apri un nuovo tavolo', 'mp.or': '— oppure —',
         'mp.joinTableLabel': 'UNISCITI AL TAVOLO', 'mp.join': 'Unisciti', 'mp.back': 'Indietro',
-        'mp.yourTable': 'Il tuo tavolo', 'mp.startGame': 'Inizia partita', 'mp.leaveTable': 'Lascia tavolo',
+        'mp.yourTable': 'Il tuo tavolo', 'mp.startGame': 'Inizia partita', 'mp.leaveTable': 'Lascia tavolo', 'mp.invite': '📩 Invita avversario',
         'mp.waitingOpponent': 'In attesa dell\'avversario',
         'mp.codeHint': 'Dai questo codice al tuo avversario:',
         'mp.codeExplain': 'Il tuo avversario inserisce questo codice in "Unisciti al tavolo".',
@@ -6727,6 +6748,25 @@
   try { MP.init(); } catch (e) {}
   // i18n & Settings initialisieren
   try { I18N.init(); } catch (e) {}
+
+  // ── Auto-Join per Einladungslink (?code=XXXX) ──────────────────────
+  try {
+    const urlCode = new URLSearchParams(location.search).get('code');
+    if (urlCode && urlCode.match(/^[A-Z]{4}$/)) {
+      // URL-Parameter entfernen (saubere URL)
+      history.replaceState(null, '', location.pathname);
+      // Kurz warten bis Firebase Auth bereit, dann Lobby öffnen und Code eintragen
+      setTimeout(async () => {
+        showScreen('mpLobby');
+        $('mp-join-code').value = urlCode;
+        // Name aus Profil laden falls vorhanden
+        if (!$('mp-name').value.trim()) {
+          $('mp-name').value = MP.profile.name || '';
+        }
+        showToast('Einladung', `Code ${urlCode} — gib deinen Namen ein und tritt bei!`);
+      }, 500);
+    }
+  } catch (e) {}
 })();
 </script>
 </body>
