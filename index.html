@@ -5136,10 +5136,897 @@
     showScreen('hellEnd');
   };
 
+  // ═══════════════════════════════════════════════════════════════════════
+  // MULTIPLAYER — Firebase + Glicko-2 + Room Codes + Echtzeit-Sync
+  // ═══════════════════════════════════════════════════════════════════════
+
+  const MP = {};
+
+  // ── Firebase Init ──────────────────────────────────────────────────
+  MP.firebaseConfig = {
+    apiKey: "AIzaSyCx8O8mGiC0UlTCLPY0EbbDsNgryoK_cnY",
+    authDomain: "little-hell.firebaseapp.com",
+    databaseURL: "https://little-hell-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "little-hell",
+    storageBucket: "little-hell.firebasestorage.app",
+    messagingSenderId: "545837411783",
+    appId: "1:545837411783:web:7073b0840cc94b92483de2"
+  };
+
+  MP.app = null;
+  MP.auth = null;
+  MP.db = null;
+  MP.uid = null;
+  MP.roomRef = null;
+  MP.roomCode = null;
+  MP.isHost = false;
+  MP.listeners = [];
+
+  MP.init = function() {
+    try {
+      MP.app = firebase.initializeApp(MP.firebaseConfig);
+      MP.auth = firebase.auth();
+      MP.db = firebase.database();
+      return true;
+    } catch (e) {
+      console.warn('Firebase init failed:', e);
+      return false;
+    }
+  };
+
+  MP.signIn = async function() {
+    try {
+      // Prüfe, ob bereits angemeldet
+      if (MP.auth.currentUser) {
+        MP.uid = MP.auth.currentUser.uid;
+        return MP.uid;
+      }
+      const cred = await MP.auth.signInAnonymously();
+      MP.uid = cred.user.uid;
+      return MP.uid;
+    } catch (e) {
+      console.warn('Anonymous auth failed:', e);
+      return null;
+    }
+  };
+
+  // ── Lokales Profil (Name, Avatar, Glicko-2) ───────────────────────
+  const MP_PROFILE_KEY = 'wuerfelhalle_mp_profile';
+
+  MP.defaultProfile = function() {
+    return {
+      name: '',
+      avatar: 'avatars/m1.webp',
+      // Glicko-2 Startwerte
+      rating: 1500,
+      rd: 350,        // Rating Deviation
+      vol: 0.06,      // Volatility
+      gamesPlayed: 0,
+      wins: 0,
+      lastActive: Date.now()
+    };
+  };
+
+  MP.loadProfile = function() {
+    try {
+      const raw = localStorage.getItem(MP_PROFILE_KEY);
+      if (raw) {
+        const p = JSON.parse(raw);
+        return { ...MP.defaultProfile(), ...p };
+      }
+    } catch (e) {}
+    return MP.defaultProfile();
+  };
+
+  MP.saveProfile = function(profile) {
+    try { localStorage.setItem(MP_PROFILE_KEY, JSON.stringify(profile)); } catch (e) {}
+  };
+
+  MP.profile = MP.loadProfile();
+
+  // ── Glicko-2 ───────────────────────────────────────────────────────
+  // Implementierung nach Mark Glickman's Paper (2013)
+  // Skala: Rating 1500, RD 350, Volatility 0.06
+
+  MP.glicko2 = (function() {
+    const TAU = 0.5;        // System-Konstante (0.3–1.2), 0.5 für dice games
+    const EPSILON = 0.000001;
+    const SCALE = 173.7178; // 400/ln(10)
+
+    function toGlicko2(r, rd) {
+      return { mu: (r - 1500) / SCALE, phi: rd / SCALE };
+    }
+    function fromGlicko2(mu, phi) {
+      return { rating: mu * SCALE + 1500, rd: phi * SCALE };
+    }
+    function g(phi) {
+      return 1 / Math.sqrt(1 + 3 * phi * phi / (Math.PI * Math.PI));
+    }
+    function E(mu, muj, phij) {
+      return 1 / (1 + Math.exp(-g(phij) * (mu - muj)));
+    }
+
+    // Berechne neues Rating nach einem Spiel
+    // result: 1 = Sieg, 0.5 = Unentschieden, 0 = Niederlage
+    function update(rating, rd, vol, oppRating, oppRd, result) {
+      const p = toGlicko2(rating, rd);
+      const o = toGlicko2(oppRating, oppRd);
+
+      const gPhi = g(o.phi);
+      const eVal = E(p.mu, o.mu, o.phi);
+
+      const v = 1 / (gPhi * gPhi * eVal * (1 - eVal));
+      const delta = v * gPhi * (result - eVal);
+
+      // Iterative Berechnung der neuen Volatility (Illinois-Algorithmus)
+      const a = Math.log(vol * vol);
+      const phiSq = p.phi * p.phi;
+
+      function f(x) {
+        const ex = Math.exp(x);
+        const d2 = delta * delta;
+        const num1 = ex * (d2 - phiSq - v - ex);
+        const den1 = 2 * Math.pow(phiSq + v + ex, 2);
+        return num1 / den1 - (x - a) / (TAU * TAU);
+      }
+
+      let A = a;
+      let B;
+      if (delta * delta > phiSq + v) {
+        B = Math.log(delta * delta - phiSq - v);
+      } else {
+        let k = 1;
+        while (f(a - k * TAU) < 0) k++;
+        B = a - k * TAU;
+      }
+
+      let fA = f(A), fB = f(B);
+      let iter = 0;
+      while (Math.abs(B - A) > EPSILON && iter < 100) {
+        const C = A + (A - B) * fA / (fB - fA);
+        const fC = f(C);
+        if (fC * fB <= 0) { A = B; fA = fB; }
+        else { fA = fA / 2; }
+        B = C; fB = fC;
+        iter++;
+      }
+
+      const newVol = Math.exp(A / 2);
+      const phiStar = Math.sqrt(phiSq + newVol * newVol);
+      const newPhi = 1 / Math.sqrt(1 / (phiStar * phiStar) + 1 / v);
+      const newMu = p.mu + newPhi * newPhi * gPhi * (result - eVal);
+
+      const out = fromGlicko2(newMu, newPhi);
+      return {
+        rating: Math.round(out.rating),
+        rd: Math.round(out.rd * 10) / 10,
+        vol: Math.round(newVol * 10000) / 10000
+      };
+    }
+
+    // RD wächst über Zeit (Inaktivität), max. 350
+    function decayRd(rd, periodsInactive) {
+      const p = toGlicko2(0, rd);
+      const newPhi = Math.min(Math.sqrt(p.phi * p.phi + 0.06 * 0.06 * periodsInactive), 350 / SCALE);
+      return Math.round(fromGlicko2(0, newPhi).rd * 10) / 10;
+    }
+
+    return { update, decayRd };
+  })();
+
+  // ── Room Codes ─────────────────────────────────────────────────────
+  // 4-Buchstaben-Codes im Speakeasy-Stil
+
+  const ROOM_WORDS = [
+    'JAZZ','DICE','HELL','ACES','CLUB','DARK','GOLD','JACK','KING','LUCK',
+    'MOON','NOIR','PLAY','RACK','SHOT','VIBE','WILD','ANTE','BURN','DAME',
+    'FLIP','GRIT','HIGH','IRON','JINX','KEEN','LOOT','MOJO','ODDS','PAWN',
+    'RISK','SLAM','TOSS','VETO','WINK','ZERO','BANG','COUP','DUEL','FIST',
+    'GRIM','HAZE','JINX','KNOT','LOSS','MELT','NEON','OATH','PICK','RIFT',
+    'SPIN','TURF','VEIN','WHIP','ZEAL','BAIT','CLAD','DROP','EDGE','FUME',
+    'GILT','HOOK','IRIS','JADE','KITE','LURE','MINT','NICK','OPAL','PLUM'
+  ];
+
+  MP.generateCode = function() {
+    return ROOM_WORDS[Math.floor(Math.random() * ROOM_WORDS.length)];
+  };
+
+  // ── Raum erstellen / beitreten ─────────────────────────────────────
+
+  MP.createRoom = async function() {
+    if (!MP.uid) await MP.signIn();
+    if (!MP.uid) { showToast('Fehler', 'Verbindung fehlgeschlagen'); return null; }
+
+    // Code generieren, Kollision prüfen
+    let code, attempts = 0;
+    do {
+      code = MP.generateCode();
+      const snap = await MP.db.ref('rooms/' + code).once('value');
+      if (!snap.exists()) break;
+      // Raum existiert, aber älter als 2h → überschreiben
+      const room = snap.val();
+      if (room.createdAt && Date.now() - room.createdAt > 7200000) break;
+      code = null;
+      attempts++;
+    } while (attempts < 10);
+
+    if (!code) { showToast('Fehler', 'Kein freier Code – bitte erneut versuchen'); return null; }
+
+    const profile = MP.profile;
+    const roomData = {
+      host: MP.uid,
+      createdAt: firebase.database.ServerValue.TIMESTAMP,
+      status: 'waiting',  // waiting → playing → finished
+      players: {
+        [MP.uid]: {
+          name: profile.name || 'Spieler 1',
+          avatar: profile.avatar,
+          rating: profile.rating,
+          rd: profile.rd,
+          online: true,
+          joinedAt: firebase.database.ServerValue.TIMESTAMP
+        }
+      },
+      gameState: null
+    };
+
+    await MP.db.ref('rooms/' + code).set(roomData);
+
+    // Presence: aufräumen wenn Verbindung verloren
+    MP.db.ref('rooms/' + code + '/players/' + MP.uid + '/online').onDisconnect().set(false);
+
+    MP.roomCode = code;
+    MP.roomRef = MP.db.ref('rooms/' + code);
+    MP.isHost = true;
+    return code;
+  };
+
+  MP.joinRoom = async function(code) {
+    code = (code || '').toUpperCase().trim();
+    if (code.length !== 4) { showToast('Fehler', 'Code muss 4 Buchstaben haben'); return false; }
+    if (!MP.uid) await MP.signIn();
+    if (!MP.uid) { showToast('Fehler', 'Verbindung fehlgeschlagen'); return false; }
+
+    const snap = await MP.db.ref('rooms/' + code).once('value');
+    if (!snap.exists()) { showToast('Unbekannt', 'Kein Tisch mit diesem Code'); return false; }
+
+    const room = snap.val();
+    if (room.status !== 'waiting') { showToast('Besetzt', 'Partie läuft bereits'); return false; }
+
+    const playerCount = room.players ? Object.keys(room.players).length : 0;
+    if (playerCount >= 2) { showToast('Voll', 'Tisch ist bereits besetzt'); return false; }
+
+    if (room.players && room.players[MP.uid]) { showToast('Hm', 'Du sitzt bereits an diesem Tisch'); return false; }
+
+    const profile = MP.profile;
+    await MP.db.ref('rooms/' + code + '/players/' + MP.uid).set({
+      name: profile.name || 'Spieler 2',
+      avatar: profile.avatar,
+      rating: profile.rating,
+      rd: profile.rd,
+      online: true,
+      joinedAt: firebase.database.ServerValue.TIMESTAMP
+    });
+
+    MP.db.ref('rooms/' + code + '/players/' + MP.uid + '/online').onDisconnect().set(false);
+
+    MP.roomCode = code;
+    MP.roomRef = MP.db.ref('rooms/' + code);
+    MP.isHost = false;
+    return true;
+  };
+
+  // ── Raum verlassen ─────────────────────────────────────────────────
+
+  MP.leaveRoom = async function() {
+    MP.stopListening();
+    if (MP.roomRef && MP.uid) {
+      try {
+        if (MP.isHost) {
+          // Host löscht den ganzen Raum
+          await MP.roomRef.remove();
+        } else {
+          // Gast entfernt nur sich
+          await MP.roomRef.child('players/' + MP.uid).remove();
+        }
+      } catch (e) {}
+    }
+    MP.roomRef = null;
+    MP.roomCode = null;
+    MP.isHost = false;
+  };
+
+  // ── Echtzeit-Listener ──────────────────────────────────────────────
+
+  MP.stopListening = function() {
+    MP.listeners.forEach(({ ref, evt, fn }) => ref.off(evt, fn));
+    MP.listeners = [];
+  };
+
+  MP.listenRoom = function() {
+    if (!MP.roomRef) return;
+    MP.stopListening();
+
+    // Spielerliste beobachten
+    const playersRef = MP.roomRef.child('players');
+    const onPlayers = playersRef.on('value', snap => {
+      const players = snap.val() || {};
+      MP.renderRoomPlayers(players);
+    });
+    MP.listeners.push({ ref: playersRef, evt: 'value', fn: onPlayers });
+
+    // Raumstatus beobachten (für Spielstart)
+    const statusRef = MP.roomRef.child('status');
+    const onStatus = statusRef.on('value', snap => {
+      const status = snap.val();
+      if (status === 'playing' && !MP.isHost) {
+        // Gast: Spiel wurde gestartet
+        MP.startMultiplayerGame();
+      } else if (status === 'finished') {
+        MP.onGameFinished();
+      }
+    });
+    MP.listeners.push({ ref: statusRef, evt: 'value', fn: onStatus });
+
+    // Spielzustand beobachten
+    const gsRef = MP.roomRef.child('gameState');
+    const onGameState = gsRef.on('value', snap => {
+      const gs = snap.val();
+      if (gs && MP.mpActive) {
+        MP.onRemoteStateUpdate(gs);
+      }
+    });
+    MP.listeners.push({ ref: gsRef, evt: 'value', fn: onGameState });
+
+    // Raum gelöscht? (Host hat verlassen)
+    const roomRef = MP.roomRef;
+    const onRoomRemoved = roomRef.on('value', snap => {
+      if (!snap.exists() && MP.roomCode) {
+        showToast('Aufgelöst', 'Der Tisch wurde geschlossen');
+        MP.stopListening();
+        MP.roomRef = null;
+        MP.roomCode = null;
+        showScreen('mpLobby');
+      }
+    });
+    MP.listeners.push({ ref: roomRef, evt: 'value', fn: onRoomRemoved });
+  };
+
+  // ── Spieler im Warteraum rendern ───────────────────────────────────
+
+  MP.renderRoomPlayers = function(players) {
+    const list = $('mp-room-players');
+    if (!list) return;
+    list.innerHTML = '';
+    const uids = Object.keys(players);
+
+    uids.forEach(uid => {
+      const p = players[uid];
+      const isMe = uid === MP.uid;
+      const row = document.createElement('div');
+      row.className = 'mp-player-row';
+      const statusDot = p.online ? '🟢' : '🔴';
+      row.innerHTML = `
+        <img src="${p.avatar || 'avatars/m1.webp'}" alt="" style="width:36px;height:36px;border-radius:50%;border:2px solid var(--gold-deep)">
+        <div style="flex:1;margin-left:10px">
+          <div style="font-family:'Cinzel',serif;font-size:14px;color:var(--cream)">${p.name || 'Unbekannt'}${isMe ? ' (Du)' : ''}</div>
+          <div style="font-size:12px;color:var(--cream-dim)">Rating: ${p.rating || 1500} · ${statusDot}</div>
+        </div>`;
+      list.appendChild(row);
+    });
+
+    // Start-Button nur für Host und wenn 2 Spieler da
+    const startBtn = $('mp-start-game-btn');
+    const waiting = $('mp-waiting');
+    if (uids.length >= 2) {
+      if (MP.isHost) startBtn.style.display = '';
+      waiting.style.display = 'none';
+    } else {
+      startBtn.style.display = 'none';
+      waiting.style.display = '';
+    }
+  };
+
+  // ── Multiplayer-Partie starten ─────────────────────────────────────
+
+  MP.mpActive = false;
+  MP.mpTurnUid = null;      // Wer ist dran?
+  MP.mpPlayerMap = {};       // uid → playerIndex
+  MP.mpUids = [];            // Reihenfolge der UIDs
+
+  MP.startMultiplayerGame = async function() {
+    // Spielerdaten aus dem Raum lesen
+    const snap = await MP.roomRef.child('players').once('value');
+    const fbPlayers = snap.val();
+    if (!fbPlayers) return;
+
+    MP.mpUids = Object.keys(fbPlayers);
+    // Host immer Index 0
+    MP.mpUids.sort((a, b) => (a === MP.roomRef.parent ? -1 : 1));
+    const hostSnap = await MP.roomRef.child('host').once('value');
+    const hostUid = hostSnap.val();
+    MP.mpUids.sort((a, b) => {
+      if (a === hostUid) return -1;
+      if (b === hostUid) return 1;
+      return 0;
+    });
+
+    // Spieler-Objekte für hell.beginGame erstellen
+    const players = MP.mpUids.map((uid, i) => {
+      const fb = fbPlayers[uid];
+      const isMe = uid === MP.uid;
+      MP.mpPlayerMap[uid] = i;
+      return {
+        name: fb.name || ('Spieler ' + (i + 1)),
+        score: 0,
+        isHuman: isMe,       // Nur der lokale Spieler ist „human"
+        dice: [-1, -1, -1],
+        saved: [false, false, false],
+        rollsUsed: 0,
+        avatar: fb.avatar || 'avatars/m1.webp',
+        mpUid: uid,
+        mpRemote: !isMe
+      };
+    });
+
+    // Session erstellen
+    hell.session = {
+      saveId: 'mp_' + MP.roomCode + '_' + Date.now(),
+      playerNames: players.map(p => p.name),
+      humans: players.map((_, i) => i),    // Alle "menschlich" im MP
+      aiKeys: players.map(() => null),
+      genders: players.map(() => 'x'),
+      games: [],
+      totals: players.map(() => 0)
+    };
+
+    MP.mpActive = true;
+    hell.beginGame(players);
+
+    // Wenn ich NICHT am Zug bin, Buttons verstecken
+    MP.syncTurnUI();
+  };
+
+  // Host startet das Spiel
+  MP.hostStartGame = async function() {
+    if (!MP.isHost || !MP.roomRef) return;
+
+    // Spielreihenfolge und Anfangszustand in DB setzen
+    const snap = await MP.roomRef.child('players').once('value');
+    const fbPlayers = snap.val();
+    const uids = Object.keys(fbPlayers);
+    const hostSnap = await MP.roomRef.child('host').once('value');
+    const hostUid = hostSnap.val();
+    uids.sort((a, b) => {
+      if (a === hostUid) return -1;
+      if (b === hostUid) return 1;
+      return 0;
+    });
+
+    await MP.roomRef.update({
+      status: 'playing',
+      gameState: {
+        round: 1,
+        target: 3,
+        turnUid: uids[0],
+        turnPos: 0,
+        phase: 'ready',
+        order: uids,
+        scores: Object.fromEntries(uids.map(u => [u, 0])),
+        dice: [-1, -1, -1],
+        saved: [false, false, false],
+        rollsUsed: 0,
+        lastAction: 'start',
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+      }
+    });
+
+    // Lokales Spiel starten
+    MP.startMultiplayerGame();
+  };
+
+  // ── Echtzeit-Sync ──────────────────────────────────────────────────
+  // Jeder Zug wird nach DB geschrieben und vom Gegner gelesen
+
+  MP.pushState = async function(action) {
+    if (!MP.roomRef || !MP.mpActive) return;
+    const s = hell.state;
+    const p = s.players[s.currentIdx];
+
+    const update = {
+      round: s.round,
+      target: s.target,
+      turnUid: p.mpUid || MP.mpUids[s.currentIdx],
+      turnPos: s.turnPos,
+      phase: s.phase,
+      currentIdx: s.currentIdx,
+      scores: Object.fromEntries(s.players.map((pl, i) => [MP.mpUids[i], pl.score])),
+      dice: p.dice.slice(),
+      saved: p.saved.slice(),
+      rollsUsed: p.rollsUsed,
+      lastAction: action,
+      actorUid: MP.uid,
+      timestamp: firebase.database.ServerValue.TIMESTAMP
+    };
+
+    try {
+      await MP.roomRef.child('gameState').update(update);
+    } catch (e) {
+      console.warn('Push state failed:', e);
+    }
+  };
+
+  // Empfangener Spielzustand vom Gegner
+  MP.onRemoteStateUpdate = function(gs) {
+    if (!MP.mpActive || !hell.state) return;
+    // Nur Aktionen des Gegners verarbeiten
+    if (gs.actorUid === MP.uid) return;
+
+    const s = hell.state;
+    const remoteIdx = MP.mpPlayerMap[gs.actorUid];
+    if (remoteIdx === undefined) return;
+
+    const p = s.players[remoteIdx];
+
+    // Scores synchronisieren
+    if (gs.scores) {
+      MP.mpUids.forEach((uid, i) => {
+        if (gs.scores[uid] !== undefined) s.players[i].score = gs.scores[uid];
+      });
+    }
+
+    // Spielzustand updaten
+    if (gs.currentIdx !== undefined) s.currentIdx = gs.currentIdx;
+    if (gs.round !== undefined) s.round = gs.round;
+    if (gs.target !== undefined) s.target = gs.target;
+    if (gs.turnPos !== undefined) s.turnPos = gs.turnPos;
+
+    // Würfel und Phase des entfernten Spielers
+    if (gs.dice) p.dice = gs.dice.slice();
+    if (gs.saved) p.saved = gs.saved.slice();
+    if (gs.rollsUsed !== undefined) p.rollsUsed = gs.rollsUsed;
+
+    // Phase-spezifische Aktionen
+    if (gs.lastAction === 'roll') {
+      // Gegner hat gewürfelt → Animation zeigen
+      s.phase = 'rolling';
+      const dieIds = ['h-die-1', 'h-die-2', 'h-die-3'];
+      SFX.dice(p.dice.filter((d, i) => !p.saved[i]).length || 1);
+      dieIds.forEach((id, i) => {
+        if (!p.saved[i]) {
+          $(id).classList.remove('rolling','banked','over');
+          void $(id).offsetWidth;
+          $(id).classList.add('rolling');
+        }
+      });
+      setTimeout(() => {
+        dieIds.forEach((id, i) => {
+          $(id).classList.remove('rolling');
+          renderDie(id, p.dice[i]);
+          if (p.saved[i]) $(id).classList.add('banked');
+        });
+        s.phase = gs.phase || 'choose';
+        hell.renderAll();
+        MP.syncTurnUI();
+      }, 500);
+      return;
+    }
+
+    if (gs.lastAction === 'choose') {
+      // Gegner hat Würfel ausgewählt
+      hell.renderDice();
+    }
+
+    if (gs.lastAction === 'turnEnd') {
+      // Gegner hat seinen Zug beendet → nächster Spieler
+      s.phase = gs.phase || 'ready';
+      if (gs.phase === 'ready') {
+        const nextIdx = gs.currentIdx;
+        const next = s.players[nextIdx];
+        next.dice = [-1, -1, -1];
+        next.saved = [false, false, false];
+        next.rollsUsed = 0;
+        next.lockedSave = undefined;
+      }
+      hell.renderAll();
+      MP.syncTurnUI();
+    }
+
+    if (gs.lastAction === 'roundEnd') {
+      s.round = gs.round;
+      s.target = gs.target;
+      s.turnPos = 0;
+      s.currentIdx = gs.currentIdx;
+      s.phase = 'ready';
+      s.players.forEach(pl => {
+        pl.dice = [-1, -1, -1];
+        pl.saved = [false, false, false];
+        pl.rollsUsed = 0;
+        pl.lockedSave = undefined;
+      });
+      ['h-die-1','h-die-2','h-die-3'].forEach(id => {
+        $(id).classList.remove('banked','tappable');
+        renderDie(id, -1, { unrolled: true });
+      });
+      showToast(`Runde ${s.round}`, `Ziel: ${s.target}`);
+      hell.renderAll();
+      MP.syncTurnUI();
+    }
+
+    if (gs.lastAction === 'gameEnd') {
+      s.phase = 'gameEnd';
+      MP.mpActive = false;
+      MP.onGameFinished();
+      hell.renderEnd();
+    }
+
+    hell.renderAll();
+  };
+
+  // ── Turn-UI: Buttons nur zeigen wenn man selbst dran ist ───────────
+
+  MP.syncTurnUI = function() {
+    if (!MP.mpActive || !hell.state) return;
+    const s = hell.state;
+    const p = s.players[s.currentIdx];
+    const myTurn = !p.mpRemote;
+
+    const rollBtn = $('h-roll-btn');
+    const rerollBtn = $('h-reroll-btn');
+
+    if (!myTurn) {
+      // Gegner am Zug → Buttons verstecken, Statustext setzen
+      rollBtn.style.display = 'none';
+      rerollBtn.style.display = 'none';
+      $('h-status-line').textContent = `${shortName(p.name)} würfelt …`;
+      updateHellRollWait();
+      // Würfel nicht anklickbar
+      ['h-die-1','h-die-2','h-die-3'].forEach(id => $(id).classList.remove('tappable'));
+    } else {
+      // Mein Zug
+      if (s.phase === 'ready') {
+        rollBtn.style.display = '';
+        rerollBtn.style.display = 'none';
+        $('h-status-line').textContent = 'Du bist dran!';
+      }
+    }
+  };
+
+  // ── MP-Hooks in Spiellogik ─────────────────────────────────────────
+  // Wir wrappen die relevanten Funktionen
+
+  const _origRollDice = hell.rollDice;
+  hell.rollDice = function() {
+    if (MP.mpActive) {
+      const p = hell.state.players[hell.state.currentIdx];
+      if (p.mpRemote) return; // Gegner-Zug: nicht lokal würfeln
+    }
+    _origRollDice.call(hell);
+  };
+
+  const _origAfterRoll = hell.afterRoll;
+  hell.afterRoll = function() {
+    _origAfterRoll.call(hell);
+    if (MP.mpActive) {
+      MP.pushState('roll');
+    }
+  };
+
+  const _origAdvanceTurn = hell.advanceTurn;
+  hell.advanceTurn = function() {
+    _origAdvanceTurn.call(hell);
+    if (MP.mpActive) {
+      MP.pushState('turnEnd');
+      setTimeout(() => MP.syncTurnUI(), 100);
+    }
+  };
+
+  const _origEndOfRound = hell.endOfRound;
+  hell.endOfRound = function() {
+    if (MP.mpActive && hell.state.round >= HELL_MAX_ROUNDS) {
+      hell.endGame();
+      return;
+    }
+    _origEndOfRound.call(hell);
+    if (MP.mpActive) {
+      setTimeout(() => {
+        MP.pushState('roundEnd');
+        MP.syncTurnUI();
+      }, 1500);
+    }
+  };
+
+  const _origEndGame = hell.endGame;
+  hell.endGame = function() {
+    const wasMp = MP.mpActive;
+    _origEndGame.call(hell);
+    if (wasMp) {
+      MP.mpActive = false;
+      MP.pushState('gameEnd');
+      MP.updateRatings();
+    }
+  };
+
+  // ── Glicko-2 Update nach Spielende ─────────────────────────────────
+
+  MP.updateRatings = async function() {
+    if (!hell.state) return;
+    const players = hell.state.players;
+    const myIdx = players.findIndex(p => !p.mpRemote);
+    const oppIdx = players.findIndex(p => p.mpRemote);
+    if (myIdx === -1 || oppIdx === -1) return;
+
+    const myScore = players[myIdx].score;
+    const oppScore = players[oppIdx].score;
+    const result = myScore > oppScore ? 1 : myScore < oppScore ? 0 : 0.5;
+
+    // Gegner-Rating aus dem Raum lesen
+    const oppUid = MP.mpUids[oppIdx];
+    const oppSnap = await MP.roomRef.child('players/' + oppUid).once('value');
+    const oppData = oppSnap.val() || {};
+    const oppRating = oppData.rating || 1500;
+    const oppRd = oppData.rd || 350;
+
+    const newRating = MP.glicko2.update(
+      MP.profile.rating, MP.profile.rd, MP.profile.vol,
+      oppRating, oppRd, result
+    );
+
+    MP.profile.rating = newRating.rating;
+    MP.profile.rd = newRating.rd;
+    MP.profile.vol = newRating.vol;
+    MP.profile.gamesPlayed++;
+    if (result === 1) MP.profile.wins++;
+    MP.profile.lastActive = Date.now();
+    MP.saveProfile(MP.profile);
+
+    // Rating im Endbildschirm anzeigen
+    const ratingChange = newRating.rating - (oppData.rating || 1500);
+    const rDir = result === 1 ? '↑' : result === 0 ? '↓' : '→';
+    showToast('Glicko-2', `${rDir} Rating: ${newRating.rating} (±${Math.round(newRating.rd)})`);
+  };
+
+  MP.onGameFinished = function() {
+    // Raum auf 'finished' setzen (nur Host)
+    if (MP.isHost && MP.roomRef) {
+      MP.roomRef.child('status').set('finished').catch(() => {});
+    }
+  };
+
+  // ── Lobby UI Event-Handler ─────────────────────────────────────────
+
+  // Online-Button auf dem Setup-Screen
+  $('mp-online-btn').addEventListener('click', async () => {
+    // Firebase initialisieren falls nötig
+    if (!MP.app) {
+      if (!MP.init()) {
+        showToast('Fehler', 'Firebase konnte nicht geladen werden');
+        return;
+      }
+    }
+    // Anonym einloggen
+    showToast('Verbinde', 'Anonyme Anmeldung …', { duration: 1200 });
+    const uid = await MP.signIn();
+    if (!uid) {
+      showToast('Fehler', 'Anmeldung fehlgeschlagen — bitte Internetverbindung prüfen');
+      return;
+    }
+
+    // Profil in UI laden
+    const profile = MP.profile;
+    $('mp-name').value = profile.name;
+    $('mp-avatar').src = profile.avatar;
+    const rdDisplay = Math.round(profile.rd);
+    $('mp-rating-display').textContent = `Rating: ${profile.rating} ± ${rdDisplay}`;
+
+    showScreen('mpLobby');
+  });
+
+  // Avatar-Klick → nächsten Avatar
+  const AVATARS = ['avatars/m1.webp','avatars/m2.webp','avatars/m3.webp','avatars/m4.webp',
+                    'avatars/f1.webp','avatars/f2.webp','avatars/f3.webp','avatars/f4.webp'];
+  $('mp-avatar').addEventListener('click', () => {
+    const current = AVATARS.indexOf(MP.profile.avatar);
+    const next = (current + 1) % AVATARS.length;
+    MP.profile.avatar = AVATARS[next];
+    $('mp-avatar').src = MP.profile.avatar;
+    MP.saveProfile(MP.profile);
+  });
+
+  // Name speichern bei Änderung
+  $('mp-name').addEventListener('input', () => {
+    MP.profile.name = $('mp-name').value.trim();
+    MP.saveProfile(MP.profile);
+  });
+
+  // Tisch eröffnen
+  $('mp-create-btn').addEventListener('click', async () => {
+    if (!MP.profile.name) {
+      showToast('Name fehlt', 'Bitte gib deinen Spielernamen ein');
+      $('mp-name').focus();
+      return;
+    }
+    $('mp-create-btn').disabled = true;
+    $('mp-create-btn').textContent = 'Erstelle …';
+    const code = await MP.createRoom();
+    $('mp-create-btn').disabled = false;
+    $('mp-create-btn').textContent = 'Neuen Tisch eröffnen';
+    if (code) {
+      $('mp-room-code').textContent = code;
+      showScreen('mpRoom');
+      MP.listenRoom();
+    }
+  });
+
+  // Beitreten
+  $('mp-join-btn').addEventListener('click', async () => {
+    if (!MP.profile.name) {
+      showToast('Name fehlt', 'Bitte gib deinen Spielernamen ein');
+      $('mp-name').focus();
+      return;
+    }
+    const code = $('mp-join-code').value;
+    $('mp-join-btn').disabled = true;
+    const ok = await MP.joinRoom(code);
+    $('mp-join-btn').disabled = false;
+    if (ok) {
+      $('mp-room-code').textContent = MP.roomCode;
+      showScreen('mpRoom');
+      MP.listenRoom();
+    }
+  });
+
+  // Code-Input: Großbuchstaben erzwingen
+  $('mp-join-code').addEventListener('input', (e) => {
+    e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g, '');
+  });
+
+  // Zurück zur Setup-Seite
+  $('mp-back-btn').addEventListener('click', () => {
+    showScreen('hellSetup');
+  });
+
+  // Tisch verlassen
+  $('mp-leave-btn').addEventListener('click', async () => {
+    await MP.leaveRoom();
+    showScreen('mpLobby');
+  });
+
+  // Partie starten (nur Host)
+  $('mp-start-game-btn').addEventListener('click', () => {
+    MP.hostStartGame();
+  });
+
+  // ── Dice-Klick im MP: Save-State pushen ────────────────────────────
+  // Die existierenden Event-Listener für Würfel-Klick bleiben,
+  // wir müssen nur den Save-State nach Firebase pushen.
+
+  const _origSavedHandler = (() => {
+    // Patche die save-Toggle Logik
+    const dieIds = ['h-die-1','h-die-2','h-die-3'];
+    dieIds.forEach((id, i) => {
+      const el = $(id);
+      // Zusätzlicher Listener der den Save-State pushed
+      el.addEventListener('click', () => {
+        if (MP.mpActive && hell.state) {
+          const p = hell.state.players[hell.state.currentIdx];
+          if (!p.mpRemote) {
+            // Kurze Verzögerung damit der originale Handler erst greift
+            setTimeout(() => MP.pushState('choose'), 50);
+          }
+        }
+      });
+    });
+  })();
+
+  // ═══════════════════════════════════════════════════════════════════════
   // INIT
+  // ═══════════════════════════════════════════════════════════════════════
   hell.session = clone(persist.data.hellSession) || null;
   showScreen('hellSetup');
   initCloud();
+  // Firebase im Hintergrund initialisieren (Auth erst bei Bedarf)
+  try { MP.init(); } catch (e) {}
 })();
 </script>
 </body>
