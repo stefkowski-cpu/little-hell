@@ -1653,6 +1653,77 @@
     font-family: 'Cinzel', serif;
     text-transform: uppercase;
   }
+
+  /* ── Day Mode ────────────────────────────────────────────────────── */
+  [data-theme="day"] {
+    --felt: #e8dcc8; --felt-deep: #d4c9b4; --felt-light: #f2eadb;
+    --gold: #8a6f1f; --gold-light: #6b5518; --gold-deep: #b89530;
+    --cream: #2c2416; --cream-dim: #5a4d3a;
+    --oxblood: #8b1e2d; --oxblood-light: #b3303f;
+    --red-text: #8b1e2d; --ivory: #2c2416; --shadow: rgba(0,0,0,0.12);
+  }
+  [data-theme="day"] body { background: #f5eed8; }
+  [data-theme="day"] .smoke-layer { opacity: 0.03; }
+  [data-theme="day"] .app { background: rgba(255,255,255,0.35); }
+  [data-theme="day"] .deco-frame { border-color: var(--gold-deep); }
+  [data-theme="day"] .icon-btn { background: rgba(255,255,255,0.4); }
+  [data-theme="day"] .sound-pop, [data-theme="day"] .settings-pop { background: linear-gradient(180deg, #f2eadb, #e8dcc8); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+  [data-theme="day"] .setup-card, [data-theme="day"] .mp-card { background: rgba(255,255,255,0.3); }
+  [data-theme="day"] .game-card { background: rgba(255,255,255,0.25); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  [data-theme="day"] .die { background: #fff; border-color: var(--gold-deep); }
+  [data-theme="day"] .pip { background: #2c2416; }
+  [data-theme="day"] .scoreboard { background: rgba(255,255,255,0.25); }
+  [data-theme="day"] .primary-btn { color: #fff; }
+  [data-theme="day"] .winner-card { background: rgba(255,255,255,0.3); }
+
+  /* ── Settings Button & Overlay ──────────────────────────────────── */
+  .settings-btn { padding: 6px 9px; line-height: 0; letter-spacing: 0; }
+  .settings-pop {
+    display: none; position: absolute; right: 0; top: calc(100% + 6px); z-index: 65;
+    width: 260px; padding: 16px; background: linear-gradient(180deg, var(--felt-light), var(--felt-deep));
+    border: 1px solid var(--gold); border-radius: 3px; box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    flex-direction: column; gap: 14px;
+  }
+  .settings-pop.open { display: flex; }
+  .settings-section-title {
+    font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--gold-light); margin-bottom: 6px;
+  }
+  .settings-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  }
+  .settings-label {
+    font-family: 'Cormorant Garamond', serif; font-size: 14px; color: var(--cream);
+  }
+  /* Day/Night toggle switch */
+  .theme-switch { position: relative; width: 48px; height: 26px; flex-shrink: 0; }
+  .theme-switch input { opacity: 0; width: 0; height: 0; }
+  .theme-slider {
+    position: absolute; inset: 0; background: rgba(0,0,0,0.3); border: 1px solid var(--gold-deep);
+    border-radius: 13px; cursor: pointer; transition: background 0.3s;
+  }
+  .theme-slider::before {
+    content: ''; position: absolute; left: 2px; top: 2px; width: 20px; height: 20px;
+    background: var(--gold); border-radius: 50%; transition: transform 0.3s;
+  }
+  .theme-switch input:checked + .theme-slider { background: rgba(212,175,55,0.2); }
+  .theme-switch input:checked + .theme-slider::before { transform: translateX(22px); }
+  /* Language grid */
+  .lang-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+  }
+  .lang-btn {
+    background: rgba(0,0,0,0.25); border: 1px solid var(--gold-deep); color: var(--gold-light);
+    font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.05em;
+    padding: 7px 4px; border-radius: 2px; cursor: pointer; text-align: center; transition: all 0.2s;
+  }
+  .lang-btn.active { background: rgba(212,175,55,0.2); border-color: var(--gold); color: var(--gold); }
+  .lang-btn:active { background: rgba(212,175,55,0.15); }
+  /* RTL support */
+  [dir="rtl"] .topbar { flex-direction: row-reverse; }
+  [dir="rtl"] .settings-pop { right: auto; left: 0; }
+  [dir="rtl"] .sound-pop { right: auto; left: 0; }
+  [dir="rtl"] #back-menu-btn { direction: ltr; }
 </style>
 </head>
 <body>
@@ -1666,14 +1737,14 @@
   </header>
 
   <div class="topbar" id="topbar" style="display:none">
-    <button class="icon-btn" id="back-menu-btn">← Neues Spiel</button>
-    <button class="icon-btn" id="stats-btn" style="display:none">Statistik</button>
-    <button class="icon-btn" id="rules-btn">Regeln</button>
+    <button class="icon-btn" id="back-menu-btn" data-i18n="topbar.back">← Neues Spiel</button>
+    <button class="icon-btn" id="stats-btn" style="display:none" data-i18n="topbar.stats">Statistik</button>
+    <button class="icon-btn" id="rules-btn" data-i18n="topbar.rules">Regeln</button>
     <button class="icon-btn sound-btn" id="sound-btn" aria-label="Ton und Hintergrund" title="Ton">
       <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path class="sw" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/><path class="sx" d="M16 9l5 6M21 9l-5 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
     </button>
     <div class="sound-pop" id="sound-pop" role="dialog" aria-label="Ton">
-      <button type="button" class="type-btn" id="sound-master-toggle">Ton an</button>
+      <button type="button" class="type-btn" id="sound-master-toggle" data-i18n="sound.on">Ton an</button>
       <label class="sound-ch-label sound-master-vol"><span class="ch-name">🔊 Gesamt</span><span class="ch-val" id="ch-val-master">10</span><input type="range" id="ch-master" min="0" max="10" step="1"></label>
       <label class="sound-ch-label"><input type="checkbox" id="ch-on-music" data-ch="music" checked><span class="ch-name">🎵 Musik</span><span class="ch-val" id="ch-val-music">5</span><input type="range" id="ch-music" min="0" max="10" step="1" data-ch="music"></label>
       <label class="sound-ch-label"><input type="checkbox" id="ch-on-ambience" data-ch="ambience" checked><span class="ch-name">🍺 Hintergrund</span><span class="ch-val" id="ch-val-ambience">5</span><input type="range" id="ch-ambience" min="0" max="10" step="1" data-ch="ambience"></label>
@@ -1682,6 +1753,31 @@
       <label class="sound-ch-label"><input type="checkbox" id="ch-on-random" data-ch="random" checked><span class="ch-name">🍻 Zufallsgeräusche</span><span class="ch-val" id="ch-val-random">5</span><input type="range" id="ch-random" min="0" max="10" step="1" data-ch="random"></label>
       <div class="sound-btn-row"><button type="button" class="type-btn" id="sound-test">Probe hören</button><button type="button" class="type-btn" id="sound-reset">Reset</button></div>
       <div class="sound-hint" id="sound-state"></div>
+    </div>
+    <button class="icon-btn settings-btn" id="settings-btn" aria-label="Einstellungen" title="Einstellungen">
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96a7.04 7.04 0 0 0-1.62-.94l-.36-2.54a.48.48 0 0 0-.48-.41h-3.84a.48.48 0 0 0-.48.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.49.49 0 0 0-.59.22L2.74 8.87a.48.48 0 0 0 .12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.49.37 1.03.7 1.62.94l.36 2.54c.05.24.26.41.48.41h3.84c.24 0 .44-.17.48-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.49.49 0 0 0-.12-.61l-2.03-1.58z" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+    </button>
+    <div class="settings-pop" id="settings-pop" role="dialog" aria-label="Einstellungen">
+      <div>
+        <div class="settings-section-title" data-i18n="settings.theme">Darstellung</div>
+        <div class="settings-row">
+          <span class="settings-label" data-i18n="settings.nightMode">Nachtmodus</span>
+          <label class="theme-switch"><input type="checkbox" id="theme-toggle" checked><span class="theme-slider"></span></label>
+        </div>
+      </div>
+      <div>
+        <div class="settings-section-title" data-i18n="settings.language">Sprache</div>
+        <div class="lang-grid" id="lang-grid">
+          <button class="lang-btn active" data-lang="de">DE</button>
+          <button class="lang-btn" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="fr">FR</button>
+          <button class="lang-btn" data-lang="es">ES</button>
+          <button class="lang-btn" data-lang="ru">RU</button>
+          <button class="lang-btn" data-lang="ar">AR</button>
+          <button class="lang-btn" data-lang="zh">ZH</button>
+          <button class="lang-btn" data-lang="it">IT</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1700,16 +1796,16 @@
     <div class="setup-card">
       <div style="text-align:center;margin-bottom:14px;font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.25em;color:var(--gold-light);text-transform:uppercase;padding:8px;border:1px solid var(--gold-deep);border-radius:2px;background:rgba(0,0,0,0.3)">Little Hell · 3 Würfel · 3 Würfe</div>
       <div id="h-session-status" style="display:none;text-align:center;margin-bottom:14px;font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:var(--cream-dim)"></div>
-      <div class="setup-label">Dein Name</div>
-      <input type="text" id="h-name-input" class="name-input" placeholder="Dein Name" maxlength="14" autocomplete="off" autocapitalize="words" enterkeyhint="done">
-      <div class="setup-label" style="margin-top:22px">Anzahl Gegner</div>
+      <div class="setup-label" data-i18n="setup.yourName">Dein Name</div>
+      <input type="text" id="h-name-input" class="name-input" data-i18n-ph="setup.yourName" placeholder="Dein Name" maxlength="14" autocomplete="off" autocapitalize="words" enterkeyhint="done">
+      <div class="setup-label" style="margin-top:22px" data-i18n="setup.opponents">Anzahl Gegner</div>
       <div class="opp-grid" id="h-opp-grid">
         <button class="opp-btn" data-n="1">1</button>
         <button class="opp-btn selected" data-n="2">2</button>
         <button class="opp-btn" data-n="3">3</button>
         <button class="opp-btn" data-n="4">4</button>
       </div>
-      <p class="hotseat-hint">Für jeden Gegner: KI oder Mensch (Hot-Seat, ihr reicht das Gerät weiter).</p>
+      <p class="hotseat-hint" data-i18n="setup.hotseatHint">Für jeden Gegner: KI oder Mensch (Hot-Seat, ihr reicht das Gerät weiter).</p>
       <div class="player-slots" id="h-player-slots"></div>
       <div class="flip-row" id="h-flip-row" style="display:none">
         <div class="slot-row" style="margin-bottom:4px">
@@ -1722,15 +1818,15 @@
         <div class="flip-hint">Mit Flip dreht sich die Ansicht bei jedem Menschen-Wechsel um 180° – fürs Spielen gegenüber.</div>
       </div>
       <div class="btn-row">
-        <button class="secondary-btn" id="h-rules-btn">Regeln</button>
-        <button id="h-start-btn" class="primary-btn">Beginnen</button>
+        <button class="secondary-btn" id="h-rules-btn" data-i18n="topbar.rules">Regeln</button>
+        <button id="h-start-btn" class="primary-btn" data-i18n="setup.start">Beginnen</button>
       </div>
-      <p style="margin-top:14px;text-align:center;font-size:12px;color:var(--cream-dim);font-style:italic">16 Runden · Ziele 3 bis 18</p>
+      <p style="margin-top:14px;text-align:center;font-size:12px;color:var(--cream-dim);font-style:italic" data-i18n="setup.roundsHint">16 Runden · Ziele 3 bis 18</p>
       <div id="mp-online-section" style="margin-top:22px;padding-top:18px;border-top:1px solid var(--gold-deep);text-align:center">
         <button class="primary-btn" id="mp-online-btn" style="width:100%;background:linear-gradient(135deg, rgba(139,30,45,0.5), rgba(139,30,45,0.3));border-color:var(--oxblood-light)">
-          🎲 Online gegen echte Gegner
+          <span data-i18n="setup.online">🎲 Online gegen echte Gegner</span>
         </button>
-        <p style="margin-top:6px;font-size:11px;color:var(--cream-dim);font-style:italic">Spiel über das Netzwerk mit eigenem Rating</p>
+        <p style="margin-top:6px;font-size:11px;color:var(--cream-dim);font-style:italic" data-i18n="setup.onlineHint">Spiel über das Netzwerk mit eigenem Rating</p>
       </div>
     </div>
   </section>
@@ -1738,7 +1834,7 @@
   <!-- MULTIPLAYER LOBBY -->
   <section id="screen-mp-lobby" class="screen">
     <div class="setup-card mp-lobby">
-      <div class="mp-section-title">Online Spielen</div>
+      <div class="mp-section-title" data-i18n="mp.playOnline">Online Spielen</div>
 
       <!-- Profil -->
       <div class="mp-card">
@@ -1751,18 +1847,18 @@
 
       <!-- Raum erstellen -->
       <div class="mp-card">
-        <div style="font-family:'Cinzel',serif;font-size:11px;color:var(--gold-light);letter-spacing:0.15em;margin-bottom:10px">TISCH ERÖFFNEN</div>
-        <button class="primary-btn" id="mp-create-btn" style="width:100%">Neuen Tisch eröffnen</button>
+        <div style="font-family:'Cinzel',serif;font-size:11px;color:var(--gold-light);letter-spacing:0.15em;margin-bottom:10px" data-i18n="mp.openTable">TISCH ERÖFFNEN</div>
+        <button class="primary-btn" id="mp-create-btn" style="width:100%" data-i18n="mp.createTable">Neuen Tisch eröffnen</button>
       </div>
 
-      <div class="mp-or">— oder —</div>
+      <div class="mp-or" data-i18n="mp.or">— oder —</div>
 
       <!-- Raum beitreten -->
       <div class="mp-card">
-        <div style="font-family:'Cinzel',serif;font-size:11px;color:var(--gold-light);letter-spacing:0.15em;margin-bottom:10px">AN TISCH SETZEN</div>
+        <div style="font-family:'Cinzel',serif;font-size:11px;color:var(--gold-light);letter-spacing:0.15em;margin-bottom:10px" data-i18n="mp.joinTableLabel">AN TISCH SETZEN</div>
         <div style="display:flex;gap:10px;justify-content:center;align-items:center">
           <input type="text" id="mp-join-code" class="mp-code-input" placeholder="CODE" maxlength="4" autocomplete="off">
-          <button class="primary-btn" id="mp-join-btn">Beitreten</button>
+          <button class="primary-btn" id="mp-join-btn" data-i18n="mp.join">Beitreten</button>
         </div>
       </div>
 
@@ -1777,7 +1873,7 @@
       </div>
 
       <div class="btn-row" style="margin-top:18px">
-        <button class="secondary-btn" id="mp-back-btn">Zurück</button>
+        <button class="secondary-btn" id="mp-back-btn" data-i18n="mp.back">Zurück</button>
       </div>
     </div>
   </section>
@@ -1785,7 +1881,7 @@
   <!-- MULTIPLAYER WARTERAUM -->
   <section id="screen-mp-room" class="screen">
     <div class="setup-card mp-lobby">
-      <div class="mp-section-title">Dein Tisch</div>
+      <div class="mp-section-title" data-i18n="mp.yourTable">Dein Tisch</div>
       <div class="mp-card">
         <div style="font-family:'IM Fell English',serif;font-size:13px;color:var(--cream-dim);font-style:italic;margin-bottom:4px">Gib diesen Code an deinen Gegner:</div>
         <div class="mp-code" id="mp-room-code">—</div>
@@ -1798,9 +1894,9 @@
         <span class="mp-waiting-dot">·</span>
         <span class="mp-waiting-dot">·</span>
       </div>
-      <button class="primary-btn" id="mp-start-game-btn" style="display:none;width:100%;margin-top:12px">Partie starten</button>
+      <button class="primary-btn" id="mp-start-game-btn" style="display:none;width:100%;margin-top:12px" data-i18n="mp.startGame">Partie starten</button>
       <div class="btn-row" style="margin-top:18px">
-        <button class="secondary-btn" id="mp-leave-btn">Tisch verlassen</button>
+        <button class="secondary-btn" id="mp-leave-btn" data-i18n="mp.leaveTable">Tisch verlassen</button>
       </div>
     </div>
   </section>
@@ -1810,14 +1906,14 @@
     <div class="score-pop" id="h-score-pop"><div class="score-pop-label" id="h-score-pop-label"></div><span id="h-score-pop-val"></span></div>
     <div class="round-banner">
       <div>
-        <div class="round-label">Runde</div>
+        <div class="round-label" data-i18n="game.round">Runde</div>
         <div class="round-num"><span id="h-round-num">1</span><span style="font-size:14px; color:var(--cream-dim)"> / 16</span></div>
       </div>
       <div style="text-align:center;flex:1">
         <div id="h-current-name" style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);cursor:pointer" title="Name ändern">Du</div>
       </div>
       <div class="target-box">
-        <div class="round-label">Ziel</div>
+        <div class="round-label" data-i18n="game.target">Ziel</div>
         <div class="target-num" id="h-target-num">3</div>
         <div class="target-bonus" id="h-target-bonus" title="Treffer-Punkte für Wurf 1 · 2 · 3"></div>
       </div>
@@ -1825,7 +1921,7 @@
     <div class="chicago-layout">
       <div class="chicago-main">
         <div class="dice-area">
-          <div class="status-line" id="h-status-line">Du bist dran</div>
+          <div class="status-line" id="h-status-line" data-i18n="game.yourTurn">Du bist dran</div>
           <div class="hell-dice-action">
             <div class="dice-row">
               <div class="die-col">
@@ -1845,10 +1941,10 @@
           <div class="all-reroll-prob" id="h-all-reroll-prob"></div>
           <div class="prob-panel" id="h-prob-panel" style="display:none">
             <div class="prob-head">
-              <span class="prob-title">Trefferchancen</span>
+              <span class="prob-title" data-i18n="game.hitChance">Trefferchancen</span>
               <button type="button" class="prob-toggle" id="h-prob-toggle" aria-pressed="false">
                 <span class="prob-toggle-track"><span class="prob-toggle-thumb"></span></span>
-                <span class="prob-toggle-label">aus</span>
+                <span class="prob-toggle-label" data-i18n="game.off">aus</span>
               </button>
             </div>
             <div class="prob-rows" id="h-prob-rows" style="display:none"></div>
@@ -1857,8 +1953,8 @@
       </div>
       <aside class="chicago-side levee" id="h-side">
         <div class="hell-roll-col" id="h-roll-col">
-          <button id="h-roll-btn" class="primary-btn hell-side-btn">Würfeln</button>
-          <button id="h-reroll-btn" class="primary-btn hell-side-btn" style="display:none">Nächster<br>Wurf</button>
+          <button id="h-roll-btn" class="primary-btn hell-side-btn" data-i18n="game.roll">Würfeln</button>
+          <button id="h-reroll-btn" class="primary-btn hell-side-btn" style="display:none" data-i18n="game.nextRoll" data-i18n-html="1">Nächster<br>Wurf</button>
           <div id="h-roll-wait" class="hell-wait" style="display:none" aria-live="polite"></div>
         </div>
         <div id="h-side-scoreboard"></div>
@@ -1869,18 +1965,18 @@
   <!-- LITTLE HELL END -->
   <section id="screen-hell-end" class="screen">
     <div class="winner-card">
-      <div class="winner-label">Sieger</div>
+      <div class="winner-label" data-i18n="end.winner">Sieger</div>
       <div class="winner-name" id="h-winner-name">—</div>
       <div class="winner-score" id="h-winner-score">—</div>
     </div>
     <div class="scoreboard final-board" id="h-final-board"></div>
     <div class="btn-row">
-      <button class="secondary-btn" id="h-end-stats">Statistik</button>
-      <button class="secondary-btn" id="h-end-menu">Hauptmenü</button>
+      <button class="secondary-btn" id="h-end-stats" data-i18n="topbar.stats">Statistik</button>
+      <button class="secondary-btn" id="h-end-menu" data-i18n="end.mainMenu">Hauptmenü</button>
     </div>
     <div class="btn-row" style="margin-top:10px">
-      <button class="secondary-btn" id="h-end-newsession">Neue Session</button>
-      <button class="primary-btn" id="h-end-again">Nächste Partie</button>
+      <button class="secondary-btn" id="h-end-newsession" data-i18n="end.newSession">Neue Session</button>
+      <button class="primary-btn" id="h-end-again" data-i18n="end.nextGame">Nächste Partie</button>
     </div>
   </section>
 
@@ -6024,6 +6120,593 @@
   })();
 
   // ═══════════════════════════════════════════════════════════════════════
+  // i18n — Internationalization Module
+  // ═══════════════════════════════════════════════════════════════════════
+  const I18N = (() => {
+    const SETTINGS_KEY = 'wuerfelhalle_settings';
+    const LANGS = {
+      de: {
+        // Topbar
+        'topbar.back': '← Neues Spiel', 'topbar.stats': 'Statistik', 'topbar.rules': 'Regeln',
+        // Sound
+        'sound.on': 'Ton an', 'sound.off': 'Ton aus',
+        'sound.master': '🔊 Gesamt', 'sound.music': '🎵 Musik', 'sound.ambience': '🍺 Hintergrund',
+        'sound.reaction': '🎉 Reaktionen', 'sound.dice': '🎲 Würfel', 'sound.random': '🍻 Zufallsgeräusche',
+        'sound.test': 'Probe hören', 'sound.reset': 'Reset',
+        // Settings
+        'settings.theme': 'Darstellung', 'settings.nightMode': 'Nachtmodus', 'settings.language': 'Sprache',
+        // Setup
+        'setup.yourName': 'Dein Name', 'setup.opponents': 'Anzahl Gegner',
+        'setup.hotseatHint': 'Für jeden Gegner: KI oder Mensch (Hot-Seat, ihr reicht das Gerät weiter).',
+        'setup.start': 'Beginnen', 'setup.roundsHint': '16 Runden · Ziele 3 bis 18',
+        'setup.online': '🎲 Online gegen echte Gegner',
+        'setup.onlineHint': 'Spiel über das Netzwerk mit eigenem Rating',
+        'setup.ai': 'KI', 'setup.human': 'Mensch',
+        'setup.withFlip': 'Mit Flip', 'setup.withoutFlip': 'Ohne Flip',
+        'setup.flipLabel': 'Drehen?',
+        'setup.flipHint': 'Mit Flip dreht sich die Ansicht bei jedem Menschen-Wechsel um 180° – fürs Spielen gegenüber.',
+        // Multiplayer
+        'mp.playOnline': 'Online Spielen', 'mp.openTable': 'TISCH ERÖFFNEN',
+        'mp.createTable': 'Neuen Tisch eröffnen', 'mp.or': '— oder —',
+        'mp.joinTableLabel': 'AN TISCH SETZEN', 'mp.join': 'Beitreten', 'mp.back': 'Zurück',
+        'mp.yourTable': 'Dein Tisch', 'mp.startGame': 'Partie starten', 'mp.leaveTable': 'Tisch verlassen',
+        'mp.waitingOpponent': 'Warte auf Gegner',
+        'mp.codeHint': 'Gib diesen Code an deinen Gegner:',
+        'mp.codeExplain': 'Dein Gegner gibt diesen Code unter „An Tisch setzen" ein.',
+        'mp.howItWorks': 'So funktioniert\'s:',
+        'mp.howItWorksText': 'Ein Spieler eröffnet einen Tisch und erhält einen 4-Buchstaben-Code. Der Gegner gibt diesen Code ein und setzt sich dazu. Ihr spielt gegeneinander in Echtzeit — jeder auf seinem eigenen Gerät.',
+        'mp.profileNote': 'Dein Name, Avatar und Rating bleiben auf diesem Gerät gespeichert. Je mehr Partien du spielst, desto genauer wird dein Rating.',
+        // Game
+        'game.round': 'Runde', 'game.target': 'Ziel', 'game.yourTurn': 'Du bist dran',
+        'game.roll': 'Würfeln', 'game.nextRoll': 'Nächster<br>Wurf',
+        'game.hitChance': 'Trefferchancen', 'game.off': 'aus', 'game.on': 'an',
+        // End
+        'end.winner': 'Sieger', 'end.mainMenu': 'Hauptmenü',
+        'end.newSession': 'Neue Session', 'end.nextGame': 'Nächste Partie',
+        // Headers
+        'header.menu.title': 'Würfelhalle', 'header.menu.sub': 'Fünf Spiele zur Auswahl',
+        'header.littlehell.title': 'Little Hell', 'header.littlehell.sub': 'Drei Würfel · drei Würfe · 16 Runden',
+        'header.chicago.title': 'Chicago', 'header.chicago.sub': 'Elf Runden · Zwei Würfel',
+        'header.chicago2.title': 'The Levee', 'header.chicago2.sub': 'Zwei Würfe · Push-your-luck',
+        'header.tschigg.title': 'Tschigg', 'header.tschigg.sub': 'Drei Würfel · zwei Modi',
+        'header.dekade.title': 'Dekade', 'header.dekade.sub': 'Augen 0–9 · Null bestraft',
+        'header.hof.title': 'Hall of Fame', 'header.hof.sub': 'Deine Bestleistungen',
+        // Toasts (common)
+        'toast.nameMissing': 'Name fehlt', 'toast.enterName': 'Bitte gib deinen Spielernamen ein',
+        'toast.error': 'Fehler', 'toast.connectionFailed': 'Verbindung fehlgeschlagen',
+        'toast.full': 'Voll', 'toast.tableFull': 'Tisch ist bereits besetzt',
+        'toast.unknown': 'Unbekannt', 'toast.noTable': 'Kein Tisch mit diesem Code',
+        'toast.occupied': 'Besetzt', 'toast.gameRunning': 'Partie läuft bereits',
+        'toast.dissolved': 'Aufgelöst', 'toast.tableClosed': 'Der Tisch wurde geschlossen',
+        'toast.connecting': 'Verbinde', 'toast.anonLogin': 'Anonyme Anmeldung …',
+        'toast.loginFailed': 'Anmeldung fehlgeschlagen — bitte Internetverbindung prüfen',
+        'toast.codeLength': 'Code muss 4 Buchstaben haben',
+        'toast.alreadySeated': 'Du sitzt bereits an diesem Tisch',
+        'toast.noFreeCode': 'Kein freier Code – bitte erneut versuchen',
+        'toast.firebaseError': 'Firebase konnte nicht geladen werden',
+        'toast.orderDrawn': 'Reihenfolge ausgelost',
+        'toast.isTurn': 'ist dran · Gerät weitergeben',
+      },
+      en: {
+        'topbar.back': '← New Game', 'topbar.stats': 'Stats', 'topbar.rules': 'Rules',
+        'sound.on': 'Sound on', 'sound.off': 'Sound off',
+        'sound.master': '🔊 Master', 'sound.music': '🎵 Music', 'sound.ambience': '🍺 Ambience',
+        'sound.reaction': '🎉 Reactions', 'sound.dice': '🎲 Dice', 'sound.random': '🍻 Random sounds',
+        'sound.test': 'Preview', 'sound.reset': 'Reset',
+        'settings.theme': 'Appearance', 'settings.nightMode': 'Night mode', 'settings.language': 'Language',
+        'setup.yourName': 'Your Name', 'setup.opponents': 'Number of opponents',
+        'setup.hotseatHint': 'For each opponent: AI or human (hot-seat, pass the device around).',
+        'setup.start': 'Start', 'setup.roundsHint': '16 rounds · targets 3 to 18',
+        'setup.online': '🎲 Play online against real opponents',
+        'setup.onlineHint': 'Play over the network with your own rating',
+        'setup.ai': 'AI', 'setup.human': 'Human',
+        'setup.withFlip': 'With Flip', 'setup.withoutFlip': 'Without Flip',
+        'setup.flipLabel': 'Rotate?',
+        'setup.flipHint': 'With Flip the view rotates 180° for each human switch — for playing face-to-face.',
+        'mp.playOnline': 'Play Online', 'mp.openTable': 'OPEN TABLE',
+        'mp.createTable': 'Open a new table', 'mp.or': '— or —',
+        'mp.joinTableLabel': 'JOIN TABLE', 'mp.join': 'Join', 'mp.back': 'Back',
+        'mp.yourTable': 'Your Table', 'mp.startGame': 'Start game', 'mp.leaveTable': 'Leave table',
+        'mp.waitingOpponent': 'Waiting for opponent',
+        'mp.codeHint': 'Give this code to your opponent:',
+        'mp.codeExplain': 'Your opponent enters this code under "Join Table".',
+        'mp.howItWorks': 'How it works:',
+        'mp.howItWorksText': 'One player opens a table and gets a 4-letter code. The opponent enters this code and sits down. You play against each other in real time — each on their own device.',
+        'mp.profileNote': 'Your name, avatar and rating are saved on this device. The more games you play, the more accurate your rating becomes.',
+        'game.round': 'Round', 'game.target': 'Target', 'game.yourTurn': 'Your turn',
+        'game.roll': 'Roll', 'game.nextRoll': 'Next<br>Roll',
+        'game.hitChance': 'Hit chances', 'game.off': 'off', 'game.on': 'on',
+        'end.winner': 'Winner', 'end.mainMenu': 'Main Menu',
+        'end.newSession': 'New Session', 'end.nextGame': 'Next Game',
+        'header.menu.title': 'Dice Hall', 'header.menu.sub': 'Five games to choose from',
+        'header.littlehell.title': 'Little Hell', 'header.littlehell.sub': 'Three dice · three rolls · 16 rounds',
+        'header.chicago.title': 'Chicago', 'header.chicago.sub': 'Eleven rounds · two dice',
+        'header.chicago2.title': 'The Levee', 'header.chicago2.sub': 'Two rolls · push-your-luck',
+        'header.tschigg.title': 'Tschigg', 'header.tschigg.sub': 'Three dice · two modes',
+        'header.dekade.title': 'Decade', 'header.dekade.sub': 'Pips 0–9 · zero punishes',
+        'header.hof.title': 'Hall of Fame', 'header.hof.sub': 'Your best results',
+        'toast.nameMissing': 'Name missing', 'toast.enterName': 'Please enter your player name',
+        'toast.error': 'Error', 'toast.connectionFailed': 'Connection failed',
+        'toast.full': 'Full', 'toast.tableFull': 'Table is already full',
+        'toast.unknown': 'Unknown', 'toast.noTable': 'No table with this code',
+        'toast.occupied': 'Occupied', 'toast.gameRunning': 'Game already in progress',
+        'toast.dissolved': 'Dissolved', 'toast.tableClosed': 'The table has been closed',
+        'toast.connecting': 'Connecting', 'toast.anonLogin': 'Anonymous login …',
+        'toast.loginFailed': 'Login failed — please check your internet connection',
+        'toast.codeLength': 'Code must be 4 letters',
+        'toast.alreadySeated': 'You are already at this table',
+        'toast.noFreeCode': 'No free code — please try again',
+        'toast.firebaseError': 'Firebase could not be loaded',
+        'toast.orderDrawn': 'Play order drawn',
+        'toast.isTurn': '\'s turn · pass the device',
+      },
+      fr: {
+        'topbar.back': '← Nouvelle partie', 'topbar.stats': 'Stats', 'topbar.rules': 'Règles',
+        'sound.on': 'Son activé', 'sound.off': 'Son désactivé',
+        'sound.master': '🔊 Général', 'sound.music': '🎵 Musique', 'sound.ambience': '🍺 Ambiance',
+        'sound.reaction': '🎉 Réactions', 'sound.dice': '🎲 Dés', 'sound.random': '🍻 Sons aléatoires',
+        'sound.test': 'Écouter', 'sound.reset': 'Réinit.',
+        'settings.theme': 'Apparence', 'settings.nightMode': 'Mode nuit', 'settings.language': 'Langue',
+        'setup.yourName': 'Ton nom', 'setup.opponents': 'Nombre d\'adversaires',
+        'setup.hotseatHint': 'Pour chaque adversaire : IA ou humain (hot-seat, passez l\'appareil).',
+        'setup.start': 'Commencer', 'setup.roundsHint': '16 manches · cibles 3 à 18',
+        'setup.online': '🎲 Jouer en ligne contre de vrais adversaires',
+        'setup.onlineHint': 'Jouez en réseau avec votre propre classement',
+        'setup.ai': 'IA', 'setup.human': 'Humain',
+        'setup.withFlip': 'Avec rotation', 'setup.withoutFlip': 'Sans rotation',
+        'setup.flipLabel': 'Tourner ?',
+        'setup.flipHint': 'Avec la rotation, la vue tourne de 180° à chaque changement de joueur — pour jouer face à face.',
+        'mp.playOnline': 'Jouer en ligne', 'mp.openTable': 'OUVRIR UNE TABLE',
+        'mp.createTable': 'Ouvrir une nouvelle table', 'mp.or': '— ou —',
+        'mp.joinTableLabel': 'REJOINDRE UNE TABLE', 'mp.join': 'Rejoindre', 'mp.back': 'Retour',
+        'mp.yourTable': 'Ta table', 'mp.startGame': 'Lancer la partie', 'mp.leaveTable': 'Quitter la table',
+        'mp.waitingOpponent': 'En attente d\'un adversaire',
+        'mp.codeHint': 'Donne ce code à ton adversaire :',
+        'mp.codeExplain': 'Ton adversaire entre ce code sous « Rejoindre une table ».',
+        'mp.howItWorks': 'Comment ça marche :',
+        'mp.howItWorksText': 'Un joueur ouvre une table et reçoit un code à 4 lettres. L\'adversaire entre ce code et s\'assoit. Vous jouez l\'un contre l\'autre en temps réel — chacun sur son propre appareil.',
+        'mp.profileNote': 'Ton nom, avatar et classement sont sauvegardés sur cet appareil. Plus tu joues, plus ton classement sera précis.',
+        'game.round': 'Manche', 'game.target': 'Cible', 'game.yourTurn': 'C\'est ton tour',
+        'game.roll': 'Lancer', 'game.nextRoll': 'Prochain<br>lancer',
+        'game.hitChance': 'Chances de réussite', 'game.off': 'off', 'game.on': 'on',
+        'end.winner': 'Vainqueur', 'end.mainMenu': 'Menu principal',
+        'end.newSession': 'Nouvelle session', 'end.nextGame': 'Prochaine partie',
+        'header.menu.title': 'Salle de dés', 'header.menu.sub': 'Cinq jeux au choix',
+        'header.littlehell.title': 'Little Hell', 'header.littlehell.sub': 'Trois dés · trois lancers · 16 manches',
+        'header.chicago.title': 'Chicago', 'header.chicago.sub': 'Onze manches · deux dés',
+        'header.chicago2.title': 'The Levee', 'header.chicago2.sub': 'Deux lancers · risque et audace',
+        'header.tschigg.title': 'Tschigg', 'header.tschigg.sub': 'Trois dés · deux modes',
+        'header.dekade.title': 'Décade', 'header.dekade.sub': 'Points 0–9 · zéro punit',
+        'header.hof.title': 'Temple de la gloire', 'header.hof.sub': 'Tes meilleurs résultats',
+        'toast.nameMissing': 'Nom manquant', 'toast.enterName': 'Veuillez entrer votre nom de joueur',
+        'toast.error': 'Erreur', 'toast.connectionFailed': 'Connexion échouée',
+        'toast.full': 'Complet', 'toast.tableFull': 'La table est déjà pleine',
+        'toast.unknown': 'Inconnu', 'toast.noTable': 'Aucune table avec ce code',
+        'toast.occupied': 'Occupé', 'toast.gameRunning': 'Partie déjà en cours',
+        'toast.dissolved': 'Fermée', 'toast.tableClosed': 'La table a été fermée',
+        'toast.connecting': 'Connexion', 'toast.anonLogin': 'Connexion anonyme …',
+        'toast.loginFailed': 'Connexion échouée — vérifiez votre connexion Internet',
+        'toast.codeLength': 'Le code doit avoir 4 lettres',
+        'toast.alreadySeated': 'Tu es déjà à cette table',
+        'toast.noFreeCode': 'Aucun code libre — réessaie',
+        'toast.firebaseError': 'Firebase n\'a pas pu être chargé',
+        'toast.orderDrawn': 'Ordre de jeu tiré',
+        'toast.isTurn': ' joue · passez l\'appareil',
+      },
+      es: {
+        'topbar.back': '← Nuevo juego', 'topbar.stats': 'Estadísticas', 'topbar.rules': 'Reglas',
+        'sound.on': 'Sonido activado', 'sound.off': 'Sonido desactivado',
+        'sound.master': '🔊 General', 'sound.music': '🎵 Música', 'sound.ambience': '🍺 Ambiente',
+        'sound.reaction': '🎉 Reacciones', 'sound.dice': '🎲 Dados', 'sound.random': '🍻 Sonidos aleatorios',
+        'sound.test': 'Escuchar', 'sound.reset': 'Reiniciar',
+        'settings.theme': 'Apariencia', 'settings.nightMode': 'Modo noche', 'settings.language': 'Idioma',
+        'setup.yourName': 'Tu nombre', 'setup.opponents': 'Número de oponentes',
+        'setup.hotseatHint': 'Para cada oponente: IA o humano (hot-seat, pasen el dispositivo).',
+        'setup.start': 'Comenzar', 'setup.roundsHint': '16 rondas · objetivos del 3 al 18',
+        'setup.online': '🎲 Jugar en línea contra oponentes reales',
+        'setup.onlineHint': 'Juega por la red con tu propio rating',
+        'setup.ai': 'IA', 'setup.human': 'Humano',
+        'setup.withFlip': 'Con giro', 'setup.withoutFlip': 'Sin giro',
+        'setup.flipLabel': '¿Girar?',
+        'setup.flipHint': 'Con giro la vista rota 180° en cada cambio de humano — para jugar cara a cara.',
+        'mp.playOnline': 'Jugar en línea', 'mp.openTable': 'ABRIR MESA',
+        'mp.createTable': 'Abrir una nueva mesa', 'mp.or': '— o —',
+        'mp.joinTableLabel': 'UNIRSE A MESA', 'mp.join': 'Unirse', 'mp.back': 'Volver',
+        'mp.yourTable': 'Tu mesa', 'mp.startGame': 'Iniciar partida', 'mp.leaveTable': 'Dejar mesa',
+        'mp.waitingOpponent': 'Esperando oponente',
+        'mp.codeHint': 'Dale este código a tu oponente:',
+        'mp.codeExplain': 'Tu oponente ingresa este código en "Unirse a mesa".',
+        'mp.howItWorks': 'Cómo funciona:',
+        'mp.howItWorksText': 'Un jugador abre una mesa y recibe un código de 4 letras. El oponente ingresa el código y se sienta. Juegan en tiempo real — cada uno en su propio dispositivo.',
+        'mp.profileNote': 'Tu nombre, avatar y rating se guardan en este dispositivo. Cuantas más partidas juegues, más preciso será tu rating.',
+        'game.round': 'Ronda', 'game.target': 'Objetivo', 'game.yourTurn': 'Tu turno',
+        'game.roll': 'Tirar', 'game.nextRoll': 'Siguiente<br>tiro',
+        'game.hitChance': 'Probabilidades', 'game.off': 'off', 'game.on': 'on',
+        'end.winner': 'Ganador', 'end.mainMenu': 'Menú principal',
+        'end.newSession': 'Nueva sesión', 'end.nextGame': 'Siguiente partida',
+        'header.menu.title': 'Sala de dados', 'header.menu.sub': 'Cinco juegos a elegir',
+        'header.littlehell.title': 'Little Hell', 'header.littlehell.sub': 'Tres dados · tres tiros · 16 rondas',
+        'header.chicago.title': 'Chicago', 'header.chicago.sub': 'Once rondas · dos dados',
+        'header.chicago2.title': 'The Levee', 'header.chicago2.sub': 'Dos tiros · arriesga y gana',
+        'header.tschigg.title': 'Tschigg', 'header.tschigg.sub': 'Tres dados · dos modos',
+        'header.dekade.title': 'Década', 'header.dekade.sub': 'Puntos 0–9 · cero castiga',
+        'header.hof.title': 'Salón de la fama', 'header.hof.sub': 'Tus mejores resultados',
+        'toast.nameMissing': 'Falta el nombre', 'toast.enterName': 'Por favor ingresa tu nombre de jugador',
+        'toast.error': 'Error', 'toast.connectionFailed': 'Conexión fallida',
+        'toast.full': 'Completo', 'toast.tableFull': 'La mesa ya está llena',
+        'toast.unknown': 'Desconocido', 'toast.noTable': 'No hay mesa con este código',
+        'toast.occupied': 'Ocupada', 'toast.gameRunning': 'Partida ya en curso',
+        'toast.dissolved': 'Cerrada', 'toast.tableClosed': 'La mesa ha sido cerrada',
+        'toast.connecting': 'Conectando', 'toast.anonLogin': 'Inicio de sesión anónimo …',
+        'toast.loginFailed': 'Inicio de sesión fallido — verifica tu conexión a Internet',
+        'toast.codeLength': 'El código debe tener 4 letras',
+        'toast.alreadySeated': 'Ya estás en esta mesa',
+        'toast.noFreeCode': 'Sin código libre — intenta de nuevo',
+        'toast.firebaseError': 'No se pudo cargar Firebase',
+        'toast.orderDrawn': 'Orden de juego sorteado',
+        'toast.isTurn': ' juega · pasa el dispositivo',
+      },
+      ru: {
+        'topbar.back': '← Новая игра', 'topbar.stats': 'Статистика', 'topbar.rules': 'Правила',
+        'sound.on': 'Звук вкл.', 'sound.off': 'Звук выкл.',
+        'sound.master': '🔊 Общая', 'sound.music': '🎵 Музыка', 'sound.ambience': '🍺 Фон',
+        'sound.reaction': '🎉 Реакции', 'sound.dice': '🎲 Кости', 'sound.random': '🍻 Случайные звуки',
+        'sound.test': 'Прослушать', 'sound.reset': 'Сброс',
+        'settings.theme': 'Оформление', 'settings.nightMode': 'Ночной режим', 'settings.language': 'Язык',
+        'setup.yourName': 'Твоё имя', 'setup.opponents': 'Количество противников',
+        'setup.hotseatHint': 'Для каждого противника: ИИ или человек (hot-seat, передавайте устройство).',
+        'setup.start': 'Начать', 'setup.roundsHint': '16 раундов · цели от 3 до 18',
+        'setup.online': '🎲 Играть онлайн против настоящих соперников',
+        'setup.onlineHint': 'Игра по сети с собственным рейтингом',
+        'setup.ai': 'ИИ', 'setup.human': 'Человек',
+        'setup.withFlip': 'С поворотом', 'setup.withoutFlip': 'Без поворота',
+        'setup.flipLabel': 'Повернуть?',
+        'setup.flipHint': 'С поворотом экран вращается на 180° при каждой смене игрока — для игры лицом к лицу.',
+        'mp.playOnline': 'Играть онлайн', 'mp.openTable': 'ОТКРЫТЬ СТОЛ',
+        'mp.createTable': 'Открыть новый стол', 'mp.or': '— или —',
+        'mp.joinTableLabel': 'СЕСТЬ ЗА СТОЛ', 'mp.join': 'Присоединиться', 'mp.back': 'Назад',
+        'mp.yourTable': 'Твой стол', 'mp.startGame': 'Начать партию', 'mp.leaveTable': 'Покинуть стол',
+        'mp.waitingOpponent': 'Ожидание соперника',
+        'mp.codeHint': 'Передай этот код сопернику:',
+        'mp.codeExplain': 'Соперник вводит этот код в разделе «Сесть за стол».',
+        'mp.howItWorks': 'Как это работает:',
+        'mp.howItWorksText': 'Один игрок открывает стол и получает 4-буквенный код. Соперник вводит этот код и садится за стол. Вы играете друг против друга в реальном времени — каждый на своём устройстве.',
+        'mp.profileNote': 'Твоё имя, аватар и рейтинг сохраняются на этом устройстве. Чем больше партий ты играешь, тем точнее твой рейтинг.',
+        'game.round': 'Раунд', 'game.target': 'Цель', 'game.yourTurn': 'Твой ход',
+        'game.roll': 'Бросить', 'game.nextRoll': 'Следующий<br>бросок',
+        'game.hitChance': 'Шансы попадания', 'game.off': 'выкл', 'game.on': 'вкл',
+        'end.winner': 'Победитель', 'end.mainMenu': 'Главное меню',
+        'end.newSession': 'Новая сессия', 'end.nextGame': 'Следующая партия',
+        'header.menu.title': 'Зал костей', 'header.menu.sub': 'Пять игр на выбор',
+        'header.littlehell.title': 'Little Hell', 'header.littlehell.sub': 'Три кости · три броска · 16 раундов',
+        'header.chicago.title': 'Чикаго', 'header.chicago.sub': 'Одиннадцать раундов · две кости',
+        'header.chicago2.title': 'The Levee', 'header.chicago2.sub': 'Два броска · рискуй и выигрывай',
+        'header.tschigg.title': 'Tschigg', 'header.tschigg.sub': 'Три кости · два режима',
+        'header.dekade.title': 'Декада', 'header.dekade.sub': 'Очки 0–9 · ноль наказывает',
+        'header.hof.title': 'Зал славы', 'header.hof.sub': 'Твои лучшие результаты',
+        'toast.nameMissing': 'Имя не указано', 'toast.enterName': 'Пожалуйста, введите имя игрока',
+        'toast.error': 'Ошибка', 'toast.connectionFailed': 'Ошибка подключения',
+        'toast.full': 'Занято', 'toast.tableFull': 'Стол уже полон',
+        'toast.unknown': 'Неизвестно', 'toast.noTable': 'Нет стола с таким кодом',
+        'toast.occupied': 'Занят', 'toast.gameRunning': 'Партия уже идёт',
+        'toast.dissolved': 'Закрыт', 'toast.tableClosed': 'Стол был закрыт',
+        'toast.connecting': 'Подключение', 'toast.anonLogin': 'Анонимный вход …',
+        'toast.loginFailed': 'Ошибка входа — проверьте подключение к Интернету',
+        'toast.codeLength': 'Код должен содержать 4 буквы',
+        'toast.alreadySeated': 'Ты уже за этим столом',
+        'toast.noFreeCode': 'Нет свободного кода — попробуй снова',
+        'toast.firebaseError': 'Не удалось загрузить Firebase',
+        'toast.orderDrawn': 'Порядок игры определён',
+        'toast.isTurn': ' ходит · передайте устройство',
+      },
+      ar: {
+        'topbar.back': '← لعبة جديدة', 'topbar.stats': 'إحصائيات', 'topbar.rules': 'القواعد',
+        'sound.on': 'صوت مفعّل', 'sound.off': 'صوت معطّل',
+        'sound.master': '🔊 عام', 'sound.music': '🎵 موسيقى', 'sound.ambience': '🍺 خلفية',
+        'sound.reaction': '🎉 ردود فعل', 'sound.dice': '🎲 نرد', 'sound.random': '🍻 أصوات عشوائية',
+        'sound.test': 'معاينة', 'sound.reset': 'إعادة',
+        'settings.theme': 'المظهر', 'settings.nightMode': 'الوضع الليلي', 'settings.language': 'اللغة',
+        'setup.yourName': 'اسمك', 'setup.opponents': 'عدد الخصوم',
+        'setup.hotseatHint': 'لكل خصم: ذكاء اصطناعي أو لاعب (مرروا الجهاز).',
+        'setup.start': 'ابدأ', 'setup.roundsHint': '١٦ جولة · أهداف من ٣ إلى ١٨',
+        'setup.online': '🎲 العب أونلاين ضد خصوم حقيقيين',
+        'setup.onlineHint': 'العب عبر الشبكة بتصنيفك الخاص',
+        'setup.ai': 'ذ.ا.', 'setup.human': 'لاعب',
+        'setup.withFlip': 'مع تدوير', 'setup.withoutFlip': 'بدون تدوير',
+        'setup.flipLabel': 'تدوير؟',
+        'setup.flipHint': 'مع التدوير تنقلب الشاشة ١٨٠° عند كل تبديل — للعب وجهاً لوجه.',
+        'mp.playOnline': 'اللعب أونلاين', 'mp.openTable': 'فتح طاولة',
+        'mp.createTable': 'فتح طاولة جديدة', 'mp.or': '— أو —',
+        'mp.joinTableLabel': 'الانضمام لطاولة', 'mp.join': 'انضمام', 'mp.back': 'رجوع',
+        'mp.yourTable': 'طاولتك', 'mp.startGame': 'بدء اللعبة', 'mp.leaveTable': 'مغادرة الطاولة',
+        'mp.waitingOpponent': 'بانتظار الخصم',
+        'mp.codeHint': 'أعطِ هذا الرمز لخصمك:',
+        'mp.codeExplain': 'يدخل خصمك هذا الرمز في "الانضمام لطاولة".',
+        'mp.howItWorks': 'كيف يعمل:',
+        'mp.howItWorksText': 'لاعب يفتح طاولة ويحصل على رمز من ٤ أحرف. الخصم يدخل الرمز ويجلس. تلعبون ضد بعض في الوقت الحقيقي — كل واحد على جهازه.',
+        'mp.profileNote': 'اسمك وصورتك وتصنيفك محفوظة على هذا الجهاز. كلما لعبت أكثر، أصبح تصنيفك أدق.',
+        'game.round': 'جولة', 'game.target': 'هدف', 'game.yourTurn': 'دورك',
+        'game.roll': 'ارمِ', 'game.nextRoll': 'الرمية<br>التالية',
+        'game.hitChance': 'احتمالات الإصابة', 'game.off': 'إيقاف', 'game.on': 'تشغيل',
+        'end.winner': 'الفائز', 'end.mainMenu': 'القائمة الرئيسية',
+        'end.newSession': 'جلسة جديدة', 'end.nextGame': 'اللعبة التالية',
+        'header.menu.title': 'صالة النرد', 'header.menu.sub': 'خمس ألعاب للاختيار',
+        'header.littlehell.title': 'Little Hell', 'header.littlehell.sub': 'ثلاثة نرد · ثلاث رميات · ١٦ جولة',
+        'header.chicago.title': 'شيكاغو', 'header.chicago.sub': 'إحدى عشرة جولة · نردان',
+        'header.chicago2.title': 'The Levee', 'header.chicago2.sub': 'رميتان · خاطر واربح',
+        'header.tschigg.title': 'Tschigg', 'header.tschigg.sub': 'ثلاثة نرد · وضعان',
+        'header.dekade.title': 'عقد', 'header.dekade.sub': 'نقاط ٠–٩ · الصفر يعاقب',
+        'header.hof.title': 'قاعة المجد', 'header.hof.sub': 'أفضل نتائجك',
+        'toast.nameMissing': 'الاسم مفقود', 'toast.enterName': 'الرجاء إدخال اسم اللاعب',
+        'toast.error': 'خطأ', 'toast.connectionFailed': 'فشل الاتصال',
+        'toast.full': 'ممتلئ', 'toast.tableFull': 'الطاولة ممتلئة بالفعل',
+        'toast.unknown': 'غير معروف', 'toast.noTable': 'لا توجد طاولة بهذا الرمز',
+        'toast.occupied': 'مشغولة', 'toast.gameRunning': 'اللعبة قيد التقدم بالفعل',
+        'toast.dissolved': 'مغلقة', 'toast.tableClosed': 'تم إغلاق الطاولة',
+        'toast.connecting': 'جارٍ الاتصال', 'toast.anonLogin': 'تسجيل دخول مجهول …',
+        'toast.loginFailed': 'فشل تسجيل الدخول — تحقق من اتصالك بالإنترنت',
+        'toast.codeLength': 'يجب أن يكون الرمز ٤ أحرف',
+        'toast.alreadySeated': 'أنت بالفعل على هذه الطاولة',
+        'toast.noFreeCode': 'لا يوجد رمز حر — حاول مجدداً',
+        'toast.firebaseError': 'تعذر تحميل Firebase',
+        'toast.orderDrawn': 'تم تحديد ترتيب اللعب',
+        'toast.isTurn': ' يلعب · مرر الجهاز',
+      },
+      zh: {
+        'topbar.back': '← 新游戏', 'topbar.stats': '统计', 'topbar.rules': '规则',
+        'sound.on': '声音开', 'sound.off': '声音关',
+        'sound.master': '🔊 总音量', 'sound.music': '🎵 音乐', 'sound.ambience': '🍺 背景',
+        'sound.reaction': '🎉 反应', 'sound.dice': '🎲 骰子', 'sound.random': '🍻 随机音效',
+        'sound.test': '试听', 'sound.reset': '重置',
+        'settings.theme': '外观', 'settings.nightMode': '夜间模式', 'settings.language': '语言',
+        'setup.yourName': '你的名字', 'setup.opponents': '对手数量',
+        'setup.hotseatHint': '每个对手可选：AI 或真人（热座模式，轮流传递设备）。',
+        'setup.start': '开始', 'setup.roundsHint': '16 轮 · 目标 3 至 18',
+        'setup.online': '🎲 在线对战真人',
+        'setup.onlineHint': '通过网络对战，拥有你自己的等级分',
+        'setup.ai': 'AI', 'setup.human': '真人',
+        'setup.withFlip': '翻转', 'setup.withoutFlip': '不翻转',
+        'setup.flipLabel': '翻转？',
+        'setup.flipHint': '开启翻转后，每次换人时屏幕旋转 180°——适合面对面游玩。',
+        'mp.playOnline': '在线游戏', 'mp.openTable': '开设牌桌',
+        'mp.createTable': '开设新牌桌', 'mp.or': '— 或 —',
+        'mp.joinTableLabel': '加入牌桌', 'mp.join': '加入', 'mp.back': '返回',
+        'mp.yourTable': '你的牌桌', 'mp.startGame': '开始游戏', 'mp.leaveTable': '离开牌桌',
+        'mp.waitingOpponent': '等待对手',
+        'mp.codeHint': '将此代码发给你的对手：',
+        'mp.codeExplain': '你的对手在"加入牌桌"中输入此代码。',
+        'mp.howItWorks': '玩法说明：',
+        'mp.howItWorksText': '一位玩家开设牌桌并获得一个 4 字母代码。对手输入代码入座。你们实时对战——各用自己的设备。',
+        'mp.profileNote': '你的名字、头像和等级分保存在此设备上。玩的越多，等级分越精确。',
+        'game.round': '回合', 'game.target': '目标', 'game.yourTurn': '轮到你',
+        'game.roll': '掷骰', 'game.nextRoll': '下一次<br>掷骰',
+        'game.hitChance': '命中概率', 'game.off': '关', 'game.on': '开',
+        'end.winner': '胜者', 'end.mainMenu': '主菜单',
+        'end.newSession': '新对局', 'end.nextGame': '下一局',
+        'header.menu.title': '骰子大厅', 'header.menu.sub': '五款游戏可选',
+        'header.littlehell.title': 'Little Hell', 'header.littlehell.sub': '三颗骰子 · 三次掷骰 · 16 回合',
+        'header.chicago.title': '芝加哥', 'header.chicago.sub': '十一回合 · 两颗骰子',
+        'header.chicago2.title': 'The Levee', 'header.chicago2.sub': '两次掷骰 · 冒险求胜',
+        'header.tschigg.title': 'Tschigg', 'header.tschigg.sub': '三颗骰子 · 两种模式',
+        'header.dekade.title': '十年', 'header.dekade.sub': '点数 0–9 · 零受罚',
+        'header.hof.title': '名人堂', 'header.hof.sub': '你的最佳成绩',
+        'toast.nameMissing': '缺少名字', 'toast.enterName': '请输入你的玩家名',
+        'toast.error': '错误', 'toast.connectionFailed': '连接失败',
+        'toast.full': '已满', 'toast.tableFull': '牌桌已满',
+        'toast.unknown': '未知', 'toast.noTable': '没有此代码的牌桌',
+        'toast.occupied': '占用中', 'toast.gameRunning': '游戏已在进行中',
+        'toast.dissolved': '已关闭', 'toast.tableClosed': '牌桌已关闭',
+        'toast.connecting': '连接中', 'toast.anonLogin': '匿名登录中 …',
+        'toast.loginFailed': '登录失败——请检查网络连接',
+        'toast.codeLength': '代码须为4个字母',
+        'toast.alreadySeated': '你已在此牌桌',
+        'toast.noFreeCode': '无可用代码——请重试',
+        'toast.firebaseError': '无法加载 Firebase',
+        'toast.orderDrawn': '已抽签决定顺序',
+        'toast.isTurn': ' 的回合 · 传递设备',
+      },
+      it: {
+        'topbar.back': '← Nuova partita', 'topbar.stats': 'Statistiche', 'topbar.rules': 'Regole',
+        'sound.on': 'Audio attivo', 'sound.off': 'Audio disattivato',
+        'sound.master': '🔊 Generale', 'sound.music': '🎵 Musica', 'sound.ambience': '🍺 Ambiente',
+        'sound.reaction': '🎉 Reazioni', 'sound.dice': '🎲 Dadi', 'sound.random': '🍻 Suoni casuali',
+        'sound.test': 'Anteprima', 'sound.reset': 'Reset',
+        'settings.theme': 'Aspetto', 'settings.nightMode': 'Modalità notte', 'settings.language': 'Lingua',
+        'setup.yourName': 'Il tuo nome', 'setup.opponents': 'Numero di avversari',
+        'setup.hotseatHint': 'Per ogni avversario: IA o umano (hot-seat, passatevi il dispositivo).',
+        'setup.start': 'Inizia', 'setup.roundsHint': '16 round · obiettivi da 3 a 18',
+        'setup.online': '🎲 Gioca online contro avversari reali',
+        'setup.onlineHint': 'Gioca in rete con il tuo rating personale',
+        'setup.ai': 'IA', 'setup.human': 'Umano',
+        'setup.withFlip': 'Con rotazione', 'setup.withoutFlip': 'Senza rotazione',
+        'setup.flipLabel': 'Ruotare?',
+        'setup.flipHint': 'Con la rotazione lo schermo ruota di 180° ad ogni cambio giocatore — per giocare faccia a faccia.',
+        'mp.playOnline': 'Gioca online', 'mp.openTable': 'APRI TAVOLO',
+        'mp.createTable': 'Apri un nuovo tavolo', 'mp.or': '— oppure —',
+        'mp.joinTableLabel': 'UNISCITI AL TAVOLO', 'mp.join': 'Unisciti', 'mp.back': 'Indietro',
+        'mp.yourTable': 'Il tuo tavolo', 'mp.startGame': 'Inizia partita', 'mp.leaveTable': 'Lascia tavolo',
+        'mp.waitingOpponent': 'In attesa dell\'avversario',
+        'mp.codeHint': 'Dai questo codice al tuo avversario:',
+        'mp.codeExplain': 'Il tuo avversario inserisce questo codice in "Unisciti al tavolo".',
+        'mp.howItWorks': 'Come funziona:',
+        'mp.howItWorksText': 'Un giocatore apre un tavolo e riceve un codice di 4 lettere. L\'avversario inserisce il codice e si siede. Giocate uno contro l\'altro in tempo reale — ognuno sul proprio dispositivo.',
+        'mp.profileNote': 'Il tuo nome, avatar e rating sono salvati su questo dispositivo. Più partite giochi, più preciso diventa il tuo rating.',
+        'game.round': 'Round', 'game.target': 'Obiettivo', 'game.yourTurn': 'Tocca a te',
+        'game.roll': 'Tira', 'game.nextRoll': 'Prossimo<br>tiro',
+        'game.hitChance': 'Probabilità', 'game.off': 'off', 'game.on': 'on',
+        'end.winner': 'Vincitore', 'end.mainMenu': 'Menu principale',
+        'end.newSession': 'Nuova sessione', 'end.nextGame': 'Prossima partita',
+        'header.menu.title': 'Sala dei dadi', 'header.menu.sub': 'Cinque giochi a scelta',
+        'header.littlehell.title': 'Little Hell', 'header.littlehell.sub': 'Tre dadi · tre tiri · 16 round',
+        'header.chicago.title': 'Chicago', 'header.chicago.sub': 'Undici round · due dadi',
+        'header.chicago2.title': 'The Levee', 'header.chicago2.sub': 'Due tiri · rischia e vinci',
+        'header.tschigg.title': 'Tschigg', 'header.tschigg.sub': 'Tre dadi · due modalità',
+        'header.dekade.title': 'Decade', 'header.dekade.sub': 'Punti 0–9 · lo zero punisce',
+        'header.hof.title': 'Hall of Fame', 'header.hof.sub': 'I tuoi migliori risultati',
+        'toast.nameMissing': 'Nome mancante', 'toast.enterName': 'Inserisci il tuo nome giocatore',
+        'toast.error': 'Errore', 'toast.connectionFailed': 'Connessione fallita',
+        'toast.full': 'Pieno', 'toast.tableFull': 'Il tavolo è già pieno',
+        'toast.unknown': 'Sconosciuto', 'toast.noTable': 'Nessun tavolo con questo codice',
+        'toast.occupied': 'Occupato', 'toast.gameRunning': 'Partita già in corso',
+        'toast.dissolved': 'Chiuso', 'toast.tableClosed': 'Il tavolo è stato chiuso',
+        'toast.connecting': 'Connessione', 'toast.anonLogin': 'Accesso anonimo …',
+        'toast.loginFailed': 'Accesso fallito — controlla la connessione Internet',
+        'toast.codeLength': 'Il codice deve avere 4 lettere',
+        'toast.alreadySeated': 'Sei già a questo tavolo',
+        'toast.noFreeCode': 'Nessun codice libero — riprova',
+        'toast.firebaseError': 'Impossibile caricare Firebase',
+        'toast.orderDrawn': 'Ordine di gioco sorteggiato',
+        'toast.isTurn': ' gioca · passa il dispositivo',
+      },
+    };
+
+    let currentLang = 'de';
+
+    function loadSettings() {
+      try {
+        const s = JSON.parse(localStorage.getItem(SETTINGS_KEY));
+        return s || {};
+      } catch (e) { return {}; }
+    }
+    function saveSettings(s) {
+      try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(s)); } catch (e) {}
+    }
+
+    // Translate a key — returns the translation or the key itself as fallback
+    function t(key) {
+      const dict = LANGS[currentLang] || LANGS.de;
+      return dict[key] || LANGS.de[key] || key;
+    }
+
+    // Apply translations to all data-i18n elements
+    function applyLang() {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const val = t(key);
+        if (el.hasAttribute('data-i18n-html')) {
+          el.innerHTML = val;
+        } else {
+          el.textContent = val;
+        }
+      });
+      // Placeholders
+      document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+        const key = el.getAttribute('data-i18n-ph');
+        el.placeholder = t(key);
+      });
+      // Update HEADERS object for dynamic showScreen calls
+      HEADERS.menu.title = t('header.menu.title');
+      HEADERS.menu.sub = t('header.menu.sub');
+      HEADERS.littlehell.title = t('header.littlehell.title');
+      HEADERS.littlehell.sub = t('header.littlehell.sub');
+      HEADERS.chicago.title = t('header.chicago.title');
+      HEADERS.chicago.sub = t('header.chicago.sub');
+      HEADERS.chicago2.title = t('header.chicago2.title');
+      HEADERS.chicago2.sub = t('header.chicago2.sub');
+      HEADERS.tschigg.title = t('header.tschigg.title');
+      HEADERS.tschigg.sub = t('header.tschigg.sub');
+      HEADERS.dekade.title = t('header.dekade.title');
+      HEADERS.dekade.sub = t('header.dekade.sub');
+      HEADERS.hof.title = t('header.hof.title');
+      HEADERS.hof.sub = t('header.hof.sub');
+      // Refresh current header
+      const g = activeGame || 'menu';
+      if (HEADERS[g]) {
+        $('header-title').textContent = HEADERS[g].title;
+        if ($('header-sub').style.display !== 'none') $('header-sub').textContent = HEADERS[g].sub;
+      }
+      // HTML lang attribute
+      document.documentElement.lang = currentLang;
+      // RTL for Arabic
+      if (currentLang === 'ar') {
+        document.documentElement.dir = 'rtl';
+      } else {
+        document.documentElement.removeAttribute('dir');
+      }
+    }
+
+    function setLang(lang) {
+      if (!LANGS[lang]) return;
+      currentLang = lang;
+      const s = loadSettings();
+      s.lang = lang;
+      saveSettings(s);
+      // Update lang grid active state
+      document.querySelectorAll('.lang-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.lang === lang);
+      });
+      applyLang();
+    }
+
+    function setTheme(night) {
+      if (night) {
+        document.documentElement.removeAttribute('data-theme');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'day');
+      }
+      const s = loadSettings();
+      s.nightMode = night;
+      saveSettings(s);
+      const toggle = $('theme-toggle');
+      if (toggle) toggle.checked = night;
+    }
+
+    function init() {
+      const s = loadSettings();
+      // Detect language from browser if no saved preference
+      if (!s.lang) {
+        const browserLang = (navigator.language || 'de').slice(0, 2).toLowerCase();
+        s.lang = LANGS[browserLang] ? browserLang : 'de';
+      }
+      currentLang = s.lang;
+      // Night mode defaults to true (the original speakeasy theme)
+      if (s.nightMode === undefined) s.nightMode = true;
+
+      // Apply theme
+      setTheme(s.nightMode);
+
+      // Apply language
+      document.querySelectorAll('.lang-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.lang === currentLang);
+      });
+      applyLang();
+
+      // Settings button toggle
+      $('settings-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        const pop = $('settings-pop');
+        const wasOpen = pop.classList.contains('open');
+        // Close sound popup if open
+        $('sound-pop').classList.remove('open');
+        pop.classList.toggle('open', !wasOpen);
+      });
+
+      // Close settings popup on outside click
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('#settings-pop') && !e.target.closest('#settings-btn')) {
+          $('settings-pop').classList.remove('open');
+        }
+      });
+
+      // Theme toggle
+      $('theme-toggle').addEventListener('change', (e) => {
+        setTheme(e.target.checked);
+      });
+
+      // Language buttons
+      $('lang-grid').addEventListener('click', (e) => {
+        const btn = e.target.closest('.lang-btn');
+        if (btn) setLang(btn.dataset.lang);
+      });
+    }
+
+    return { init, t, setLang, setTheme, applyLang, get lang() { return currentLang; } };
+  })();
+
+  // Global shortcut for translations
+  const t = I18N.t;
+
+  // ═══════════════════════════════════════════════════════════════════════
   // INIT
   // ═══════════════════════════════════════════════════════════════════════
   hell.session = clone(persist.data.hellSession) || null;
@@ -6031,6 +6714,8 @@
   initCloud();
   // Firebase im Hintergrund initialisieren (Auth erst bei Bedarf)
   try { MP.init(); } catch (e) {}
+  // i18n & Settings initialisieren
+  try { I18N.init(); } catch (e) {}
 })();
 </script>
 </body>
