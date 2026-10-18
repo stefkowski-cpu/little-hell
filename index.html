@@ -4573,6 +4573,7 @@
   };
 
   hell.nextTurnIfComputer = function() {
+    if (MP.mpActive) return; // Im Multiplayer nie automatisch würfeln
     const p = hell.state.players[hell.state.currentIdx];
     if (!p.isHuman && hell.state.phase === 'ready') {
       setTimeout(() => { if (hell.state.phase === 'ready') hell.rollDice(); }, 700);
@@ -5682,6 +5683,15 @@
 
     MP.mpActive = true;
     hell.beginGame(players);
+
+    // ── FIX: Reihenfolge deterministisch setzen ──
+    // hell.beginGame() würfelt die Reihenfolge zufällig aus (hellTurnOrder),
+    // aber im MP muss sie auf beiden Clients identisch sein.
+    // Host = Index 0 geht immer zuerst (passt zu turnUid: uids[0] in hostStartGame).
+    const mpOrder = players.map((_, i) => i); // [0, 1] – Host first
+    hell.state.order = mpOrder;
+    hell.state.turnPos = 0;
+    hell.state.currentIdx = mpOrder[0]; // = 0 = Host
 
     // Wenn ich NICHT am Zug bin, Buttons verstecken
     MP.syncTurnUI();
