@@ -13,6 +13,9 @@
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
 <link rel="manifest" href="manifest.json">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Limelight&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
@@ -113,6 +116,94 @@
     66%  { transform: translate(20vw, -45vh) scale(1.3); opacity: 0.5; }
     100% { transform: translate(60vw, -30vh) scale(1.05); opacity: 0.3; }
   }
+  /* === MULTIPLAYER LOBBY === */
+  .mp-lobby { text-align: center; }
+  .mp-section-title {
+    font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 0.2em;
+    color: var(--gold-light); text-transform: uppercase; margin-bottom: 14px;
+  }
+  .mp-card {
+    background: rgba(0,0,0,0.35); border: 1px solid var(--gold-deep);
+    border-radius: 6px; padding: 18px; margin-bottom: 16px;
+  }
+  .mp-code {
+    font-family: 'Limelight', serif; font-size: 42px; letter-spacing: 0.3em;
+    color: var(--gold); text-shadow: 0 0 20px rgba(212,175,55,0.4);
+    margin: 10px 0 6px;
+  }
+  .mp-code-hint {
+    font-family: 'IM Fell English', serif; font-size: 12px; color: var(--cream-dim);
+    font-style: italic; margin-bottom: 12px;
+  }
+  .mp-code-input {
+    font-family: 'Limelight', serif; font-size: 32px; letter-spacing: 0.4em;
+    text-align: center; width: 180px; background: rgba(0,0,0,0.5);
+    border: 1px solid var(--gold-deep); color: var(--gold); padding: 8px 12px;
+    border-radius: 4px; text-transform: uppercase;
+  }
+  .mp-code-input::placeholder { color: var(--gold-deep); letter-spacing: 0.3em; font-size: 24px; }
+  .mp-player-list { margin: 14px 0; }
+  .mp-player-row {
+    display: flex; align-items: center; gap: 10px; padding: 8px 12px;
+    border-bottom: 1px solid rgba(212,175,55,0.15);
+  }
+  .mp-player-row img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid var(--gold-deep); }
+  .mp-player-name { flex: 1; font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--cream); }
+  .mp-player-rating { font-family: 'Cinzel', serif; font-size: 11px; color: var(--gold-dim); letter-spacing: 0.1em; }
+  .mp-waiting {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-family: 'IM Fell English', serif; font-size: 14px; color: var(--cream-dim);
+    font-style: italic; padding: 12px 0;
+  }
+  .mp-waiting-dot { animation: mpPulse 1.4s ease-in-out infinite; }
+  .mp-waiting-dot:nth-child(2) { animation-delay: 0.2s; }
+  .mp-waiting-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes mpPulse { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+  .mp-or {
+    font-family: 'IM Fell English', serif; font-size: 13px; color: var(--cream-dim);
+    font-style: italic; margin: 18px 0;
+  }
+  .mp-profile-row {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+  }
+  .mp-avatar-pick {
+    width: 56px; height: 56px; border-radius: 50%; object-fit: cover;
+    border: 2px solid var(--gold-deep); cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .mp-avatar-pick:hover, .mp-avatar-pick.selected { border-color: var(--gold); box-shadow: 0 0 12px rgba(212,175,55,0.4); }
+  .mp-name-input {
+    flex: 1; font-family: 'Cormorant Garamond', serif; font-size: 18px;
+    background: rgba(0,0,0,0.4); border: 1px solid var(--gold-deep);
+    color: var(--cream); padding: 8px 12px; border-radius: 4px;
+  }
+  .mp-name-input::placeholder { color: var(--cream-dim); }
+  .mp-rating-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-family: 'Cinzel', serif; font-size: 11px; color: var(--gold-light);
+    background: rgba(212,175,55,0.1); border: 1px solid var(--gold-deep);
+    padding: 3px 10px; border-radius: 12px; letter-spacing: 0.08em;
+  }
+  .mp-info-text {
+    font-family: 'IM Fell English', serif; font-size: 12px; color: var(--cream-dim);
+    line-height: 1.6; text-align: left; margin-top: 14px; font-style: italic;
+  }
+  .mp-turn-indicator {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+    text-align: center; padding: 8px; font-family: 'Cinzel', serif;
+    font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase;
+    background: rgba(139,30,45,0.9); color: var(--cream);
+    transform: translateY(-100%); transition: transform 0.3s ease;
+  }
+  .mp-turn-indicator.visible { transform: translateY(0); }
+  .mp-disconnect {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 11;
+    text-align: center; padding: 10px; font-family: 'Cinzel', serif;
+    font-size: 11px; letter-spacing: 0.1em;
+    background: rgba(0,0,0,0.9); color: var(--oxblood-light);
+    display: none;
+  }
+
   .app {
     transition: transform 0.45s ease;
     position: relative;
@@ -1635,6 +1726,82 @@
         <button id="h-start-btn" class="primary-btn">Beginnen</button>
       </div>
       <p style="margin-top:14px;text-align:center;font-size:12px;color:var(--cream-dim);font-style:italic">16 Runden · Ziele 3 bis 18</p>
+      <div id="mp-online-section" style="margin-top:22px;padding-top:18px;border-top:1px solid var(--gold-deep);text-align:center">
+        <button class="primary-btn" id="mp-online-btn" style="width:100%;background:linear-gradient(135deg, rgba(139,30,45,0.5), rgba(139,30,45,0.3));border-color:var(--oxblood-light)">
+          🎲 Online gegen echte Gegner
+        </button>
+        <p style="margin-top:6px;font-size:11px;color:var(--cream-dim);font-style:italic">Spiel über das Netzwerk mit eigenem Rating</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MULTIPLAYER LOBBY -->
+  <section id="screen-mp-lobby" class="screen">
+    <div class="setup-card mp-lobby">
+      <div class="mp-section-title">Online Spielen</div>
+
+      <!-- Profil -->
+      <div class="mp-card">
+        <div class="mp-profile-row">
+          <img id="mp-avatar" class="mp-avatar-pick" src="avatars/m1.webp" alt="Avatar">
+          <input type="text" id="mp-name" class="mp-name-input" placeholder="Dein Name" maxlength="14" autocomplete="off">
+        </div>
+        <div id="mp-rating-display" class="mp-rating-badge">Rating: 1500 ± 350</div>
+      </div>
+
+      <!-- Raum erstellen -->
+      <div class="mp-card">
+        <div style="font-family:'Cinzel',serif;font-size:11px;color:var(--gold-light);letter-spacing:0.15em;margin-bottom:10px">TISCH ERÖFFNEN</div>
+        <button class="primary-btn" id="mp-create-btn" style="width:100%">Neuen Tisch eröffnen</button>
+      </div>
+
+      <div class="mp-or">— oder —</div>
+
+      <!-- Raum beitreten -->
+      <div class="mp-card">
+        <div style="font-family:'Cinzel',serif;font-size:11px;color:var(--gold-light);letter-spacing:0.15em;margin-bottom:10px">AN TISCH SETZEN</div>
+        <div style="display:flex;gap:10px;justify-content:center;align-items:center">
+          <input type="text" id="mp-join-code" class="mp-code-input" placeholder="CODE" maxlength="4" autocomplete="off">
+          <button class="primary-btn" id="mp-join-btn">Beitreten</button>
+        </div>
+      </div>
+
+      <!-- Erklärung -->
+      <div class="mp-info-text">
+        <strong style="color:var(--gold-light)">So funktioniert's:</strong><br>
+        Ein Spieler eröffnet einen Tisch und erhält einen 4-Buchstaben-Code.
+        Der Gegner gibt diesen Code ein und setzt sich dazu.
+        Ihr spielt gegeneinander in Echtzeit — jeder auf seinem eigenen Gerät.<br><br>
+        Dein Name, Avatar und Rating bleiben auf diesem Gerät gespeichert.
+        Je mehr Partien du spielst, desto genauer wird dein Rating.
+      </div>
+
+      <div class="btn-row" style="margin-top:18px">
+        <button class="secondary-btn" id="mp-back-btn">Zurück</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MULTIPLAYER WARTERAUM -->
+  <section id="screen-mp-room" class="screen">
+    <div class="setup-card mp-lobby">
+      <div class="mp-section-title">Dein Tisch</div>
+      <div class="mp-card">
+        <div style="font-family:'IM Fell English',serif;font-size:13px;color:var(--cream-dim);font-style:italic;margin-bottom:4px">Gib diesen Code an deinen Gegner:</div>
+        <div class="mp-code" id="mp-room-code">—</div>
+        <div class="mp-code-hint">Dein Gegner gibt diesen Code unter „An Tisch setzen" ein.</div>
+      </div>
+      <div class="mp-player-list" id="mp-room-players"></div>
+      <div class="mp-waiting" id="mp-waiting">
+        <span>Warte auf Gegner</span>
+        <span class="mp-waiting-dot">·</span>
+        <span class="mp-waiting-dot">·</span>
+        <span class="mp-waiting-dot">·</span>
+      </div>
+      <button class="primary-btn" id="mp-start-game-btn" style="display:none;width:100%;margin-top:12px">Partie starten</button>
+      <div class="btn-row" style="margin-top:18px">
+        <button class="secondary-btn" id="mp-leave-btn">Tisch verlassen</button>
+      </div>
     </div>
   </section>
 
@@ -2842,6 +3009,8 @@
     hellSetup:      $('screen-hell-setup'),
     hellGame:       $('screen-hell-game'),
     hellEnd:        $('screen-hell-end'),
+    mpLobby:        $('screen-mp-lobby'),
+    mpRoom:         $('screen-mp-room'),
   };
   let activeGame = null;
 
@@ -2907,7 +3076,7 @@
     const inHof = name === 'hof';
     let g;
     if (inHof) g = 'hof';
-    else if (name === 'hellSetup' || name === 'hellGame' || name === 'hellEnd') g = 'littlehell';
+    else if (name === 'hellSetup' || name === 'hellGame' || name === 'hellEnd' || name === 'mpLobby' || name === 'mpRoom') g = 'littlehell';
     else g = 'menu';
 
     // Session-Status beim Setup-Screen aktualisieren
