@@ -327,12 +327,43 @@
     background: rgba(0,0,0,0.82); display: flex; align-items: center; justify-content: center;
     cursor: pointer; animation: avFadeIn .2s ease;
   }
-  .avatar-lightbox img {
-    width: min(70vw, 70vh, 320px); height: min(70vw, 70vh, 320px);
+  .avatar-lightbox-card {
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    max-width: min(85vw, 340px); cursor: default;
+  }
+  .avatar-lightbox-card img {
+    width: min(55vw, 55vh, 200px); height: min(55vw, 55vh, 200px);
     border-radius: 50%; object-fit: cover;
     border: 3px solid var(--gold); box-shadow: 0 0 40px rgba(212,175,55,0.4);
     animation: avPop .25s ease;
   }
+  .avatar-lb-name {
+    font-family: 'Cinzel', serif; font-size: 16px; color: var(--gold-light);
+    text-align: center; letter-spacing: 0.05em;
+  }
+  .avatar-lb-story {
+    font-family: 'IM Fell English', serif; font-size: 13px; color: var(--cream);
+    text-align: center; line-height: 1.5; opacity: 0.88;
+    min-height: 2.5em;
+  }
+  .avatar-lb-edit {
+    font-size: 11px; color: var(--gold-dim); cursor: pointer; opacity: 0.7;
+    background: none; border: none; font-family: inherit; letter-spacing: 0.04em;
+  }
+  .avatar-lb-edit:hover { opacity: 1; color: var(--gold); }
+  .avatar-lb-textarea {
+    width: 100%; min-height: 70px; padding: 8px; border-radius: 3px;
+    background: rgba(0,0,0,0.5); border: 1px solid var(--gold-dim);
+    color: var(--cream); font-family: 'IM Fell English', serif; font-size: 13px;
+    line-height: 1.5; resize: vertical;
+  }
+  .avatar-lb-btn-row { display: flex; gap: 8px; }
+  .avatar-lb-btn {
+    font-size: 11px; padding: 4px 14px; border-radius: 3px; cursor: pointer;
+    font-family: 'Cinzel', serif; letter-spacing: 0.04em;
+    border: 1px solid var(--gold-dim); background: rgba(212,175,55,0.15); color: var(--gold-light);
+  }
+  .avatar-lb-btn:hover { background: rgba(212,175,55,0.3); }
   @keyframes avFadeIn { from { opacity: 0 } to { opacity: 1 } }
   @keyframes avPop { from { transform: scale(0.6); opacity: 0 } to { transform: scale(1); opacity: 1 } }
   .cside-name {
@@ -2292,15 +2323,72 @@
     document.addEventListener('click', (e) => { if (!e.target.closest('#sound-pop') && !e.target.closest('#sound-btn')) pop.classList.remove('open'); });
     sync();
   })();
-  // Avatar-Lightbox: Klick auf Avatar zeigt Großansicht
+  // Avatar-Lightbox: Klick auf Avatar zeigt Großansicht + Story
+  function avatarKeyFromSrc(src) {
+    const m = src.match(/avatars\/(m\d|f\d)/);
+    return m ? m[1] : null;
+  }
+  function avatarNameFromKey(key) {
+    if (!key) return '';
+    const idx = parseInt(key[1]) - 1;
+    return key[0] === 'f' ? (OPPONENT_NAMES_F[idx] || '') : (OPPONENT_NAMES_M[idx] || '');
+  }
+  function openAvatarLightbox(src) {
+    const key = avatarKeyFromSrc(src);
+    const name = avatarNameFromKey(key);
+    const story = key ? getStory(key) : '';
+    const lb = document.createElement('div');
+    lb.className = 'avatar-lightbox';
+    const card = document.createElement('div');
+    card.className = 'avatar-lightbox-card';
+    card.innerHTML = `<img src="${src}" alt="">` +
+      (name ? `<div class="avatar-lb-name">${name}</div>` : '') +
+      (key ? `<div class="avatar-lb-story">${story || '<em>Keine Geschichte</em>'}</div>
+              <button type="button" class="avatar-lb-edit">✎ Story bearbeiten</button>` : '');
+    lb.appendChild(card);
+    lb.addEventListener('click', (ev) => { if (ev.target === lb) lb.remove(); });
+    // Edit-Button
+    const editBtn = card.querySelector('.avatar-lb-edit');
+    if (editBtn && key) {
+      editBtn.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        const storyEl = card.querySelector('.avatar-lb-story');
+        const current = getStory(key);
+        storyEl.innerHTML = `<textarea class="avatar-lb-textarea">${current}</textarea>
+          <div class="avatar-lb-btn-row" style="margin-top:6px">
+            <button type="button" class="avatar-lb-btn av-save">Speichern</button>
+            <button type="button" class="avatar-lb-btn av-cancel">Abbrechen</button>
+            <button type="button" class="avatar-lb-btn av-reset" style="margin-left:auto;opacity:0.6">Reset</button>
+          </div>`;
+        editBtn.style.display = 'none';
+        const ta = storyEl.querySelector('textarea');
+        ta.focus();
+        ta.addEventListener('click', (ev2) => ev2.stopPropagation());
+        storyEl.querySelector('.av-save').addEventListener('click', (ev2) => {
+          ev2.stopPropagation();
+          saveStory(key, ta.value);
+          storyEl.innerHTML = ta.value || '<em>Keine Geschichte</em>';
+          editBtn.style.display = '';
+        });
+        storyEl.querySelector('.av-cancel').addEventListener('click', (ev2) => {
+          ev2.stopPropagation();
+          storyEl.innerHTML = current || '<em>Keine Geschichte</em>';
+          editBtn.style.display = '';
+        });
+        storyEl.querySelector('.av-reset').addEventListener('click', (ev2) => {
+          ev2.stopPropagation();
+          const def = AVATAR_STORIES[key] || '';
+          ta.value = def;
+        });
+      });
+    }
+    document.body.appendChild(lb);
+  }
   document.addEventListener('click', (e) => {
     const img = e.target.closest('.avatar-img, .avatar-preview');
     if (img && img.src && !img.src.endsWith('/')) {
-      const lb = document.createElement('div');
-      lb.className = 'avatar-lightbox';
-      lb.innerHTML = `<img src="${img.src}" alt="">`;
-      lb.addEventListener('click', () => lb.remove());
-      document.body.appendChild(lb);
+      e.stopPropagation();
+      openAvatarLightbox(img.src);
     }
   });
   // Chicago/Tschigg: Treffer und Schrott an der Statuszeile erkennen
@@ -2795,6 +2883,20 @@
   ];
   const OPPONENT_NAMES = OPPONENT_NAMES_M; // Rückwärtskompatibel
   const OPPONENT_GENDER = { 0: 'm', 1: 'f', 2: 'm', 3: 'f' };
+  const AVATAR_STORIES = {
+    'm1': 'Wuchs in den Gassen von Little Italy auf und hat schon mit 14 beim Craps hinter der Fleischerei mehr verdient als sein Vater im Laden.',
+    'm2': 'Kam mit nichts aus Memphis nach Chicago und hat sich als Pianist in Speakeasies hochgespielt — bis ihm die Würfel lieber wurden als die Tasten.',
+    'm3': 'Wuchs als Sohn eines Hafenarbeiters in Brooklyn auf und hat schon drei Kneipen beim Würfeln übernommen — und zwei davon wieder verloren.',
+    'm4': 'Stammt aus einer Cajun-Familie in New Orleans und hat sein Glück auf den Dampfern des Mississippi gefunden — am Würfeltisch im Unterdeck.',
+    'f1': 'Wuchs hinter der Bühne eines Vaudeville-Theaters auf und hat schon als Garderobiere gelernt, dass man mit einem Lächeln mehr gewinnt als mit einem Ass.',
+    'f2': 'Kam aus Havanna nach Chicago und hat im Hinterzimmer ihres Onkels gelernt, dass Würfel keine Sprache brauchen — nur Nerven.',
+    'f3': 'Tochter eines polnischen Stahlarbeiters aus Gary, Indiana. Hat ihren Spitznamen bekommen, nachdem sie in einer Nacht drei Tische leergeräumt hat.',
+    'f4': 'Wuchs auf einer Farm in Mississippi auf und hat auf dem Weg nach Norden an jedem Truckstop gewürfelt — bis Chicago sie nicht mehr losgelassen hat.',
+  };
+  const STORY_KEY = 'lh_avatar_stories';
+  function loadStories() { try { return JSON.parse(localStorage.getItem(STORY_KEY)) || {}; } catch (e) { return {}; } }
+  function saveStory(key, text) { try { const s = loadStories(); s[key] = text; localStorage.setItem(STORY_KEY, JSON.stringify(s)); } catch (e) {} }
+  function getStory(key) { const custom = loadStories()[key]; return custom !== undefined ? custom : (AVATAR_STORIES[key] || ''); }
   function defaultAIName(i, gender) {
     return gender === 'f' ? OPPONENT_NAMES_F[i] || OPPONENT_NAMES_F[0] : OPPONENT_NAMES_M[i] || OPPONENT_NAMES_M[0];
   }
