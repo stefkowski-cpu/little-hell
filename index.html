@@ -5163,6 +5163,10 @@
   MP.listeners = [];
 
   MP.init = function() {
+    if (typeof firebase === 'undefined') {
+      console.warn('Firebase SDK not loaded');
+      return false;
+    }
     try {
       MP.app = firebase.initializeApp(MP.firebaseConfig);
       MP.auth = firebase.auth();
@@ -5923,12 +5927,12 @@
   });
 
   // Avatar-Klick → nächsten Avatar
-  const AVATARS = ['avatars/m1.webp','avatars/m2.webp','avatars/m3.webp','avatars/m4.webp',
-                    'avatars/f1.webp','avatars/f2.webp','avatars/f3.webp','avatars/f4.webp'];
+  const MP_AVATARS = ['avatars/m1.webp','avatars/m2.webp','avatars/m3.webp','avatars/m4.webp',
+                       'avatars/f1.webp','avatars/f2.webp','avatars/f3.webp','avatars/f4.webp'];
   $('mp-avatar').addEventListener('click', () => {
-    const current = AVATARS.indexOf(MP.profile.avatar);
-    const next = (current + 1) % AVATARS.length;
-    MP.profile.avatar = AVATARS[next];
+    const current = MP_AVATARS.indexOf(MP.profile.avatar);
+    const next = (current + 1) % MP_AVATARS.length;
+    MP.profile.avatar = MP_AVATARS[next];
     $('mp-avatar').src = MP.profile.avatar;
     MP.saveProfile(MP.profile);
   });
