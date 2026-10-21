@@ -1741,13 +1741,13 @@
     </button>
     <div class="sound-pop" id="sound-pop" role="dialog" aria-label="Ton">
       <button type="button" class="type-btn" id="sound-master-toggle" data-i18n="sound.on">Ton an</button>
-      <label class="sound-ch-label sound-master-vol"><span class="ch-name">🔊 Gesamt</span><span class="ch-val" id="ch-val-master">10</span><input type="range" id="ch-master" min="0" max="10" step="1"></label>
-      <label class="sound-ch-label"><input type="checkbox" id="ch-on-music" data-ch="music" checked><span class="ch-name">🎵 Musik</span><span class="ch-val" id="ch-val-music">5</span><input type="range" id="ch-music" min="0" max="10" step="1" data-ch="music"></label>
-      <label class="sound-ch-label"><input type="checkbox" id="ch-on-ambience" data-ch="ambience" checked><span class="ch-name">🍺 Hintergrund</span><span class="ch-val" id="ch-val-ambience">5</span><input type="range" id="ch-ambience" min="0" max="10" step="1" data-ch="ambience"></label>
-      <label class="sound-ch-label"><input type="checkbox" id="ch-on-reaction" data-ch="reaction" checked><span class="ch-name">🎉 Reaktionen</span><span class="ch-val" id="ch-val-reaction">5</span><input type="range" id="ch-reaction" min="0" max="10" step="1" data-ch="reaction"></label>
-      <label class="sound-ch-label"><input type="checkbox" id="ch-on-dice" data-ch="dice" checked><span class="ch-name">🎲 Würfel</span><span class="ch-val" id="ch-val-dice">5</span><input type="range" id="ch-dice" min="0" max="10" step="1" data-ch="dice"></label>
-      <label class="sound-ch-label"><input type="checkbox" id="ch-on-random" data-ch="random" checked><span class="ch-name">🍻 Zufallsgeräusche</span><span class="ch-val" id="ch-val-random">5</span><input type="range" id="ch-random" min="0" max="10" step="1" data-ch="random"></label>
-      <div class="sound-btn-row"><button type="button" class="type-btn" id="sound-test">Probe hören</button><button type="button" class="type-btn" id="sound-reset">Reset</button></div>
+      <label class="sound-ch-label sound-master-vol"><span class="ch-name" data-i18n="sound.master">🔊 Gesamt</span><span class="ch-val" id="ch-val-master">10</span><input type="range" id="ch-master" min="0" max="10" step="1"></label>
+      <label class="sound-ch-label"><input type="checkbox" id="ch-on-music" data-ch="music" checked><span class="ch-name" data-i18n="sound.music">🎵 Musik</span><span class="ch-val" id="ch-val-music">5</span><input type="range" id="ch-music" min="0" max="10" step="1" data-ch="music"></label>
+      <label class="sound-ch-label"><input type="checkbox" id="ch-on-ambience" data-ch="ambience" checked><span class="ch-name" data-i18n="sound.ambience">🍺 Hintergrund</span><span class="ch-val" id="ch-val-ambience">5</span><input type="range" id="ch-ambience" min="0" max="10" step="1" data-ch="ambience"></label>
+      <label class="sound-ch-label"><input type="checkbox" id="ch-on-reaction" data-ch="reaction" checked><span class="ch-name" data-i18n="sound.reaction">🎉 Reaktionen</span><span class="ch-val" id="ch-val-reaction">5</span><input type="range" id="ch-reaction" min="0" max="10" step="1" data-ch="reaction"></label>
+      <label class="sound-ch-label"><input type="checkbox" id="ch-on-dice" data-ch="dice" checked><span class="ch-name" data-i18n="sound.dice">🎲 Würfel</span><span class="ch-val" id="ch-val-dice">5</span><input type="range" id="ch-dice" min="0" max="10" step="1" data-ch="dice"></label>
+      <label class="sound-ch-label"><input type="checkbox" id="ch-on-random" data-ch="random" checked><span class="ch-name" data-i18n="sound.random">🍻 Zufallsgeräusche</span><span class="ch-val" id="ch-val-random">5</span><input type="range" id="ch-random" min="0" max="10" step="1" data-ch="random"></label>
+      <div class="sound-btn-row"><button type="button" class="type-btn" id="sound-test" data-i18n="sound.test">Probe hören</button><button type="button" class="type-btn" id="sound-reset" data-i18n="sound.reset">Reset</button></div>
       <div class="sound-hint" id="sound-state"></div>
     </div>
     <button class="icon-btn settings-btn" id="settings-btn" aria-label="Einstellungen" title="Einstellungen">
@@ -1785,7 +1785,7 @@
   <section id="screen-hell-setup" class="screen">
     <div id="resume-box-setup" class="resume-box" style="display:none"></div>
     <div class="setup-card">
-      <div style="text-align:center;margin-bottom:14px;font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.25em;color:var(--gold-light);text-transform:uppercase;padding:8px;border:1px solid var(--gold-deep);border-radius:2px;background:rgba(0,0,0,0.3)">Little Hell · 3 Würfel · 3 Würfe</div>
+      <div style="text-align:center;margin-bottom:14px;font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.25em;color:var(--gold-light);text-transform:uppercase;padding:8px;border:1px solid var(--gold-deep);border-radius:2px;background:rgba(0,0,0,0.3)" data-i18n="game.banner">Little Hell · 3 Würfel · 3 Würfe</div>
       <div id="h-session-status" style="display:none;text-align:center;margin-bottom:14px;font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:var(--cream-dim)"></div>
       <div class="setup-label" data-i18n="setup.yourName">Dein Name</div>
       <input type="text" id="h-name-input" class="name-input" data-i18n-ph="setup.yourName" placeholder="Dein Name" maxlength="14" autocomplete="off" autocapitalize="words" enterkeyhint="done">
@@ -1800,13 +1800,13 @@
       <div class="player-slots" id="h-player-slots"></div>
       <div class="flip-row" id="h-flip-row" style="display:none">
         <div class="slot-row" style="margin-bottom:4px">
-          <div class="slot-label">Drehen?</div>
+          <div class="slot-label" data-i18n="setup.flipLabel">Drehen?</div>
           <div class="slot-type">
-            <button type="button" class="type-btn flip-btn" data-flip="1">Mit Flip</button>
-            <button type="button" class="type-btn flip-btn" data-flip="0">Ohne Flip</button>
+            <button type="button" class="type-btn flip-btn" data-flip="1" data-i18n="setup.withFlip">Mit Flip</button>
+            <button type="button" class="type-btn flip-btn" data-flip="0" data-i18n="setup.withoutFlip">Ohne Flip</button>
           </div>
         </div>
-        <div class="flip-hint">Mit Flip dreht sich die Ansicht bei jedem Menschen-Wechsel um 180° – fürs Spielen gegenüber.</div>
+        <div class="flip-hint" data-i18n="setup.flipHint">Mit Flip dreht sich die Ansicht bei jedem Menschen-Wechsel um 180° – fürs Spielen gegenüber.</div>
       </div>
       <div class="btn-row">
         <button class="secondary-btn" id="h-rules-btn" data-i18n="topbar.rules">Regeln</button>
@@ -1855,12 +1855,12 @@
 
       <!-- Erklärung -->
       <div class="mp-info-text">
-        <strong style="color:var(--gold-light)">So funktioniert's:</strong><br>
-        Ein Spieler eröffnet einen Tisch und erhält einen 4-Buchstaben-Code.
+        <strong style="color:var(--gold-light)" data-i18n="mp.howItWorks">So funktioniert's:</strong><br>
+        <span data-i18n-html="mp.howItWorksText">Ein Spieler eröffnet einen Tisch und erhält einen 4-Buchstaben-Code.
         Der Gegner gibt diesen Code ein und setzt sich dazu.
         Ihr spielt gegeneinander in Echtzeit — jeder auf seinem eigenen Gerät.<br><br>
         Dein Name, Avatar und Rating bleiben auf diesem Gerät gespeichert.
-        Je mehr Partien du spielst, desto genauer wird dein Rating.
+        Je mehr Partien du spielst, desto genauer wird dein Rating.</span>
       </div>
 
       <div class="btn-row" style="margin-top:18px">
@@ -1874,14 +1874,14 @@
     <div class="setup-card mp-lobby">
       <div class="mp-section-title" data-i18n="mp.yourTable">Dein Tisch</div>
       <div class="mp-card">
-        <div style="font-family:'IM Fell English',serif;font-size:13px;color:var(--cream-dim);font-style:italic;margin-bottom:4px">Gib diesen Code an deinen Gegner:</div>
+        <div style="font-family:'IM Fell English',serif;font-size:13px;color:var(--cream-dim);font-style:italic;margin-bottom:4px" data-i18n="mp.codeExplain">Gib diesen Code an deinen Gegner:</div>
         <div class="mp-code" id="mp-room-code">—</div>
-        <div class="mp-code-hint">Dein Gegner gibt diesen Code unter „An Tisch setzen" ein.</div>
+        <div class="mp-code-hint" data-i18n="mp.codeHint">Dein Gegner gibt diesen Code unter „An Tisch setzen" ein.</div>
         <button class="primary-btn" id="mp-share-btn" style="width:100%;margin-top:14px;font-size:14px;padding:12px" data-i18n="mp.invite">📩 Gegner einladen</button>
       </div>
       <div class="mp-player-list" id="mp-room-players"></div>
       <div class="mp-waiting" id="mp-waiting">
-        <span>Warte auf Gegner</span>
+        <span data-i18n="mp.waitingOpponent">Warte auf Gegner</span>
         <span class="mp-waiting-dot">·</span>
         <span class="mp-waiting-dot">·</span>
         <span class="mp-waiting-dot">·</span>
@@ -1902,12 +1902,12 @@
         <div class="round-num"><span id="h-round-num">1</span><span style="font-size:14px; color:var(--cream-dim)"> / 16</span></div>
       </div>
       <div style="text-align:center;flex:1">
-        <div id="h-current-name" style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);cursor:pointer" title="Name ändern">Du</div>
+        <div id="h-current-name" style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--cream);cursor:pointer" data-i18n-title="settings.changeName" title="Name ändern">Du</div>
       </div>
       <div class="target-box">
         <div class="round-label" data-i18n="game.target">Ziel</div>
         <div class="target-num" id="h-target-num">3</div>
-        <div class="target-bonus" id="h-target-bonus" title="Treffer-Punkte für Wurf 1 · 2 · 3"></div>
+        <div class="target-bonus" id="h-target-bonus" data-i18n-title="settings.hitPointsHint" title="Treffer-Punkte für Wurf 1 · 2 · 3"></div>
       </div>
     </div>
     <div class="chicago-layout">
@@ -1982,7 +1982,7 @@
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal">
     <button class="modal-close" id="modal-close">×</button>
-    <div class="modal-title" id="modal-title">Regeln</div>
+    <div class="modal-title" id="modal-title" data-i18n="modal.rules">Regeln</div>
     <div class="modal-subtitle" id="modal-subtitle"></div>
     <div class="modal-content" id="modal-content"></div>
   </div>
@@ -1990,7 +1990,37 @@
 
 <script>
 (() => {
-  // ===== TIMER-EPOCHE =====
+  // ╔══════════════════════════════════════════════════════════════════╗
+  // ║  LITTLE HELL — MODULE ARCHITECTURE (single-file)               ║
+  // ║                                                                 ║
+  // ║  1. CORE INFRA      Timer epoch, DOM helpers, XSS utils        ║
+  // ║  2. AUDIO (SFX)     5-channel Web Audio, persistent settings   ║
+  // ║  3. PERSISTENCE     localStorage + cloud sync, slot mgmt       ║
+  // ║  4. GAME ENGINE     Pure state: rollDice, afterRoll, scoring   ║
+  // ║  5. RENDERER        DOM updates, animations, dice display      ║
+  // ║  6. STATISTICS      Charts, history, session tracking          ║
+  // ║  7. MULTIPLAYER     Firebase RTDB transport, room lifecycle    ║
+  // ║  8. I18N            LANGS dictionaries, t()/tf(), applyLang()  ║
+  // ║                                                                 ║
+  // ║  STATE MACHINE PHASES (hell.state.phase):                      ║
+  // ║                                                                 ║
+  // ║  ready ──[rollDice]──► rolling ──[afterRoll]──► choose         ║
+  // ║    ▲                                               │            ║
+  // ║    │                              [advanceTurn]◄───┘            ║
+  // ║    │                                   │                        ║
+  // ║    ├──── (more turns in round) ────────┤                        ║
+  // ║    │                                   │                        ║
+  // ║    ├──── roundEnd ◄── (last turn) ─────┤                        ║
+  // ║    │     (advances round/target)       │                        ║
+  // ║    │                                   │                        ║
+  // ║    └──── gameEnd ◄── (round > 16) ─────┘                       ║
+  // ║                                                                 ║
+  // ║  MP ACTIONS: roll, choose, turnEnd, roundEnd, gameEnd          ║
+  // ║  Each pushState() writes full authoritative snapshot to RTDB    ║
+  // ║  with matchId + monotonic revision for idempotent sync.        ║
+  // ╚══════════════════════════════════════════════════════════════════╝
+
+  // ===== 1. CORE INFRA: TIMER-EPOCHE =====
   // Alle Spiel-Timer laufen über diese Wrapper. Beim Fortsetzen oder Neustart wird die Epoche erhöht,
   // damit Timer einer alten Partie nicht in die neue hineinfeuern.
   const realSetTimeout = window.setTimeout.bind(window);
@@ -2003,10 +2033,10 @@
     return id;
   };
 
-  // ===== SHARED =====
+  // ===== 1b. CORE INFRA: DOM HELPERS & XSS UTILS =====
   const $ = (id) => document.getElementById(id);
 
-  // ===== SOUND =====
+  // ===== 2. AUDIO (SFX) =====
   // 4-Kanal-Audiosystem mit echten MP3-Dateien.
   // Kanäle: Musik, Hintergrundgeräusche, Reaktionsgeräusche, Würfelgeräusche
   // Jeder Kanal hat on/off + Lautstärke (0-10), persistent via localStorage.
@@ -2128,11 +2158,13 @@
     const chOn = {}, chVol = {};
     // Laden aus localStorage
     try { const v = localStorage.getItem(KEY_ON); if (v !== null) masterOn = v === '1'; } catch (e) {}
-    try { const v = localStorage.getItem(KEY_MVOL); if (v !== null) masterVol = Math.max(0, Math.min(10, parseInt(v) || 10)); } catch (e) {}
+    // P2-15 fix: use isNaN check instead of || to preserve volume 0
+    try { const v = localStorage.getItem(KEY_MVOL); if (v !== null) { const n = parseInt(v); masterVol = Math.max(0, Math.min(10, isNaN(n) ? 10 : n)); } } catch (e) {}
     CH.forEach(ch => {
       chOn[ch] = true; chVol[ch] = DEFAULTS[ch];
       try { const v = localStorage.getItem(chKey(ch, 'on')); if (v !== null) chOn[ch] = v === '1'; } catch (e) {}
-      try { const v = localStorage.getItem(chKey(ch, 'vol')); if (v !== null) chVol[ch] = Math.max(0, Math.min(10, parseInt(v) || DEFAULTS[ch])); } catch (e) {}
+      // P2-15 fix: use isNaN check instead of || to preserve volume 0
+      try { const v = localStorage.getItem(chKey(ch, 'vol')); if (v !== null) { const n = parseInt(v); chVol[ch] = Math.max(0, Math.min(10, isNaN(n) ? DEFAULTS[ch] : n)); } } catch (e) {}
     });
 
     // ---- Web Audio ----
@@ -2547,7 +2579,7 @@
       dice(3);
       setTimeout(() => reaction(2), 900);
     }
-    function stateText() { return !ctx ? 'nicht gestartet' : (ctx.state === 'running' ? 'läuft' : ctx.state); }
+    function stateText() { return !ctx ? t('sound.notStarted') : (ctx.state === 'running' ? t('sound.running') : ctx.state); }
 
     function preloadRandom() {
       Object.values(FILES.random).forEach(arr => arr.forEach(f => preload('random/' + f)));
@@ -2595,7 +2627,7 @@
     const masterSl = $('ch-master'), masterValEl = $('ch-val-master');
     const sync = () => {
       btn.classList.toggle('muted', !SFX.isOn());
-      tog.textContent = SFX.isOn() ? 'Ton an' : 'Ton aus';
+      tog.textContent = SFX.isOn() ? t('sound.on') : t('sound.off');
       tog.classList.toggle('selected', SFX.isOn());
       if (masterSl) { masterSl.value = SFX.masterVol(); masterSl.disabled = !SFX.isOn(); }
       if (masterValEl) masterValEl.textContent = SFX.masterVol();
@@ -2616,7 +2648,7 @@
     tog.addEventListener('click', () => { SFX.setOn(!SFX.isOn()); sync(); });
     $('sound-test').addEventListener('click', () => {
       SFX.test();
-      setTimeout(() => { $('sound-state').textContent = 'Audio: ' + SFX.stateText(); }, 300);
+      setTimeout(() => { $('sound-state').textContent = t('sound.audioState') + SFX.stateText(); }, 300);
     });
     $('sound-reset').addEventListener('click', () => { SFX.resetDefaults(); sync(); });
     // Master-Slider
@@ -2665,9 +2697,9 @@
     lb.className = 'avatar-lightbox';
     const card = document.createElement('div');
     card.className = 'avatar-lightbox-card';
-    card.innerHTML = `<img src="${src}" alt="">` +
-      (name ? `<div class="avatar-lb-name">${name}</div>` : '') +
-      (key ? `<div class="avatar-lb-story">${story || '<em>Keine Geschichte</em>'}</div>
+    card.innerHTML = `<img src="${esc(src)}" alt="">` +
+      (name ? `<div class="avatar-lb-name">${esc(name)}</div>` : '') +
+      (key ? `<div class="avatar-lb-story">${esc(story) || t('avatar.noStory')}</div>
               <button type="button" class="avatar-lb-edit">✎ Story bearbeiten</button>` : '');
     lb.appendChild(card);
     lb.addEventListener('click', (ev) => { if (ev.target === lb) lb.remove(); });
@@ -2678,10 +2710,10 @@
         ev.stopPropagation();
         const storyEl = card.querySelector('.avatar-lb-story');
         const current = getStory(key);
-        storyEl.innerHTML = `<textarea class="avatar-lb-textarea">${current}</textarea>
+        storyEl.innerHTML = `<textarea class="avatar-lb-textarea">${esc(current)}</textarea>
           <div class="avatar-lb-btn-row" style="margin-top:6px">
-            <button type="button" class="avatar-lb-btn av-save">Speichern</button>
-            <button type="button" class="avatar-lb-btn av-cancel">Abbrechen</button>
+            <button type="button" class="avatar-lb-btn av-save">${t('ui.save')}</button>
+            <button type="button" class="avatar-lb-btn av-cancel">${t('ui.cancel')}</button>
             <button type="button" class="avatar-lb-btn av-reset" style="margin-left:auto;opacity:0.6">Reset</button>
           </div>`;
         editBtn.style.display = 'none';
@@ -2691,12 +2723,12 @@
         storyEl.querySelector('.av-save').addEventListener('click', (ev2) => {
           ev2.stopPropagation();
           saveStory(key, ta.value);
-          storyEl.innerHTML = ta.value || '<em>Keine Geschichte</em>';
+          storyEl.innerHTML = esc(ta.value) || t('avatar.noStory');
           editBtn.style.display = '';
         });
         storyEl.querySelector('.av-cancel').addEventListener('click', (ev2) => {
           ev2.stopPropagation();
-          storyEl.innerHTML = current || '<em>Keine Geschichte</em>';
+          storyEl.innerHTML = esc(current) || t('avatar.noStory');
           editBtn.style.display = '';
         });
         storyEl.querySelector('.av-reset').addEventListener('click', (ev2) => {
@@ -2789,7 +2821,7 @@
   }
   let lifetime = loadLifetime();
 
-  // ===== SPEICHERN & FORTSETZEN =====
+  // ===== 3. PERSISTENCE: SPEICHERN & FORTSETZEN =====
   // Zwei Ebenen: (1) localStorage auf diesem Gerät, sofort; (2) Konto-Speicher des Artefakts
   // (db-Capability, privat pro Person, geräteübergreifend), sobald verfügbar.
   const SAVE_KEY = 'wuerfelhalle_save_v1';
@@ -2810,7 +2842,7 @@
     dirty: false,
     timer: null,
   };
-  function emptySave() { return { v: 1, updatedAt: 0, slots: {}, lifetime: null, hellSession: null }; }
+  function emptySave() { return { v: 1, updatedAt: 0, slots: {}, lifetime: null, hellSession: null, deletedSlots: {} }; }
   // Mehrere Spielstände je Spielart: Schlüssel = Spielstand-ID, Spielart steht in slot.game
   const MAX_SAVES_PER_GAME = 8;
   const MAX_SAVE_BYTES = 230000; // Puffer unter der 256-KiB-Grenze des Konto-Speichers
@@ -2832,14 +2864,31 @@
     if (d.hellSession && !d.hellSession.saveId && d.slots.m_littlehell) d.hellSession.saveId = 'm_littlehell';
     return d;
   }
+  // P1-12: Validate save data schema to prevent malformed data from crashing
+  function validateSaveData(d) {
+    if (!d || typeof d !== 'object' || d.v !== 1) return false;
+    if (d.slots && typeof d.slots !== 'object') return false;
+    // Validate each slot has required fields
+    if (d.slots) {
+      Object.keys(d.slots).forEach(k => {
+        const sl = d.slots[k];
+        if (!sl || typeof sl !== 'object' || !sl.game) delete d.slots[k];
+      });
+    }
+    return true;
+  }
   function readLocalSave() {
     try {
       const raw = localStorage.getItem(SAVE_KEY);
       if (raw) {
         const d = JSON.parse(raw);
-        if (d && d.v === 1) { d.slots = d.slots || {}; return migrateSlots(d); }
+        if (validateSaveData(d)) {
+          d.slots = d.slots || {};
+          d.deletedSlots = d.deletedSlots || {};
+          return migrateSlots(d);
+        }
       }
-    } catch (e) {}
+    } catch (e) { console.warn('Save data corrupted, starting fresh', e); }
     return emptySave();
   }
   persist.data = readLocalSave();
@@ -2920,7 +2969,18 @@
     persistCommit();
   }
   function clearSlot(id) {
-    if (persist.data.slots[id]) { delete persist.data.slots[id]; persistCommit(); }
+    if (persist.data.slots[id]) {
+      delete persist.data.slots[id];
+      // P1-12: Tombstone to prevent resurrection from cloud sync
+      if (!persist.data.deletedSlots) persist.data.deletedSlots = {};
+      persist.data.deletedSlots[id] = Date.now();
+      // Prune old tombstones (>7 days)
+      const cutoff = Date.now() - 7 * 86400000;
+      Object.keys(persist.data.deletedSlots).forEach(k => {
+        if (persist.data.deletedSlots[k] < cutoff) delete persist.data.deletedSlots[k];
+      });
+      persistCommit();
+    }
   }
   function playersLabel(players) {
     return players.map(p => shortName(p.name)).join(', ');
@@ -2937,12 +2997,31 @@
   function adoptRemote(remote) {
     remote.slots = remote.slots || {};
     migrateSlots(remote);
+    // P1-12: Merge tombstones from both sides
+    const localTombstones = persist.data.deletedSlots || {};
+    const remoteTombstones = remote.deletedSlots || {};
+    const mergedTombstones = { ...remoteTombstones, ...localTombstones };
+    // P1-12: Remove slots that were locally deleted (tombstoned)
+    Object.keys(mergedTombstones).forEach(k => {
+      if (remote.slots[k] && (remote.slots[k].savedAt || 0) < mergedTombstones[k]) {
+        delete remote.slots[k];
+      }
+    });
+    // Prune old tombstones (>7 days)
+    const cutoff = Date.now() - 7 * 86400000;
+    Object.keys(mergedTombstones).forEach(k => {
+      if (mergedTombstones[k] < cutoff) delete mergedTombstones[k];
+    });
     if (gameScreenActive()) {
       // Laufende Partie behalten, fehlende Spielstände aus dem Konto ergänzen
-      Object.keys(remote.slots).forEach(k => { if (!persist.data.slots[k]) persist.data.slots[k] = remote.slots[k]; });
+      Object.keys(remote.slots).forEach(k => {
+        if (!persist.data.slots[k] && !localTombstones[k]) persist.data.slots[k] = remote.slots[k];
+      });
+      persist.data.deletedSlots = mergedTombstones;
       persistCommit();
       return;
     }
+    remote.deletedSlots = mergedTombstones;
     persist.data = remote;
     lifetime = { ...defaultLifetime(), ...(remote.lifetime || {}) };
     try { localStorage.setItem(LIFETIME_KEY, JSON.stringify(lifetime)); } catch (e) {}
@@ -2968,11 +3047,27 @@
         // Lokal ist neuer: Spielstände aus dem Konto, die hier fehlen oder jünger sind, trotzdem übernehmen
         if (remote && remote.slots) {
           migrateSlots(remote);
+          const localTombstones = persist.data.deletedSlots || {};
           Object.keys(remote.slots).forEach(k => {
             const r = remote.slots[k], l = persist.data.slots[k];
+            // P1-12: Skip tombstoned slots
+            if (localTombstones[k] && (r.savedAt || 0) < localTombstones[k]) return;
             if (!isSlotLive(k) && (!l || (r.savedAt || 0) > (l.savedAt || 0))) persist.data.slots[k] = r;
           });
           if (screens.menu.classList.contains('active') || screens.hellSetup.classList.contains('active')) renderResumeBox();
+        }
+        // P1-12: Merge remote tombstones
+        if (remote && remote.deletedSlots) {
+          if (!persist.data.deletedSlots) persist.data.deletedSlots = {};
+          Object.keys(remote.deletedSlots).forEach(k => {
+            if (!persist.data.deletedSlots[k] || remote.deletedSlots[k] > persist.data.deletedSlots[k]) {
+              persist.data.deletedSlots[k] = remote.deletedSlots[k];
+              // If the remote deleted something we have locally and it's newer than our save
+              if (persist.data.slots[k] && (persist.data.slots[k].savedAt || 0) < remote.deletedSlots[k]) {
+                if (!isSlotLive(k)) delete persist.data.slots[k];
+              }
+            }
+          });
         }
         persistCommit();
       }
@@ -2986,16 +3081,17 @@
   function fmtSavedAt(ts) {
     const d = new Date(ts);
     const now = new Date();
-    const hm = d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
-    if (d.toDateString() === now.toDateString()) return 'heute ' + hm;
-    return d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' }) + ' ' + hm;
+    const loc = currentLang === 'en' ? 'en-US' : currentLang === 'es' ? 'es-ES' : 'de-DE';
+    const hm = d.toLocaleTimeString(loc, { hour: '2-digit', minute: '2-digit' });
+    if (d.toDateString() === now.toDateString()) return t('date.today') + ' ' + hm;
+    return d.toLocaleDateString(loc, { day: '2-digit', month: '2-digit' }) + ' ' + hm;
   }
   function saveWhereText() {
     if (persist.cloudState === 'on') {
-      return persist.cloudError ? 'Konto-Speicher voll oder fehlerhaft · nur dieses Gerät' : 'Gespeichert in deinem Konto · auf allen Geräten';
+      return persist.cloudError ? t('persist.cloudFull') : t('persist.cloudOk');
     }
-    if (persist.cloudState === 'pending') return 'Verbinde Konto-Speicher …';
-    return 'Gespeichert auf diesem Gerät';
+    if (persist.cloudState === 'pending') return t('persist.cloudPending');
+    return t('persist.localOnly');
   }
   function updateSaveIndicator() {
     const el = $('resume-where');
@@ -3012,7 +3108,7 @@
     ids.forEach(id => { (groups[slots[id].game] = groups[slots[id].game] || []).push(id); });
     const newest = g => Math.max(...groups[g].map(id => slots[id].savedAt || 0));
     const order = Object.keys(groups).sort((a, b) => newest(b) - newest(a));
-    let html = '<div class="resume-head">Gespeicherte Partien</div>';
+    let html = `<div class="resume-head">${t('resume.title')}</div>`;
     order.forEach(g => {
       const list = groups[g].sort((a, b) => (slots[b].savedAt || 0) - (slots[a].savedAt || 0));
       html += `<div class="resume-group">${SLOT_INFO[g].title}<span class="resume-count">${list.length}</span></div>`;
@@ -3020,17 +3116,17 @@
         const sl = slots[id];
         html += `<div class="resume-row">
           <div class="resume-text">
-            <div class="resume-name">${sl.label || SLOT_INFO[g].title}${sl.ended ? ' <span class="resume-tag">Endstand</span>' : ''}</div>
-            <div class="resume-info">${sl.info || ''}</div>
-            <div class="resume-time">gespeichert ${fmtSavedAt(sl.savedAt)}</div>
+            <div class="resume-name">${esc(sl.label || SLOT_INFO[g].title)}${sl.ended ? ' <span class="resume-tag">Endstand</span>' : ''}</div>
+            <div class="resume-info">${esc(sl.info || '')}</div>
+            <div class="resume-time">${tf('resume.savedAt', fmtSavedAt(sl.savedAt))}</div>
           </div>
-          <button class="resume-discard" data-discard="${id}" aria-label="Spielstand verwerfen">✕</button>
+          <button class="resume-discard" data-discard="${id}" aria-label="${t('ui.discardSave')}">✕</button>
           <button class="resume-go" data-resume="${id}">Fortsetzen</button>
         </div>`;
       });
     });
     html += `<div class="resume-where" id="resume-where">${saveWhereText()}</div>`;
-    html += `<div class="resume-where">Bis zu ${MAX_SAVES_PER_GAME} Spielstände je Spielart · danach fällt der älteste weg, beendete zuerst</div>`;
+    html += `<div class="resume-where">${tf('resume.maxSaves', MAX_SAVES_PER_GAME)}</div>`;
     box.innerHTML = html;
     box.style.display = '';
   }
@@ -3071,7 +3167,7 @@
     } catch (e) {
       console.error('Fortsetzen fehlgeschlagen', e);
       showScreen('hellSetup');
-      showToast('Fortsetzen fehlgeschlagen', 'Spielstand beschädigt', { duration: 2200 });
+      showToast(t('resume.resumeFailed'), t('resume.saveDamaged'), { duration: 2200 });
     }
   }
   function discardSlot(id) {
@@ -3175,11 +3271,10 @@
         stat.style.display = '';
         const games = hell.session.games.length;
         const myTotal = hell.session.totals[0];
-        const who = hell.session.playerNames.map(n => shortName(n)).join(', ');
-        stat.innerHTML = `<div>Laufende Session · ${games} ${games === 1 ? 'Partie' : 'Partien'} · ${shortName(hell.session.playerNames[0])}: <span style="color:var(--gold);font-weight:600">${myTotal} Pkt</span></div>
-          <div style="font-size:12px;margin:2px 0 8px">${who}</div>
-          <div class="session-actions"><button type="button" class="secondary-btn" id="h-session-continue">Session fortsetzen</button><button type="button" class="session-reset" id="h-session-reset">Session zurücksetzen</button></div>
-          <div style="font-size:12px;margin-top:8px">„Beginnen“ unten startet eine neue Session mit den Spielern aus dem Setup.</div>`;
+        const who = hell.session.playerNames.map(n => esc(shortName(n))).join(', ');
+        stat.innerHTML = `<div>${tf('resume.activeSession', games, games === 1 ? t('stats.game') : t('stats.games'), esc(shortName(hell.session.playerNames[0])) + ': <span style=”color:var(--gold);font-weight:600”>' + myTotal + ' ' + t('prob.pts') + '</span>')}</div>
+          <div style=”font-size:12px;margin:2px 0 8px”>${who}</div>
+          <div class=”session-actions”><button type=”button” class=”secondary-btn” id=”h-session-continue”>${t('resume.continueSession')}</button><button type=”button” class=”session-reset” id=”h-session-reset”>${t('resume.resetSession')}</button></div>`;
       } else {
         stat.style.display = 'none';
       }
@@ -3210,14 +3305,14 @@
   const OPPONENT_NAMES = OPPONENT_NAMES_M; // Rückwärtskompatibel
   const OPPONENT_GENDER = { 0: 'm', 1: 'f', 2: 'm', 3: 'f' };
   const AVATAR_STORIES = {
-    'm1': 'Wuchs in den Gassen von Little Italy auf und hat schon mit 14 beim Craps hinter der Fleischerei mehr verdient als sein Vater im Laden.',
-    'm2': 'Kam mit nichts aus Memphis nach Chicago und hat sich als Pianist in Speakeasies hochgespielt — bis ihm die Würfel lieber wurden als die Tasten.',
-    'm3': 'Wuchs als Sohn eines Hafenarbeiters in Brooklyn auf und hat schon drei Kneipen beim Würfeln übernommen — und zwei davon wieder verloren.',
-    'm4': 'Stammt aus einer Cajun-Familie in New Orleans und hat sein Glück auf den Dampfern des Mississippi gefunden — am Würfeltisch im Unterdeck.',
-    'f1': 'Wuchs hinter der Bühne eines Vaudeville-Theaters auf und hat schon als Garderobiere gelernt, dass man mit einem Lächeln mehr gewinnt als mit einem Ass.',
-    'f2': 'Kam aus Havanna nach Chicago und hat im Hinterzimmer ihres Onkels gelernt, dass Würfel keine Sprache brauchen — nur Nerven.',
-    'f3': 'Tochter eines polnischen Stahlarbeiters aus Gary, Indiana. Hat ihren Spitznamen bekommen, nachdem sie in einer Nacht drei Tische leergeräumt hat.',
-    'f4': 'Wuchs auf einer Farm in Mississippi auf und hat auf dem Weg nach Norden an jedem Truckstop gewürfelt — bis Chicago sie nicht mehr losgelassen hat.',
+    get m1() { return t('avatar.story.m1'); },
+    get m2() { return t('avatar.story.m2'); },
+    get m3() { return t('avatar.story.m3'); },
+    get m4() { return t('avatar.story.m4'); },
+    get f1() { return t('avatar.story.f1'); },
+    get f2() { return t('avatar.story.f2'); },
+    get f3() { return t('avatar.story.f3'); },
+    get f4() { return t('avatar.story.f4'); },
   };
   const STORY_KEY = 'lh_avatar_stories';
   function loadStories() { try { return JSON.parse(localStorage.getItem(STORY_KEY)) || {}; } catch (e) { return {}; } }
@@ -3236,6 +3331,17 @@
     return pick;
   }
   const shortName = (n) => n.split(' ')[0].replace(/[„"]/g, '');
+
+  // P1-13: HTML entity escaping for XSS prevention in innerHTML templates
+  function esc(s) {
+    if (typeof s !== 'string') return '';
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  // P1-13: Avatar URL whitelist — only allow known local avatar paths
+  const AVATAR_WHITELIST = new Set([...AVATARS.m, ...AVATARS.f]);
+  function safeAvatarSrc(url) {
+    return AVATAR_WHITELIST.has(url) ? url : AVATARS.m[0];
+  }
 
   const PIP_MAP = {
     0: [],
@@ -3275,12 +3381,35 @@
     toastTimer = setTimeout(() => t.classList.remove('show'), opts.duration || 1200);
   }
 
-  // ===== RULES MODAL =====
+  // ===== 5. RENDERER: UI Components =====
+
+  // ===== 5a. RULES MODAL =====
+  const RULES_CHART_SVG = `<figure class=”rules-chart”><svg viewBox=”0 0 320 190” role=”img” aria-label=”ARIA_LABEL”>
+          <line x1=”34” x2=”310” y1=”160.0” y2=”160.0” class=”g”/><text x=”28” y=”163.5” class=”ax” text-anchor=”end”>0</text><line x1=”34” x2=”310” y1=”131.5” y2=”131.5” class=”g”/><text x=”28” y=”135.0” class=”ax” text-anchor=”end”>5</text><line x1=”34” x2=”310” y1=”103.1” y2=”103.1” class=”g”/><text x=”28” y=”106.6” class=”ax” text-anchor=”end”>10</text><line x1=”34” x2=”310” y1=”74.6” y2=”74.6” class=”g”/><text x=”28” y=”78.1” class=”ax” text-anchor=”end”>15</text><line x1=”34” x2=”310” y1=”46.2” y2=”46.2” class=”g”/><text x=”28” y=”49.7” class=”ax” text-anchor=”end”>20</text><line x1=”34” x2=”310” y1=”17.7” y2=”17.7” class=”g”/><text x=”28” y=”21.2” class=”ax” text-anchor=”end”>25</text><line x1=”34.0” x2=”34.0” y1=”160” y2=”164” class=”g”/><text x=”34.0” y=”175” class=”ax” text-anchor=”middle”>0</text><line x1=”66.5” x2=”66.5” y1=”160” y2=”164” class=”g”/><text x=”66.5” y=”175” class=”ax” text-anchor=”middle”>2</text><line x1=”98.9” x2=”98.9” y1=”160” y2=”164” class=”g”/><text x=”98.9” y=”175” class=”ax” text-anchor=”middle”>4</text><line x1=”131.4” x2=”131.4” y1=”160” y2=”164” class=”g”/><text x=”131.4” y=”175” class=”ax” text-anchor=”middle”>6</text><line x1=”163.9” x2=”163.9” y1=”160” y2=”164” class=”g”/><text x=”163.9” y=”175” class=”ax” text-anchor=”middle”>8</text><line x1=”196.4” x2=”196.4” y1=”160” y2=”164” class=”g”/><text x=”196.4” y=”175” class=”ax” text-anchor=”middle”>10</text><line x1=”228.8” x2=”228.8” y1=”160” y2=”164” class=”g”/><text x=”228.8” y=”175” class=”ax” text-anchor=”middle”>12</text><line x1=”261.3” x2=”261.3” y1=”160” y2=”164” class=”g”/><text x=”261.3” y=”175” class=”ax” text-anchor=”middle”>14</text><line x1=”293.8” x2=”293.8” y1=”160” y2=”164” class=”g”/><text x=”293.8” y=”175” class=”ax” text-anchor=”middle”>16</text>
+          <line x1=”34” x2=”310” y1=”160” y2=”160” class=”axl”/>
+          <path d=”M42.1,17.7L50.2,17.7L50.2,46.2L66.5,46.2L66.5,74.6L82.7,74.6L82.7,80.3L98.9,80.3L98.9,91.7L115.2,91.7L115.2,103.1L139.5,103.1L139.5,108.8L155.8,108.8L155.8,114.5L180.1,114.5L180.1,120.2L204.5,120.2L204.5,125.8L220.7,125.8L220.7,131.5L245.1,131.5L245.1,137.2L293.8,137.2L293.8,142.9L310.0,142.9” class=”st”/>
+          <circle cx=”42.1” cy=”17.7” r=”3.2” class=”d”/><circle cx=”56.7” cy=”46.2” r=”3.2” class=”d”/><circle cx=”79.5” cy=”74.6” r=”3.2” class=”d”/><circle cx=”90.8” cy=”80.3” r=”3.2” class=”d”/><circle cx=”92.4” cy=”80.3” r=”3.2” class=”d”/><circle cx=”108.7” cy=”91.7” r=”3.2” class=”d”/><circle cx=”128.2” cy=”103.1” r=”3.2” class=”d”/><circle cx=”146.0” cy=”108.8” r=”3.2” class=”d”/><circle cx=”157.4” cy=”114.5” r=”3.2” class=”d”/><circle cx=”172.0” cy=”114.5” r=”3.2” class=”d”/><circle cx=”191.5” cy=”120.2” r=”3.2” class=”d”/><circle cx=”212.6” cy=”125.8” r=”3.2” class=”d”/><circle cx=”214.2” cy=”125.8” r=”3.2” class=”d”/><circle cx=”222.3” cy=”131.5” r=”3.2” class=”d”/><circle cx=”236.9” cy=”131.5” r=”3.2” class=”d”/><circle cx=”254.8” cy=”137.2” r=”3.2” class=”d”/><circle cx=”259.7” cy=”137.2” r=”3.2” class=”d”/><circle cx=”271.0” cy=”137.2” r=”3.2” class=”d”/><circle cx=”274.3” cy=”137.2” r=”3.2” class=”d”/><circle cx=”280.8” cy=”137.2” r=”3.2” class=”d”/><circle cx=”295.4” cy=”142.9” r=”3.2” class=”d”/><circle cx=”300.3” cy=”142.9” r=”3.2” class=”d”/><circle cx=”301.9” cy=”142.9” r=”3.2” class=”d”/>
+          <text x=”172.0” y=”188” class=”ax” text-anchor=”middle”>X_AXIS_LABEL</text>
+        </svg>
+        <figcaption>FIGCAPTION</figcaption></figure>`;
+
+  const RULES_POINTS_TABLE_BODY = `<tbody><tr><td class=”t”>T_UNDER_1</td><td class=”sum”>25</td></tr><tr><td class=”t”>1 – 2 %</td><td class=”sum”>20</td></tr><tr><td class=”t”>2 – 3 %</td><td class=”sum”>15</td></tr><tr><td class=”t”>3 – 4 %</td><td class=”sum”>14</td></tr><tr><td class=”t”>4 – 5 %</td><td class=”sum”>12</td></tr><tr><td class=”t”>5 – 6.5 %</td><td class=”sum”>10</td></tr><tr><td class=”t”>6.5 – 7.5 %</td><td class=”sum”>9</td></tr><tr><td class=”t”>7.5 – 9 %</td><td class=”sum”>8</td></tr><tr><td class=”t”>9 – 10.5 %</td><td class=”sum”>7</td></tr><tr><td class=”t”>10.5 – 11.5 %</td><td class=”sum”>6</td></tr><tr><td class=”t”>11.5 – 13 %</td><td class=”sum”>5</td></tr><tr><td class=”t”>13 – 16 %</td><td class=”sum”>4</td></tr><tr><td class=”t”>T_FROM_16</td><td class=”sum”>3</td></tr></tbody>`;
+
+  const RULES_TARGET_TABLE_BODY = `<tbody><tr><td class=”t”>3 / 18</td><td class=”sum”>25</td><td class=”sum”>20</td><td class=”sum”>14</td><td class=”neg”>−3.8</td></tr><tr><td class=”t”>4 / 17</td><td class=”sum”>20</td><td class=”sum”>14</td><td class=”sum”>8</td><td class=”neg”>−2.3</td></tr><tr><td class=”t”>5 / 16</td><td class=”sum”>15</td><td class=”sum”>10</td><td class=”sum”>6</td><td class=”neg”>−1.1</td></tr><tr><td class=”t”>6 / 15</td><td class=”sum”>12</td><td class=”sum”>8</td><td class=”sum”>4</td><td class=”neg”>−0.3</td></tr><tr><td class=”t”>7 / 14</td><td class=”sum”>9</td><td class=”sum”>6</td><td class=”sum”>4</td><td>+0.2</td></tr><tr><td class=”t”>8 / 13</td><td class=”sum”>7</td><td class=”sum”>4</td><td class=”sum”>3</td><td>+0.2</td></tr><tr><td class=”t”>9 / 12</td><td class=”sum”>5</td><td class=”sum”>4</td><td class=”sum”>3</td><td>+0.2</td></tr><tr><td class=”t”>10 / 11</td><td class=”sum”>5</td><td class=”sum”>4</td><td class=”sum”>3</td><td>+0.3</td></tr></tbody>`;
+
+  const RULES_ODDS_TABLE_BODY = `<tbody><tr><td class=”t”>3 / 18</td><td>0.5</td><td>1.4</td><td>3.6</td><td class=”sum”>5.4</td></tr><tr><td class=”t”>4 / 17</td><td>1.4</td><td>3.5</td><td>7.6</td><td class=”sum”>12.1</td></tr><tr><td class=”t”>5 / 16</td><td>2.8</td><td>5.8</td><td>11.0</td><td class=”sum”>18.5</td></tr><tr><td class=”t”>6 / 15</td><td>4.6</td><td>8.5</td><td>13.6</td><td class=”sum”>24.6</td></tr><tr><td class=”t”>7 / 14</td><td>6.9</td><td>11.1</td><td>15.2</td><td class=”sum”>29.9</td></tr><tr><td class=”t”>8 / 13</td><td>9.7</td><td>13.9</td><td>16.1</td><td class=”sum”>34.8</td></tr><tr><td class=”t”>9 / 12</td><td>11.6</td><td>14.6</td><td>16.5</td><td class=”sum”>36.9</td></tr><tr><td class=”t”>10 / 11</td><td>12.5</td><td>14.8</td><td>16.4</td><td class=”sum”>37.6</td></tr></tbody>`;
+
+  const RULES_PLACEMENT_TABLE = `<div class=”rules-table-wrap”><table class=”rules-table”>
+          <thead><tr><th>TH_TOTAL</th><th>1.</th><th>2.</th><th>3.</th><th>4.</th><th>5.</th></tr></thead>
+          <tbody><tr><td>2</td><td>2</td><td>0</td><td></td><td></td><td></td></tr><tr><td>3</td><td>4</td><td>2</td><td>0</td><td></td><td></td></tr><tr><td>4</td><td>6</td><td>4</td><td>2</td><td>0</td><td></td></tr><tr><td>5</td><td>8</td><td>6</td><td>4</td><td>2</td><td>0</td></tr></tbody>
+        </table></div>`;
+
   const RULES = {
     littlehell: {
-      title: 'Little Hell',
-      subtitle: 'Near-North-Viertel · 3 Würfel · 3 Würfe',
-      html: `
+      de: {
+        title: 'Little Hell',
+        subtitle: 'Near-North-Viertel · 3 Würfel · 3 Würfe',
+        html: `
         <p>Benannt nach <em>Little Hell</em>, dem berüchtigten Near-North-Viertel Chicagos um 1900 — Elendsquartier, Spielhöllen, Bandenkriege.</p>
 
         <h3>Ablauf</h3>
@@ -3294,32 +3423,25 @@
 
         <h3>Treffer-Punkte</h3>
         <p>Je unwahrscheinlicher ein Treffer, desto mehr ist er wert. Maßgeblich ist die Chance, <em>in genau diesem Wurf</em> zu treffen. Neben dem Ziel siehst du im Spiel die drei Werte für Wurf 1 · 2 · 3, der nächste Wurf ist hervorgehoben.</p>
-        <figure class="rules-chart"><svg viewBox="0 0 320 190" role="img" aria-label="Treffer-Punkte in Abhängigkeit von der Trefferchance des Wurfs: Stufenkurve von 25 Punkten unter 1 Prozent bis 3 Punkte ab 16 Prozent">
-          <line x1="34" x2="310" y1="160.0" y2="160.0" class="g"/><text x="28" y="163.5" class="ax" text-anchor="end">0</text><line x1="34" x2="310" y1="131.5" y2="131.5" class="g"/><text x="28" y="135.0" class="ax" text-anchor="end">5</text><line x1="34" x2="310" y1="103.1" y2="103.1" class="g"/><text x="28" y="106.6" class="ax" text-anchor="end">10</text><line x1="34" x2="310" y1="74.6" y2="74.6" class="g"/><text x="28" y="78.1" class="ax" text-anchor="end">15</text><line x1="34" x2="310" y1="46.2" y2="46.2" class="g"/><text x="28" y="49.7" class="ax" text-anchor="end">20</text><line x1="34" x2="310" y1="17.7" y2="17.7" class="g"/><text x="28" y="21.2" class="ax" text-anchor="end">25</text><line x1="34.0" x2="34.0" y1="160" y2="164" class="g"/><text x="34.0" y="175" class="ax" text-anchor="middle">0</text><line x1="66.5" x2="66.5" y1="160" y2="164" class="g"/><text x="66.5" y="175" class="ax" text-anchor="middle">2</text><line x1="98.9" x2="98.9" y1="160" y2="164" class="g"/><text x="98.9" y="175" class="ax" text-anchor="middle">4</text><line x1="131.4" x2="131.4" y1="160" y2="164" class="g"/><text x="131.4" y="175" class="ax" text-anchor="middle">6</text><line x1="163.9" x2="163.9" y1="160" y2="164" class="g"/><text x="163.9" y="175" class="ax" text-anchor="middle">8</text><line x1="196.4" x2="196.4" y1="160" y2="164" class="g"/><text x="196.4" y="175" class="ax" text-anchor="middle">10</text><line x1="228.8" x2="228.8" y1="160" y2="164" class="g"/><text x="228.8" y="175" class="ax" text-anchor="middle">12</text><line x1="261.3" x2="261.3" y1="160" y2="164" class="g"/><text x="261.3" y="175" class="ax" text-anchor="middle">14</text><line x1="293.8" x2="293.8" y1="160" y2="164" class="g"/><text x="293.8" y="175" class="ax" text-anchor="middle">16</text>
-          <line x1="34" x2="310" y1="160" y2="160" class="axl"/>
-          <path d="M42.1,17.7L50.2,17.7L50.2,46.2L66.5,46.2L66.5,74.6L82.7,74.6L82.7,80.3L98.9,80.3L98.9,91.7L115.2,91.7L115.2,103.1L139.5,103.1L139.5,108.8L155.8,108.8L155.8,114.5L180.1,114.5L180.1,120.2L204.5,120.2L204.5,125.8L220.7,125.8L220.7,131.5L245.1,131.5L245.1,137.2L293.8,137.2L293.8,142.9L310.0,142.9" class="st"/>
-          <circle cx="42.1" cy="17.7" r="3.2" class="d"/><circle cx="56.7" cy="46.2" r="3.2" class="d"/><circle cx="79.5" cy="74.6" r="3.2" class="d"/><circle cx="90.8" cy="80.3" r="3.2" class="d"/><circle cx="92.4" cy="80.3" r="3.2" class="d"/><circle cx="108.7" cy="91.7" r="3.2" class="d"/><circle cx="128.2" cy="103.1" r="3.2" class="d"/><circle cx="146.0" cy="108.8" r="3.2" class="d"/><circle cx="157.4" cy="114.5" r="3.2" class="d"/><circle cx="172.0" cy="114.5" r="3.2" class="d"/><circle cx="191.5" cy="120.2" r="3.2" class="d"/><circle cx="212.6" cy="125.8" r="3.2" class="d"/><circle cx="214.2" cy="125.8" r="3.2" class="d"/><circle cx="222.3" cy="131.5" r="3.2" class="d"/><circle cx="236.9" cy="131.5" r="3.2" class="d"/><circle cx="254.8" cy="137.2" r="3.2" class="d"/><circle cx="259.7" cy="137.2" r="3.2" class="d"/><circle cx="271.0" cy="137.2" r="3.2" class="d"/><circle cx="274.3" cy="137.2" r="3.2" class="d"/><circle cx="280.8" cy="137.2" r="3.2" class="d"/><circle cx="295.4" cy="142.9" r="3.2" class="d"/><circle cx="300.3" cy="142.9" r="3.2" class="d"/><circle cx="301.9" cy="142.9" r="3.2" class="d"/>
-          <text x="172.0" y="188" class="ax" text-anchor="middle">Trefferchance im Wurf (%)</text>
-        </svg>
-        <figcaption>Linie = Stufen · Punkte = die Werte, die im Spiel tatsächlich vorkommen</figcaption></figure>
-        <div class="rules-table-wrap"><table class="rules-table">
+        ${RULES_CHART_SVG.replace('ARIA_LABEL', 'Treffer-Punkte in Abhängigkeit von der Trefferchance des Wurfs: Stufenkurve von 25 Punkten unter 1 Prozent bis 3 Punkte ab 16 Prozent').replace('X_AXIS_LABEL', 'Trefferchance im Wurf (%)').replace('FIGCAPTION', 'Linie = Stufen · Punkte = die Werte, die im Spiel tatsächlich vorkommen')}
+        <div class=”rules-table-wrap”><table class=”rules-table”>
           <thead><tr><th>Chance im Wurf</th><th>Punkte</th></tr></thead>
-          <tbody><tr><td class="t">unter 1 %</td><td class="sum">25</td></tr><tr><td class="t">1 – 2 %</td><td class="sum">20</td></tr><tr><td class="t">2 – 3 %</td><td class="sum">15</td></tr><tr><td class="t">3 – 4 %</td><td class="sum">14</td></tr><tr><td class="t">4 – 5 %</td><td class="sum">12</td></tr><tr><td class="t">5 – 6,5 %</td><td class="sum">10</td></tr><tr><td class="t">6,5 – 7,5 %</td><td class="sum">9</td></tr><tr><td class="t">7,5 – 9 %</td><td class="sum">8</td></tr><tr><td class="t">9 – 10,5 %</td><td class="sum">7</td></tr><tr><td class="t">10,5 – 11,5 %</td><td class="sum">6</td></tr><tr><td class="t">11,5 – 13 %</td><td class="sum">5</td></tr><tr><td class="t">13 – 16 %</td><td class="sum">4</td></tr><tr><td class="t">ab 16 %</td><td class="sum">3</td></tr></tbody>
+          ${RULES_POINTS_TABLE_BODY.replace('T_UNDER_1', 'unter 1 %').replace('T_FROM_16', 'ab 16 %').replace(/\./g, ',')}
         </table></div>
 
         <h3>Punkte je Ziel</h3>
-        <div class="rules-table-wrap"><table class="rules-table">
+        <div class=”rules-table-wrap”><table class=”rules-table”>
           <thead><tr><th>Ziel</th><th>Wurf 1</th><th>Wurf 2</th><th>Wurf 3</th><th>Ø Pkt.</th></tr></thead>
-          <tbody><tr><td class="t">3 / 18</td><td class="sum">25</td><td class="sum">20</td><td class="sum">14</td><td class="neg">−3,8</td></tr><tr><td class="t">4 / 17</td><td class="sum">20</td><td class="sum">14</td><td class="sum">8</td><td class="neg">−2,3</td></tr><tr><td class="t">5 / 16</td><td class="sum">15</td><td class="sum">10</td><td class="sum">6</td><td class="neg">−1,1</td></tr><tr><td class="t">6 / 15</td><td class="sum">12</td><td class="sum">8</td><td class="sum">4</td><td class="neg">−0,3</td></tr><tr><td class="t">7 / 14</td><td class="sum">9</td><td class="sum">6</td><td class="sum">4</td><td>+0,2</td></tr><tr><td class="t">8 / 13</td><td class="sum">7</td><td class="sum">4</td><td class="sum">3</td><td>+0,2</td></tr><tr><td class="t">9 / 12</td><td class="sum">5</td><td class="sum">4</td><td class="sum">3</td><td>+0,2</td></tr><tr><td class="t">10 / 11</td><td class="sum">5</td><td class="sum">4</td><td class="sum">3</td><td>+0,3</td></tr></tbody>
+          ${RULES_TARGET_TABLE_BODY.replace(/\./g, ',')}
         </table></div>
-        <p class="rules-note">Die Ziele 11–18 spiegeln 3–10. Ø Pkt. = durchschnittliche Punkte pro Runde bei optimalem Spiel, Minuspunkte und Pasch-Regel eingerechnet (ohne Höllenpasch, der den Gesamtstand betrifft).</p>
+        <p class=”rules-note”>Die Ziele 11–18 spiegeln 3–10. Ø Pkt. = durchschnittliche Punkte pro Runde bei optimalem Spiel, Minuspunkte und Pasch-Regel eingerechnet (ohne Höllenpasch, der den Gesamtstand betrifft).</p>
 
         <h3>Trefferchancen je Ziel</h3>
-        <div class="rules-table-wrap"><table class="rules-table">
+        <div class=”rules-table-wrap”><table class=”rules-table”>
           <thead><tr><th>Ziel</th><th>Wurf 1</th><th>Wurf 2</th><th>Wurf 3</th><th>Gesamt</th></tr></thead>
-          <tbody><tr><td class="t">3 / 18</td><td>0,5</td><td>1,4</td><td>3,6</td><td class="sum">5,4</td></tr><tr><td class="t">4 / 17</td><td>1,4</td><td>3,5</td><td>7,6</td><td class="sum">12,1</td></tr><tr><td class="t">5 / 16</td><td>2,8</td><td>5,8</td><td>11,0</td><td class="sum">18,5</td></tr><tr><td class="t">6 / 15</td><td>4,6</td><td>8,5</td><td>13,6</td><td class="sum">24,6</td></tr><tr><td class="t">7 / 14</td><td>6,9</td><td>11,1</td><td>15,2</td><td class="sum">29,9</td></tr><tr><td class="t">8 / 13</td><td>9,7</td><td>13,9</td><td>16,1</td><td class="sum">34,8</td></tr><tr><td class="t">9 / 12</td><td>11,6</td><td>14,6</td><td>16,5</td><td class="sum">36,9</td></tr><tr><td class="t">10 / 11</td><td>12,5</td><td>14,8</td><td>16,4</td><td class="sum">37,6</td></tr></tbody>
+          ${RULES_ODDS_TABLE_BODY.replace(/\./g, ',')}
         </table></div>
-        <p class="rules-note">Angaben in %. Wurf 2 und Wurf 3 = Chance in diesem Wurf, wenn die Würfe davor danebengingen und du jeweils den Würfel mit der besten Trefferchance speicherst. Gesamt = Chance, in einem der drei Würfe zu treffen.</p>
+        <p class=”rules-note”>Angaben in %. Wurf 2 und Wurf 3 = Chance in diesem Wurf, wenn die Würfe davor danebengingen und du jeweils den Würfel mit der besten Trefferchance speicherst. Gesamt = Chance, in einem der drei Würfe zu treffen.</p>
 
         <h3>Minuspunkte</h3>
         <p>Verfehlst du das Ziel nach dem 3. Wurf, wird der <em>Abstand zur Zielzahl</em> abgezogen. Ziel 10, Summe 7 → <em>−3</em>.</p>
@@ -3330,10 +3452,10 @@
           <li><em>Höllenpasch 6-6-6</em> – nur wenn dein Stand <em>im Minus</em> ist: Er zählt sofort, in jedem Wurf, dein Zug ist vorbei und dein <em>Gesamtstand steigt auf 0</em>. Bei Ziel 18 ist 6-6-6 zugleich ein Treffer: erst auf 0, dann kommen die Trefferpunkte dazu.</li>
           <li>Bei Stand 0 oder im Plus sind 6-6-6 ganz normale Würfel: Bei Ziel 18 ein Treffer, sonst geht der Zug weiter, im 3. Wurf gilt die Pasch-Regel.</li>
         </ul>
-        <p class="rules-note">Bei optimalem Spiel rettet der Höllenpasch etwa in jeder sechsten Partie je Spieler, meist bei den Zielen 13–18, weil man dort Sechsen speichert. Wer im Minus steckt, kann also gezielt auf Sechsen gehen. Für Führende gibt es kein Risiko.</p>
+        <p class=”rules-note”>Bei optimalem Spiel rettet der Höllenpasch etwa in jeder sechsten Partie je Spieler, meist bei den Zielen 13–18, weil man dort Sechsen speichert. Wer im Minus steckt, kann also gezielt auf Sechsen gehen. Für Führende gibt es kein Risiko.</p>
 
         <h3>Wahrscheinlichkeiten im Spiel</h3>
-        <p>Nach Wurf 1 zeigt jeder Würfel zwei Zeilen für den Fall, dass du ihn speicherst: oben die Trefferchance im <em>2. Wurf</em>, unten die Chance, erst im <em>3. Wurf</em> zu treffen (nach Fehlschlag in Wurf 2, mit bestem Save). Nach Wurf 2 bleibt nur noch eine Zeile (3. Wurf). Bei „alle neu“ steht links der 2., rechts der 3. Wurf. Der Schalter <em>Trefferchancen</em> blendet diese Werte und die Tabelle gemeinsam ein oder aus.</p>
+        <p>Nach Wurf 1 zeigt jeder Würfel zwei Zeilen für den Fall, dass du ihn speicherst: oben die Trefferchance im <em>2. Wurf</em>, unten die Chance, erst im <em>3. Wurf</em> zu treffen (nach Fehlschlag in Wurf 2, mit bestem Save). Nach Wurf 2 bleibt nur noch eine Zeile (3. Wurf). Bei „alle neu” steht links der 2., rechts der 3. Wurf. Der Schalter <em>Trefferchancen</em> blendet diese Werte und die Tabelle gemeinsam ein oder aus.</p>
         <p><em>Rote Augen</em> zeigen einen Würfel, mit dem kein Treffer mehr möglich ist, wenn du ihn behältst. Dabei zählen der schon gespeicherte Würfel und die Würfel, die noch geworfen werden: Ist die Summe dann zwingend zu hoch (z. B. eine 6 bei Ziel 5) oder zu niedrig (z. B. eine 4 bei Ziel 17), oder passt der letzte Würfel nicht mehr (Ziel 3, eine 2 gespeichert: dann ist eine 1 rot, weil der dritte Würfel 0 zeigen müsste), wird er rot. Alle anderen Würfel haben schwarze Augen.</p>
 
         <h3>Strategie</h3>
@@ -3344,12 +3466,12 @@
 
         <h3>Punktewert-Einschätzung</h3>
         <p>Bei optimalem Spiel liegt der Durchschnitt über 16 Runden bei etwa <em>−11 Punkten</em> (Pasch und Höllenpasch eingerechnet), die meisten Ergebnisse streuen grob ±17 darum. Die Einordnung ist so gesetzt, dass die mittleren Stufen am häufigsten vorkommen:</p>
-        <div class="rules-table-wrap"><table class="rules-table tiers">
+        <div class=”rules-table-wrap”><table class=”rules-table tiers”>
           <thead><tr><th>Punkte</th><th>Einordnung</th><th>Anteil</th><th>Session</th></tr></thead>
-          <tbody><tr class="neg"><td class="t">bis −44</td><td class="lbl">katastrophal</td><td>2 %</td><td class="sum">−6</td></tr><tr class="neg"><td class="t">−43 bis −31</td><td class="lbl">bitterer Abend</td><td>11 %</td><td class="sum">−4</td></tr><tr class="neg"><td class="t">−30 bis −20</td><td class="lbl">Pechsträhne</td><td>19 %</td><td class="sum">−3</td></tr><tr class="neg"><td class="t">−19 bis −10</td><td class="lbl">leicht unter Schnitt</td><td>23 %</td><td class="sum">−2</td></tr><tr class="neg"><td class="t">−9 bis −1</td><td class="lbl">solide</td><td>20 %</td><td class="sum">−1</td></tr><tr class="zeroline"><td class="t">0 bis 13</td><td class="lbl">guter Lauf</td><td>15 %</td><td class="sum">+10</td></tr><tr><td class="t">14 bis 27</td><td class="lbl">sehr stark</td><td>8 %</td><td class="sum">+16</td></tr><tr><td class="t">28 bis 40</td><td class="lbl">Glückssträhne</td><td>1,5 %</td><td class="sum">+22</td></tr><tr><td class="t">über 40</td><td class="lbl">Höllenritt</td><td>0,3 %</td><td class="sum">+30</td></tr></tbody>
+          <tbody><tr class=”neg”><td class=”t”>bis −44</td><td class=”lbl”>katastrophal</td><td>2 %</td><td class=”sum”>−6</td></tr><tr class=”neg”><td class=”t”>−43 bis −31</td><td class=”lbl”>bitterer Abend</td><td>11 %</td><td class=”sum”>−4</td></tr><tr class=”neg”><td class=”t”>−30 bis −20</td><td class=”lbl”>Pechsträhne</td><td>19 %</td><td class=”sum”>−3</td></tr><tr class=”neg”><td class=”t”>−19 bis −10</td><td class=”lbl”>leicht unter Schnitt</td><td>23 %</td><td class=”sum”>−2</td></tr><tr class=”neg”><td class=”t”>−9 bis −1</td><td class=”lbl”>solide</td><td>20 %</td><td class=”sum”>−1</td></tr><tr class=”zeroline”><td class=”t”>0 bis 13</td><td class=”lbl”>guter Lauf</td><td>15 %</td><td class=”sum”>+10</td></tr><tr><td class=”t”>14 bis 27</td><td class=”lbl”>sehr stark</td><td>8 %</td><td class=”sum”>+16</td></tr><tr><td class=”t”>28 bis 40</td><td class=”lbl”>Glückssträhne</td><td>1,5 %</td><td class=”sum”>+22</td></tr><tr><td class=”t”>über 40</td><td class=”lbl”>Höllenritt</td><td>0,3 %</td><td class=”sum”>+30</td></tr></tbody>
         </table></div>
-        <p class="rules-note">Anteil = wie oft das Ergebnis bei optimalem Spiel in dieser Stufe landet.</p>
-        <p><em>Die Nulllinie:</em> Wer eine Partie mit 0 oder mehr Punkten beendet, bekommt mindestens +10 Session-Punkte, wer im Minus endet, verliert 1 bis 6. Zwischen −1 und 0 liegen also 11 Session-Punkte — mehr als zwischen „solide“ und „katastrophal“ zusammen. Nur etwa jede vierte Partie endet im Plus. Wer kurz vor Schluss knapp unter 0 steht, hat einen guten Grund, auf Risiko zu spielen, und ein Höllenpasch (setzt einen negativen Stand auf 0) hebt direkt über die Linie. Sobald ein Spieler bei 0 oder darüber steht, leuchtet seine Münze im Spielstand mit goldenem Rand.</p>
+        <p class=”rules-note”>Anteil = wie oft das Ergebnis bei optimalem Spiel in dieser Stufe landet.</p>
+        <p><em>Die Nulllinie:</em> Wer eine Partie mit 0 oder mehr Punkten beendet, bekommt mindestens +10 Session-Punkte, wer im Minus endet, verliert 1 bis 6. Zwischen −1 und 0 liegen also 11 Session-Punkte — mehr als zwischen „solide” und „katastrophal” zusammen. Nur etwa jede vierte Partie endet im Plus. Wer kurz vor Schluss knapp unter 0 steht, hat einen guten Grund, auf Risiko zu spielen, und ein Höllenpasch (setzt einen negativen Stand auf 0) hebt direkt über die Linie. Sobald ein Spieler bei 0 oder darüber steht, leuchtet seine Münze im Spielstand mit goldenem Rand.</p>
 
         <h3>Hot-Seat</h3>
         <p>Im Setup wählst du für jeden Gegner <em>KI</em> oder <em>Mensch</em> und gibst den Namen ein. Menschen und KI lassen sich beliebig mischen. Ist ein Mensch dran, erscheint sein Name, und ihr reicht das Gerät weiter.</p>
@@ -3362,20 +3484,183 @@
           <li><em>Stufenpunkte</em> nach seiner Einschätzungsgruppe (−6 bis −1 im Minus, +10 bis +30 ab 0 Punkten, siehe Tabelle oben). Session-Punkte können dadurch auch negativ werden.</li>
           <li><em>Platzierungspunkte</em>: Der Letzte bekommt 0, der Vorletzte 2, der Drittletzte 4 und so weiter — 2 Punkte für jeden Spieler, der weniger Punkte hat. Bei Gleichstand bekommen alle Gleichplatzierten denselben Wert.</li>
         </ul>
-        <div class="rules-table-wrap"><table class="rules-table">
-          <thead><tr><th>Spieler gesamt</th><th>1.</th><th>2.</th><th>3.</th><th>4.</th><th>5.</th></tr></thead>
-          <tbody><tr><td>2</td><td>2</td><td>0</td><td></td><td></td><td></td></tr><tr><td>3</td><td>4</td><td>2</td><td>0</td><td></td><td></td></tr><tr><td>4</td><td>6</td><td>4</td><td>2</td><td>0</td><td></td></tr><tr><td>5</td><td>8</td><td>6</td><td>4</td><td>2</td><td>0</td></tr></tbody>
-        </table></div>
-        <p>Beispiel: Du landest mit +5 Punkten in „guter Lauf“ (+10) und wirst Zweiter von vier (+4) — macht 14 Session-Punkte. Mit −3 Punkten wärst du „solide“ (−1) und hättest als Zweiter nur 3. Im Reihenfolge-Kasten steht hinter jedem Namen „(Gesamt · + aktuell)“: die bisherigen Session-Punkte und was die laufende Partie inklusive Platzierung gerade bringen würde. Die Session-Punkte werden über alle Partien addiert — die aktuelle Session-Tabelle ist jederzeit über den Statistik-Button abrufbar. „Nächste Partie" setzt die Session fort, „Neue Session" setzt sie zurück.</p>
+        ${RULES_PLACEMENT_TABLE.replace('TH_TOTAL', 'Spieler gesamt')}
+        <p>Beispiel: Du landest mit +5 Punkten in „guter Lauf” (+10) und wirst Zweiter von vier (+4) — macht 14 Session-Punkte. Mit −3 Punkten wärst du „solide” (−1) und hättest als Zweiter nur 3. Im Reihenfolge-Kasten steht hinter jedem Namen „(Gesamt · + aktuell)”: die bisherigen Session-Punkte und was die laufende Partie inklusive Platzierung gerade bringen würde. Die Session-Punkte werden über alle Partien addiert — die aktuelle Session-Tabelle ist jederzeit über den Statistik-Button abrufbar. „Nächste Partie” setzt die Session fort, „Neue Session” setzt sie zurück.</p>
       `,
+      },
+      en: {
+        title: 'Little Hell',
+        subtitle: 'Near North Side · 3 Dice · 3 Rolls',
+        html: `
+        <p>Named after <em>Little Hell</em>, the notorious Near North Side neighborhood of Chicago around 1900 — slum quarter, gambling dens, gang wars.</p>
+
+        <h3>Gameplay</h3>
+        <p>16 rounds with targets from <em>3 to 18</em> (round 1 = 3, round 16 = 18). Each player has <em>3 rolls</em> per turn:</p>
+        <ul>
+          <li>After roll 1 you may <em>save one die</em> and re-roll the other two.</li>
+          <li>After roll 2 you may <em>save another die</em> (in addition to the first) and re-roll the last one.</li>
+          <li>Roll 3 is final — the sum decides.</li>
+        </ul>
+        <p>If you hit the target, your turn ends immediately and you score the hit points.</p>
+
+        <h3>Hit Points</h3>
+        <p>The less likely a hit, the more it's worth. What counts is the chance of hitting <em>on that specific roll</em>. Next to the target you'll see the three values for roll 1 · 2 · 3 in the game, with the next roll highlighted.</p>
+        ${RULES_CHART_SVG.replace('ARIA_LABEL', 'Hit points depending on hit chance per roll: step curve from 25 points below 1 percent to 3 points from 16 percent').replace('X_AXIS_LABEL', 'Hit chance per roll (%)').replace('FIGCAPTION', 'Line = tiers · dots = values that actually occur in the game')}
+        <div class=”rules-table-wrap”><table class=”rules-table”>
+          <thead><tr><th>Roll chance</th><th>Points</th></tr></thead>
+          ${RULES_POINTS_TABLE_BODY.replace('T_UNDER_1', 'below 1 %').replace('T_FROM_16', 'from 16 %')}
+        </table></div>
+
+        <h3>Points per Target</h3>
+        <div class=”rules-table-wrap”><table class=”rules-table”>
+          <thead><tr><th>Target</th><th>Roll 1</th><th>Roll 2</th><th>Roll 3</th><th>Ø Pts.</th></tr></thead>
+          ${RULES_TARGET_TABLE_BODY}
+        </table></div>
+        <p class=”rules-note”>Targets 11–18 mirror 3–10. Ø Pts. = average points per round with optimal play, penalty points and triples rule included (excluding Hell Triple, which affects overall score).</p>
+
+        <h3>Hit Odds per Target</h3>
+        <div class=”rules-table-wrap”><table class=”rules-table”>
+          <thead><tr><th>Target</th><th>Roll 1</th><th>Roll 2</th><th>Roll 3</th><th>Total</th></tr></thead>
+          ${RULES_ODDS_TABLE_BODY}
+        </table></div>
+        <p class=”rules-note”>Values in %. Roll 2 and roll 3 = chance on that roll if previous rolls missed and you saved the die with the best hit chance. Total = chance of hitting on any of the three rolls.</p>
+
+        <h3>Penalty Points</h3>
+        <p>If you miss after roll 3, the <em>distance to the target number</em> is subtracted. Target 10, sum 7 → <em>−3</em>.</p>
+
+        <h3>Triples and Hell Triple</h3>
+        <ul>
+          <li><em>Triples</em> (three matching dice) after a miss on roll 3: <em>no penalty</em>, the round scores 0.</li>
+          <li><em>Hell Triple 6-6-6</em> — only when your score is <em>negative</em>: It triggers immediately on any roll, your turn ends and your <em>total score resets to 0</em>. At target 18, 6-6-6 is also a hit: first reset to 0, then add the hit points.</li>
+          <li>At score 0 or above, 6-6-6 are just normal dice: at target 18 it's a hit, otherwise the turn continues, and on roll 3 the triples rule applies.</li>
+        </ul>
+        <p class=”rules-note”>With optimal play, the Hell Triple rescues roughly every sixth game per player, mostly at targets 13–18, because players save sixes there. Anyone in the negative can deliberately aim for sixes. For players in the lead there's no risk.</p>
+
+        <h3>Probabilities in Game</h3>
+        <p>After roll 1 each die shows two rows in case you save it: the top row is the hit chance on <em>roll 2</em>, the bottom row the chance of hitting on <em>roll 3</em> (after missing roll 2, with the best save). After roll 2 only one row remains (roll 3). When re-rolling all dice, the left value is roll 2, the right is roll 3. The <em>Hit chances</em> toggle shows or hides these values and the table together.</p>
+        <p><em>Red pips</em> indicate a die that makes no hit possible if you keep it. This considers the already-saved die and the dice still to be rolled: if the sum would inevitably be too high (e.g. a 6 at target 5) or too low (e.g. a 4 at target 17), or the last die can't fit (target 3, a 2 saved: then a 1 is red because the third die would need to show 0), it turns red. All other dice have black pips.</p>
+
+        <h3>Strategy</h3>
+        <p>The edges (targets 3–6 at the start, 15–18 at the end) are the jackpot rounds: hard to hit, but worth up to 25 points. Anyone trailing at the end can catch up with a hit on target 17 or 18. The middle (8–13) yields little — the goal there is mostly to avoid penalty points.</p>
+
+        <h3>Victory</h3>
+        <p>After 16 rounds the player with the <em>most points</em> wins. Theoretical maximum: 196 (all 16 targets hit on roll 1).</p>
+
+        <h3>Score Rating</h3>
+        <p>With optimal play the average over 16 rounds is about <em>−11 points</em> (triples and Hell Triple included), most results scatter roughly ±17 around it. The tiers are set so the middle tiers occur most often:</p>
+        <div class=”rules-table-wrap”><table class=”rules-table tiers”>
+          <thead><tr><th>Points</th><th>Rating</th><th>Share</th><th>Session</th></tr></thead>
+          <tbody><tr class=”neg”><td class=”t”>below −44</td><td class=”lbl”>catastrophic</td><td>2 %</td><td class=”sum”>−6</td></tr><tr class=”neg”><td class=”t”>−43 to −31</td><td class=”lbl”>bitter night</td><td>11 %</td><td class=”sum”>−4</td></tr><tr class=”neg”><td class=”t”>−30 to −20</td><td class=”lbl”>losing streak</td><td>19 %</td><td class=”sum”>−3</td></tr><tr class=”neg”><td class=”t”>−19 to −10</td><td class=”lbl”>slightly below average</td><td>23 %</td><td class=”sum”>−2</td></tr><tr class=”neg”><td class=”t”>−9 to −1</td><td class=”lbl”>solid</td><td>20 %</td><td class=”sum”>−1</td></tr><tr class=”zeroline”><td class=”t”>0 to 13</td><td class=”lbl”>good run</td><td>15 %</td><td class=”sum”>+10</td></tr><tr><td class=”t”>14 to 27</td><td class=”lbl”>very strong</td><td>8 %</td><td class=”sum”>+16</td></tr><tr><td class=”t”>28 to 40</td><td class=”lbl”>lucky streak</td><td>1.5 %</td><td class=”sum”>+22</td></tr><tr><td class=”t”>above 40</td><td class=”lbl”>hell ride</td><td>0.3 %</td><td class=”sum”>+30</td></tr></tbody>
+        </table></div>
+        <p class=”rules-note”>Share = how often the result lands in this tier with optimal play.</p>
+        <p><em>The zero line:</em> Finishing a game with 0 or more points earns at least +10 session points; finishing negative costs 1 to 6. Between −1 and 0 lie 11 session points — more than between “solid” and “catastrophic” combined. Only about one in four games ends positive. Anyone just below 0 near the end has a good reason to play risky, and a Hell Triple (resets a negative score to 0) lifts you right over the line. Once a player is at 0 or above, their coin in the scoreboard glows with a golden border.</p>
+
+        <h3>Hot Seat</h3>
+        <p>In setup you choose <em>AI</em> or <em>Human</em> for each opponent and enter their name. Humans and AI can be mixed freely. When a human's turn comes, their name appears, and you pass the device.</p>
+        <p>With multiple humans, the screen rotates 180° at each switch between them (the 1st, 3rd, … human sees it normally, the 2nd, 4th, … rotated). This way the phone can simply stay between two players sitting across from each other. During an AI's turn, the view stays as it was.</p>
+        <p>In Hot Seat the game remembers the <em>Hit chances</em> toggle for each human individually. With Flip the result of a turn appears twice, readable from each side.</p>
+
+        <h3>Session Mode</h3>
+        <p>You can play multiple games in a row with the same players. After each 16-round game every player gets <em>session points</em> from two parts added together:</p>
+        <ul>
+          <li><em>Tier points</em> from their rating tier (−6 to −1 in the negative, +10 to +30 from 0 points onward, see table above). Session points can go negative this way.</li>
+          <li><em>Placement points</em>: Last place gets 0, second to last 2, third to last 4 and so on — 2 points for each player with fewer points. Ties get the same value.</li>
+        </ul>
+        ${RULES_PLACEMENT_TABLE.replace('TH_TOTAL', 'Total players')}
+        <p>Example: You land at +5 points in “good run” (+10) and finish second of four (+4) — that's 14 session points. At −3 points you'd be “solid” (−1) and as second place only 3. In the order box each name shows “(Total · + current)”: the session points so far and what the current game including placement would yield. Session points are summed across all games — the current session table is available anytime via the Stats button. “Next game” continues the session, “New session” resets it.</p>
+      `,
+      },
+      es: {
+        title: 'Little Hell',
+        subtitle: 'Near North Side · 3 Dados · 3 Tiros',
+        html: `
+        <p>Nombrado por <em>Little Hell</em>, el infame barrio Near North Side de Chicago alrededor de 1900 — barrio marginal, casas de juego, guerras de pandillas.</p>
+
+        <h3>Mecánica</h3>
+        <p>16 rondas con objetivos del <em>3 al 18</em> (ronda 1 = 3, ronda 16 = 18). Cada jugador tiene <em>3 tiros</em> por turno:</p>
+        <ul>
+          <li>Tras el tiro 1 puedes <em>guardar un dado</em> y volver a tirar los otros dos.</li>
+          <li>Tras el tiro 2 puedes <em>guardar otro dado</em> (además del primero) y volver a tirar el último.</li>
+          <li>El tiro 3 es el último — la suma decide.</li>
+        </ul>
+        <p>Si aciertas, tu turno termina inmediatamente y recibes los puntos de acierto.</p>
+
+        <h3>Puntos de Acierto</h3>
+        <p>Cuanto más improbable sea un acierto, más vale. Lo que cuenta es la probabilidad de acertar <em>en ese tiro concreto</em>. Junto al objetivo verás en el juego los tres valores para tiro 1 · 2 · 3, con el siguiente tiro resaltado.</p>
+        ${RULES_CHART_SVG.replace('ARIA_LABEL', 'Puntos de acierto según la probabilidad de acierto por tiro: curva escalonada de 25 puntos por debajo del 1 por ciento a 3 puntos desde el 16 por ciento').replace('X_AXIS_LABEL', 'Probabilidad de acierto por tiro (%)').replace('FIGCAPTION', 'Línea = niveles · puntos = valores que realmente aparecen en el juego')}
+        <div class=”rules-table-wrap”><table class=”rules-table”>
+          <thead><tr><th>Probabilidad por tiro</th><th>Puntos</th></tr></thead>
+          ${RULES_POINTS_TABLE_BODY.replace('T_UNDER_1', 'menos del 1 %').replace('T_FROM_16', 'desde 16 %').replace(/\./g, ',')}
+        </table></div>
+
+        <h3>Puntos por Objetivo</h3>
+        <div class=”rules-table-wrap”><table class=”rules-table”>
+          <thead><tr><th>Objetivo</th><th>Tiro 1</th><th>Tiro 2</th><th>Tiro 3</th><th>Ø Pts.</th></tr></thead>
+          ${RULES_TARGET_TABLE_BODY.replace(/\./g, ',')}
+        </table></div>
+        <p class=”rules-note”>Los objetivos 11–18 son espejo de 3–10. Ø Pts. = puntos promedio por ronda con juego óptimo, penalizaciones y regla de triples incluidas (sin Pasch Infernal, que afecta la puntuación total).</p>
+
+        <h3>Probabilidades por Objetivo</h3>
+        <div class=”rules-table-wrap”><table class=”rules-table”>
+          <thead><tr><th>Objetivo</th><th>Tiro 1</th><th>Tiro 2</th><th>Tiro 3</th><th>Total</th></tr></thead>
+          ${RULES_ODDS_TABLE_BODY.replace(/\./g, ',')}
+        </table></div>
+        <p class=”rules-note”>Valores en %. Tiro 2 y tiro 3 = probabilidad en ese tiro si los anteriores fallaron y guardaste el dado con mejor probabilidad de acierto. Total = probabilidad de acertar en alguno de los tres tiros.</p>
+
+        <h3>Puntos de Penalización</h3>
+        <p>Si fallas tras el tiro 3, se resta la <em>distancia al número objetivo</em>. Objetivo 10, suma 7 → <em>−3</em>.</p>
+
+        <h3>Triples y Pasch Infernal</h3>
+        <ul>
+          <li><em>Triples</em> (tres dados iguales) tras un fallo en el tiro 3: <em>sin penalización</em>, la ronda cuenta 0.</li>
+          <li><em>Pasch Infernal 6-6-6</em> — solo si tu puntuación es <em>negativa</em>: Se activa inmediatamente en cualquier tiro, tu turno termina y tu <em>puntuación total sube a 0</em>. En el objetivo 18, 6-6-6 es también un acierto: primero sube a 0, luego se suman los puntos de acierto.</li>
+          <li>Con puntuación 0 o positiva, 6-6-6 son dados normales: en el objetivo 18 es un acierto, si no el turno continúa, y en el tiro 3 se aplica la regla de triples.</li>
+        </ul>
+        <p class=”rules-note”>Con juego óptimo, el Pasch Infernal rescata aproximadamente cada sexta partida por jugador, mayormente en los objetivos 13–18, porque allí se guardan seises. Quien esté en negativo puede apuntar deliberadamente a seises. Para los líderes no hay riesgo.</p>
+
+        <h3>Probabilidades en el Juego</h3>
+        <p>Tras el tiro 1 cada dado muestra dos filas para el caso de que lo guardes: arriba la probabilidad de acierto en el <em>tiro 2</em>, abajo la probabilidad de acertar en el <em>tiro 3</em> (tras fallar el tiro 2, con el mejor guardado). Tras el tiro 2 queda solo una fila (tiro 3). Al tirar todos de nuevo, a la izquierda está el tiro 2, a la derecha el tiro 3. El interruptor <em>Probabilidades de acierto</em> muestra u oculta estos valores y la tabla juntos.</p>
+        <p><em>Puntos rojos</em> indican un dado con el que ningún acierto es posible si lo guardas. Se consideran el dado ya guardado y los dados aún por tirar: si la suma sería inevitablemente demasiado alta (ej. un 6 en objetivo 5) o demasiado baja (ej. un 4 en objetivo 17), o el último dado no encaja (objetivo 3, un 2 guardado: entonces un 1 es rojo porque el tercer dado necesitaría mostrar 0), se vuelve rojo. Todos los demás dados tienen puntos negros.</p>
+
+        <h3>Estrategia</h3>
+        <p>Los extremos (objetivos 3–6 al inicio, 15–18 al final) son las rondas jackpot: difíciles de acertar, pero valen hasta 25 puntos. Quien va detrás al final puede remontar con un acierto en el objetivo 17 o 18. El centro (8–13) rinde poco — el objetivo ahí es sobre todo evitar penalizaciones.</p>
+
+        <h3>Victoria</h3>
+        <p>Tras 16 rondas gana quien tenga <em>más puntos</em>. Máximo teórico: 196 (los 16 objetivos acertados en el tiro 1).</p>
+
+        <h3>Valoración de Puntuación</h3>
+        <p>Con juego óptimo el promedio en 16 rondas es de unos <em>−11 puntos</em> (triples y Pasch Infernal incluidos), la mayoría de resultados se dispersan aproximadamente ±17 alrededor. Los niveles están configurados para que los intermedios sean los más frecuentes:</p>
+        <div class=”rules-table-wrap”><table class=”rules-table tiers”>
+          <thead><tr><th>Puntos</th><th>Nivel</th><th>Proporción</th><th>Sesión</th></tr></thead>
+          <tbody><tr class=”neg”><td class=”t”>hasta −44</td><td class=”lbl”>catastrófico</td><td>2 %</td><td class=”sum”>−6</td></tr><tr class=”neg”><td class=”t”>−43 a −31</td><td class=”lbl”>noche amarga</td><td>11 %</td><td class=”sum”>−4</td></tr><tr class=”neg”><td class=”t”>−30 a −20</td><td class=”lbl”>mala racha</td><td>19 %</td><td class=”sum”>−3</td></tr><tr class=”neg”><td class=”t”>−19 a −10</td><td class=”lbl”>ligeramente bajo</td><td>23 %</td><td class=”sum”>−2</td></tr><tr class=”neg”><td class=”t”>−9 a −1</td><td class=”lbl”>sólido</td><td>20 %</td><td class=”sum”>−1</td></tr><tr class=”zeroline”><td class=”t”>0 a 13</td><td class=”lbl”>buena racha</td><td>15 %</td><td class=”sum”>+10</td></tr><tr><td class=”t”>14 a 27</td><td class=”lbl”>muy fuerte</td><td>8 %</td><td class=”sum”>+16</td></tr><tr><td class=”t”>28 a 40</td><td class=”lbl”>racha de suerte</td><td>1,5 %</td><td class=”sum”>+22</td></tr><tr><td class=”t”>más de 40</td><td class=”lbl”>carrera infernal</td><td>0,3 %</td><td class=”sum”>+30</td></tr></tbody>
+        </table></div>
+        <p class=”rules-note”>Proporción = con qué frecuencia el resultado cae en este nivel con juego óptimo.</p>
+        <p><em>La línea del cero:</em> Terminar una partida con 0 o más puntos otorga al menos +10 puntos de sesión; terminar en negativo cuesta de 1 a 6. Entre −1 y 0 hay 11 puntos de sesión — más que entre “sólido” y “catastrófico” juntos. Solo una de cada cuatro partidas termina en positivo. Quien esté justo por debajo de 0 cerca del final tiene buena razón para jugar arriesgado, y un Pasch Infernal (resetea una puntuación negativa a 0) te eleva justo sobre la línea. Cuando un jugador está en 0 o más, su moneda en la puntuación brilla con un borde dorado.</p>
+
+        <h3>Hot Seat</h3>
+        <p>En la configuración eliges <em>IA</em> o <em>Humano</em> para cada oponente e introduces su nombre. Humanos e IA se pueden mezclar libremente. Cuando le toca a un humano, aparece su nombre y pasáis el dispositivo.</p>
+        <p>Con varios humanos, la pantalla rota 180° en cada cambio entre ellos (el 1°, 3°, … humano la ve normal, el 2°, 4°, … rotada). Así el móvil puede quedarse simplemente entre dos jugadores sentados frente a frente. Durante el turno de una IA, la vista permanece como estaba.</p>
+        <p>En Hot Seat el juego recuerda el interruptor <em>Probabilidades de acierto</em> para cada humano individualmente. Con giro el resultado de un turno aparece dos veces, legible desde cada lado.</p>
+
+        <h3>Modo Sesión</h3>
+        <p>Puedes jugar varias partidas seguidas con los mismos jugadores. Tras cada partida de 16 rondas cada jugador recibe <em>puntos de sesión</em> de dos partes que se suman:</p>
+        <ul>
+          <li><em>Puntos de nivel</em> según su grupo de valoración (−6 a −1 en negativo, +10 a +30 desde 0 puntos en adelante, ver tabla arriba). Los puntos de sesión pueden ser negativos.</li>
+          <li><em>Puntos de posición</em>: El último recibe 0, el penúltimo 2, el antepenúltimo 4 y así sucesivamente — 2 puntos por cada jugador con menos puntos. En caso de empate todos reciben el mismo valor.</li>
+        </ul>
+        ${RULES_PLACEMENT_TABLE.replace('TH_TOTAL', 'Jugadores totales')}
+        <p>Ejemplo: Terminas con +5 puntos en “buena racha” (+10) y quedas segundo de cuatro (+4) — son 14 puntos de sesión. Con −3 puntos serías “sólido” (−1) y como segundo solo 3. En el recuadro de orden cada nombre muestra “(Total · + actual)”: los puntos de sesión acumulados y lo que la partida actual incluyendo posición aportaría. Los puntos de sesión se suman en todas las partidas — la tabla de sesión actual está disponible en cualquier momento mediante el botón de Estadísticas. “Siguiente partida” continúa la sesión, “Nueva sesión” la reinicia.</p>
+      `,
+      },
     }
   };;
 
   function openRules(game) {
     const r = RULES[game]; if (!r) return;
-    $('modal-title').textContent = r.title;
-    $('modal-subtitle').textContent = r.subtitle;
-    $('modal-content').innerHTML = r.html;
+    const lang = r[currentLang] || r.de;
+    $('modal-title').textContent = lang.title;
+    $('modal-subtitle').textContent = lang.subtitle;
+    $('modal-content').innerHTML = lang.html;
     $('modal-overlay').classList.add('show');
   }
   function closeRules() { $('modal-overlay').classList.remove('show'); }
@@ -3406,7 +3691,7 @@
       // Zweistufig: erster Tipp fragt nach, zweiter verwirft (confirm() ist im Artefakt nicht verlässlich)
       if (del.classList.contains('confirm')) { discardSlot(del.dataset.discard); return; }
       del.classList.add('confirm');
-      del.textContent = 'Verwerfen?';
+      del.textContent = t('game.discard');
       realSetTimeout(() => { if (del.isConnected) { del.classList.remove('confirm'); del.textContent = '✕'; } }, 3000);
     }
   });
@@ -3415,10 +3700,18 @@
     renderResumeBox();
   }
 
-  // ===========================================================
-  // LITTLE HELL  (3 dice, 16 rounds, 3 rolls, 1-die saves)
-  // ===========================================================
+  // ═══════════════════════════════════════════════════════════════════════
+  // 4. GAME ENGINE — LITTLE HELL (3 dice, 16 rounds, 3 rolls, 1-die saves)
+  //    Pure game state: rollDice, afterRoll, advanceTurn, scoring, session
+  // ═══════════════════════════════════════════════════════════════════════
   const hell = { state: null, session: null };
+  // Phase transitions (hell.state.phase):
+  //   'ready'    → rollDice()    → 'rolling'
+  //   'rolling'  → afterRoll()   → 'choose'
+  //   'choose'   → advanceTurn() → 'ready' | 'roundEnd' | 'gameEnd'
+  //   'roundEnd' → endOfRound()  → 'ready' (next round)
+  //   'gameEnd'  → endGame()     → session complete
+  // MP actions that trigger pushState: roll, choose, turnEnd, roundEnd, gameEnd
   const HELL_MAX_ROUNDS = 16;
   // Treffer-Punkte je Ziel und Wurf. Grundlage: Chance, in genau diesem Wurf zu treffen
   // (bei bestem Save, nachdem die Würfe davor danebengingen), eingeteilt in Stufen:
@@ -3467,10 +3760,10 @@
     const bonus = scores.map((v, i) => hellPlaceBonus(scores, i));
     return { tiers, tierPts, bonus, pts: tierPts.map((t, i) => t + bonus[i]) };
   }
-  const HELL_TIER_LABELS = [
-    'katastrophal', 'bitterer Abend', 'Pechsträhne', 'leicht unter Schnitt',
-    'solide', 'guter Lauf', 'sehr stark', 'Glückssträhne', 'Höllenritt'
-  ];
+  const HELL_TIER_LABELS_IDX = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+  function hellTierLabel(idx) { return t('tier.' + idx); }
+  // Legacy accessor kept for brevity where index is known
+  const HELL_TIER_LABELS = new Proxy([], { get: (_, k) => typeof k === 'string' && /^\d+$/.test(k) ? hellTierLabel(+k) : undefined });
 
   // Große Punkte-Anzeige nach jedem gewerteten Zug
   let scorePopTimer = null;
@@ -3520,7 +3813,7 @@
     requestAnimationFrame(frame);
   }
   // Jubel je Treffer-Wurf: Text nach Wurf, Konfetti-Menge nach Punkten (3 Pkt ≈ 18 Teile, 25 Pkt ≈ 106)
-  const HIT_CHEER = { 1: { label: 'Volltreffer!', big: true }, 2: { label: 'Treffer!' }, 3: { label: 'Gerade noch!' } };
+  const HIT_CHEER = { 1: { get label() { return t('cheer.1'); }, big: true }, 2: { get label() { return t('cheer.2'); } }, 3: { get label() { return t('cheer.3'); } } };
   const confettiForPoints = (pts) => 6 + Math.max(0, pts) * 4;
 
   function showScorePop(delta, opts = {}) {
@@ -3531,7 +3824,7 @@
     pop.classList.toggle('minus', delta < 0);
     pop.classList.toggle('hellpop', !!opts.hell);
     const cheer = opts.hitRoll ? HIT_CHEER[opts.hitRoll] : null;
-    $('h-score-pop-label').textContent = opts.hell ? 'Höllenpasch 6-6-6' : (opts.pasch ? 'Pasch – kein Minus' : (cheer ? cheer.label : ''));
+    $('h-score-pop-label').textContent = opts.hell ? t('score.hellpasch') : (opts.pasch ? t('score.paschNoMinus') : (cheer ? cheer.label : ''));
     pop.classList.toggle('big', !!(cheer && cheer.big) || !!opts.hell);
     // Töne
     // Reaktionssounds: Treffer/Volltreffer immer, Minus/Pasch nur nach 3. Wurf
@@ -3633,10 +3926,10 @@
     const held = li >= 0 ? 1 : 0;
     const heldSum = li >= 0 ? d[li] : 0;
     const base = { idx: null, prob: hellProb(target, heldSum, 3 - held),
-                   label: held ? 'Nur den gehaltenen' : 'Alle 3 neu' };
+                   label: held ? t('prob.onlyHeld') : t('prob.allThreeNew') };
     const adds = [0, 1, 2].filter(i => i !== li).map(i => ({
       idx: i, prob: hellProb(target, heldSum + d[i], 3 - held - 1),
-      label: held ? `+ ${d[i]} saven` : `${d[i]} saven`,
+      label: held ? tf('dice.saveAdd', d[i]) : tf('dice.save', d[i]),
     }));
     return { lockedIdx: li, base, adds };
   }
@@ -3686,7 +3979,7 @@
       // Vor dem ersten Wurf: Trefferchance im 1. Wurf und insgesamt
       slots.forEach(s => { s.innerHTML = ''; s.className = 'die-prob'; });
       const c = hellRollChances(hell.state.target);
-      allEl.textContent = `1. Wurf ${fmtPct1(c[0])} · gesamt ${fmtPct1(c[3])}`;
+      allEl.textContent = tf('prob.roll1pctTotal', fmtPct1(c[0]), fmtPct1(c[3]));
       allEl.className = 'all-reroll-prob active';
       return;
     }
@@ -3717,7 +4010,7 @@
       }
       // Alle neu
       const sa = hellProbSplit(target, 0);
-      allEl.textContent = `alle neu: ${pctR(sa.p2)} % · ${pctR(sa.p3)} %`;
+      allEl.textContent = tf('prob.allNew', pctR(sa.p2) + ' %', pctR(sa.p3) + ' %');
       allEl.className = 'all-reroll-prob active';
       if (sa.total === 0) allEl.classList.add('impossible');
       scenarios.push({ el: allEl, pct: sa.total });
@@ -3725,7 +4018,7 @@
       const o = hellRoll2Options(p, target);
       for (let i = 0; i < 3; i++) {
         if (i === o.lockedIdx) {
-          slots[i].textContent = 'gehalten';
+          slots[i].textContent = t('game.held');
           slots[i].className = 'die-prob saved';
         }
       }
@@ -3736,7 +4029,7 @@
         if (a.prob.hit === 0) el.classList.add('impossible');
         scenarios.push({ el, pct: a.prob.pct });
       });
-      allEl.textContent = `${o.lockedIdx >= 0 ? 'nur gehaltenen' : 'alle neu'}: ${o.base.prob.pct} %`;
+      allEl.textContent = `${o.lockedIdx >= 0 ? t('prob.onlyHeldDie') : t('prob.allNewDice')}: ${o.base.prob.pct} %`;
       allEl.className = 'all-reroll-prob active';
       if (o.base.prob.hit === 0) allEl.classList.add('impossible');
       scenarios.push({ el: allEl, pct: o.base.prob.pct });
@@ -3764,13 +4057,13 @@
     const t = hell.state.target;
     const c = hellRollChances(t);
     const lbl = ['1. Wurf', '2. Wurf', '3. Wurf'];
-    let html = `<div class="prob-row split head" style="grid-template-columns:minmax(0,1fr) 60px 46px"><span class="prob-label">Ziel ${t}</span><span>Chance</span><span>Pkt</span></div>`;
+    let html = `<div class="prob-row split head" style="grid-template-columns:minmax(0,1fr) 60px 46px"><span class="prob-label">${tf('prob.target', t)}</span><span>${I18N.t('prob.chance')}</span><span>${I18N.t('prob.pts')}</span></div>`;
     [0, 1, 2].forEach(i => {
       html += `<div class="prob-row split" style="grid-template-columns:minmax(0,1fr) 60px 46px"><span class="prob-label">${lbl[i]}</span><span class="prob-value">${fmtPct1(c[i])}</span><span class="prob-value tot">${hellBonus(t, i + 1)}</span></div>`;
     });
-    html += `<div class="prob-row split" style="grid-template-columns:minmax(0,1fr) 60px 46px"><span class="prob-label">insgesamt</span><span class="prob-value tot">${fmtPct1(c[3])}</span><span></span></div>`;
+    html += `<div class="prob-row split" style="grid-template-columns:minmax(0,1fr) 60px 46px"><span class="prob-label">${I18N.t('prob.total')}</span><span class="prob-value tot">${fmtPct1(c[3])}</span><span></span></div>`;
     const cur = hell.state.players[hell.state.currentIdx];
-    html += hellPaschRowsHtml([], 'je Wurf, 3 neue Würfel', cur ? cur.score : 0);
+    html += hellPaschRowsHtml([], I18N.t('prob.perRoll'), cur ? cur.score : 0);
     rows.innerHTML = html;
   }
 
@@ -3788,8 +4081,8 @@
   function hellPaschRowsHtml(held, note, score) {
     const c = hellPaschChance(held);
     const hellNote = score >= 0 ? '<small>wirkt nur im Minus</small>' : '';
-    return `<div class="prob-row pasch-sep"><span class="prob-label">Pasch <small>${note}</small></span><span class="prob-value">${fmtPctSmall(c.pasch)}</span></div>` +
-      `<div class="prob-row${c.hell === 0 ? ' impossible' : ''}"><span class="prob-label" style="white-space:nowrap">Höllenpasch 6‑6‑6${hellNote}</span><span class="prob-value">${fmtPctSmall(c.hell)}</span></div>`;
+    return `<div class="prob-row pasch-sep"><span class="prob-label">${I18N.t('prob.pasch')} <small>${note}</small></span><span class="prob-value">${fmtPctSmall(c.pasch)}</span></div>` +
+      `<div class="prob-row${c.hell === 0 ? ' impossible' : ''}"><span class="prob-label" style="white-space:nowrap">${I18N.t('prob.hellpasch')}${hellNote}</span><span class="prob-value">${fmtPctSmall(c.hell)}</span></div>`;
   }
   function hellHeldValues(p) {
     return p.dice.filter((v, i) => p.saved[i] && v > 0);
@@ -3808,10 +4101,10 @@
     let html = '';
     const scenarios = [];
     if (p.rollsUsed === 1) {
-      const items = [{ label: 'Alle 3 neu', sp: hellProbSplit(target, 0) }];
-      for (let i = 0; i < 3; i++) items.push({ label: `${d[i]} saven`, sp: hellProbSplit(target, d[i]) });
+      const items = [{ label: I18N.t('prob.allThreeNew'), sp: hellProbSplit(target, 0) }];
+      for (let i = 0; i < 3; i++) items.push({ label: tf('dice.save', d[i]), sp: hellProbSplit(target, d[i]) });
       const maxT = Math.max(...items.map(x => x.sp.total));
-      html = `<div class="prob-row split head"><span class="prob-label"></span><span>Wurf 2</span><span>Wurf 3</span><span>gesamt</span></div>`;
+      html = `<div class="prob-row split head"><span class="prob-label"></span><span>${I18N.t('prob.roll2')}</span><span>${I18N.t('prob.roll3')}</span><span>${I18N.t('prob.overall')}</span></div>`;
       items.forEach(x => {
         const cls = ['prob-row', 'split'];
         if (x.sp.total === 0) cls.push('impossible');
@@ -3819,7 +4112,7 @@
         html += `<div class="${cls.join(' ')}"><span class="prob-label">${x.label}</span>` +
           `<span class="prob-value">${pctR(x.sp.p2)} %</span><span class="prob-value">${pctR(x.sp.p3)} %</span><span class="prob-value tot">${pctR(x.sp.total)} %</span></div>`;
       });
-      html += hellPaschRowsHtml(hellHeldValues(p), 'nächster Wurf, deine Auswahl', p.score);
+      html += hellPaschRowsHtml(hellHeldValues(p), I18N.t('prob.nextRollYourChoice'), p.score);
       rows.innerHTML = html;
       return;
     } else if (p.rollsUsed === 2) {
@@ -3838,7 +4131,7 @@
         <span class="prob-value">${x.s.pct} %<span class="prob-detail">${x.s.hit}/${x.s.total}</span></span>
       </div>`;
     });
-    html += hellPaschRowsHtml(hellHeldValues(p), 'nächster Wurf, deine Auswahl', p.score);
+    html += hellPaschRowsHtml(hellHeldValues(p), I18N.t('prob.nextRollYourChoice'), p.score);
     rows.innerHTML = html;
   }
 
@@ -3874,7 +4167,7 @@
       const v = ((inp && inp.value) || '').trim();
       const names = gender === 'f' ? OPPONENT_NAMES_F : OPPONENT_NAMES_M;
       const aiDefault = names[avIdx] || names[0];
-      let name = v || (isHuman ? `Spieler ${i + 2}` : aiDefault);
+      let name = v || (isHuman ? tf('ui.defaultPlayer', i + 2) : aiDefault);
       const base = name; let k = 2;
       while (usedNames.has(name)) name = `${base} ${k++}`;
       usedNames.add(name);
@@ -3925,21 +4218,21 @@
       const slot = document.createElement('div');
       slot.className = 'player-slot';
       const isHuman = prevSlot.type === 'human';
-      const defaultHumanName = `Spieler ${i + 2}`;
+      const defaultHumanName = tf('setup.defaultPlayer', i + 2);
       const curGender = prevSlot.gender || OPPONENT_GENDER[i] || 'm';
       const curAIName = defaultAIName(i, curGender);
       const isDefaultName = (v) => !v || v === defaultHumanName || OPPONENT_NAMES_M.includes(v) || OPPONENT_NAMES_F.includes(v);
       const displayName = !isDefaultName(prevSlot.name) ? prevSlot.name : (isHuman ? defaultHumanName : curAIName);
       slot.innerHTML = `
         <div class="slot-row">
-          <div class="slot-label">Gegner ${i + 1}</div>
+          <div class="slot-label">${tf('setup.opponent', i + 1)}</div>
           <div class="slot-type">
-            <button type="button" class="type-btn ${!isHuman ? 'selected' : ''}" data-type="ai">KI</button>
-            <button type="button" class="type-btn ${isHuman ? 'selected' : ''}" data-type="human">Mensch</button>
+            <button type="button" class="type-btn ${!isHuman ? 'selected' : ''}" data-type="ai">${t('setup.ai')}</button>
+            <button type="button" class="type-btn ${isHuman ? 'selected' : ''}" data-type="human">${t('setup.human')}</button>
           </div>
         </div>
         <div class="slot-row slot-avatar-row" style="${isHuman ? 'display:none' : ''}">
-          <div class="slot-label">Avatar</div>
+          <div class="slot-label">${t('setup.avatar')}</div>
           <div class="avatar-picker" data-gender="${curGender}" data-idx="${prevSlot.avIdx || 0}">
             <button type="button" class="type-btn gender-btn ${curGender === 'm' ? 'selected' : ''}" data-gender="m">♂</button>
             <button type="button" class="type-btn gender-btn ${curGender === 'f' ? 'selected' : ''}" data-gender="f">♀</button>
@@ -3948,7 +4241,7 @@
             <button type="button" class="type-btn av-next">▶</button>
           </div>
         </div>
-        <input type="text" class="slot-name-input${isHuman ? '' : ' is-ai'}" maxlength="24" autocomplete="off" autocapitalize="words" enterkeyhint="done" aria-label="Name Gegner ${i + 1}">
+        <input type="text" class="slot-name-input${isHuman ? '' : ' is-ai'}" maxlength="24" autocomplete="off" autocapitalize="words" enterkeyhint="done" aria-label="${tf('setup.opponent', i + 1)}">
       `;
       wrap.appendChild(slot);
       const input = slot.querySelector('.slot-name-input');
@@ -4052,7 +4345,7 @@
   }
   // Hot-Seat: bei mehreren Menschen wird der Name genannt
   function hellTurnLabel(p) {
-    return hellHumanCount() > 1 ? `${shortName(p.name)} ist dran` : 'Du bist dran';
+    return hellHumanCount() > 1 ? tf('game.xIsTurn', shortName(p.name)) : t('game.yourTurn');
   }
   // Beginnen: gleiche Spieler setzen die laufende Session fort
   // Session komplett zurücksetzen – auch im gespeicherten Endstand
@@ -4146,12 +4439,21 @@
       if (!sess.saveId) sess.saveId = (hell.state && hell.state.saveId) || newSaveId();
       const aiKeys = sess.aiKeys || [];
       const genders = sess.genders || [];
-      const usedAv = new Set();
+      // P0-01: reuse stored avatars from session; only pick new ones for new players
+      const storedAvatars = sess.avatars || [];
+      // Legacy migration: if session has no avatars array, try to recover from last saved state
+      if (!sess.avatars && fromState.length) {
+        fromState.forEach((pl, i) => { if (pl.avatar) storedAvatars[i] = pl.avatar; });
+      }
+      const usedAv = new Set(storedAvatars.filter(Boolean));
       const players = sess.playerNames.map((n, i) => {
         const isH = !!humans[i];
-        const avatar = isH ? null : pickAvatar(genders[i] || 'm', usedAv);
+        // P0-01: use stored avatar if available, only pick new one if none stored
+        const avatar = isH ? null : (storedAvatars[i] || pickAvatar(genders[i] || 'm', usedAv));
         return { name: n, aiKey: isH ? undefined : aiKeys[i], score: 0, isHuman: isH, dice: [-1,-1,-1], saved: [false,false,false], rollsUsed: 0, lockedSave: undefined, avatar };
       });
+      // P0-01: persist avatar assignments in session
+      sess.avatars = players.map(p => p.avatar);
       hell.beginGame(players);
       return;
     }
@@ -4168,6 +4470,7 @@
       humans: players.map(p => p.isHuman),
       aiKeys: players.map(p => p.aiKey),
       genders: players.map(p => p.gender || null),
+      avatars: players.map(p => p.avatar || null), // P0-01: persist avatar assignments
       games: [], // Array of { finals: [score,...], tiers: [tier,...], pts: [pts,...] }
       totals: players.map(() => 0),
     };
@@ -4201,7 +4504,7 @@
     hell.history = [];
     saveHellSession();
     const gameNo = (hell.session ? hell.session.games.length : 0) + 1;
-    showToast(gameNo === 1 ? 'Reihenfolge ausgelost' : `Partie ${gameNo} · Sieger beginnt`, order.map(i => shortName(players[i].name)).join(' → '), { duration: 1800 });
+    showToast(gameNo === 1 ? t('toast.orderDrawn') : tf('toast.gameNStart', gameNo), order.map(i => shortName(players[i].name)).join(' → '), { duration: 1800 });
     renderDie('h-die-1', -1, { unrolled: true });
     renderDie('h-die-2', -1, { unrolled: true });
     renderDie('h-die-3', -1, { unrolled: true });
@@ -4220,7 +4523,7 @@
       saveSlot(s.saveId, {
         game: 'littlehell', label: playersLabel(s.players),
         state: clone(s), history: clone(hell.history || []), session: clone(hell.session), ended: true,
-        info: `Beendet · Sieg ${shortName(top.name)} (${top.score}) · Session ${games} ${games === 1 ? 'Partie' : 'Partien'}`,
+        info: tf('save.ended', shortName(top.name), top.score, games, games === 1 ? t('stats.game') : t('stats.games')),
       });
       return;
     }
@@ -4230,7 +4533,7 @@
     saveSlot(s.saveId, {
       game: 'littlehell', label: playersLabel(s.players),
       state: clone(s), history: clone(hell.history || []), session: clone(hell.session),
-      info: `Runde ${s.round} / ${HELL_MAX_ROUNDS} · Ziel ${s.target}`,
+      info: tf('save.roundInfo', s.round, HELL_MAX_ROUNDS, s.target),
     });
   }
 
@@ -4256,10 +4559,31 @@
     ['h-die-1', 'h-die-2', 'h-die-3'].forEach(id => $(id).classList.remove('banked', 'tappable', 'rolling'));
     showScreen('hellGame');
     const p = s.players[s.currentIdx];
+    // P1-09: Phase-aware restore — preserve as much state as possible
     if (s.phase === 'choose' && p.isHuman) {
+      // Human choose: fully restorable with dice and saved state intact
       hell.renderAll();
       hell.showChooseUI();
+    } else if (s.phase === 'choose' && !p.isHuman) {
+      // AI choose: let AI re-decide from current dice state
+      hell.renderAll();
+      hell.aiDecide();
+    } else if (s.phase === 'roundEnd') {
+      // Mid-round-transition: advance to next round cleanly
+      s.round++;
+      s.target++;
+      s.turnPos = 0;
+      s.currentIdx = hellOrder(s)[0];
+      s.players.forEach(pl => {
+        pl.dice = [-1, -1, -1]; pl.saved = [false, false, false];
+        pl.rollsUsed = 0; pl.lockedSave = undefined;
+      });
+      s.phase = 'ready';
+      hell.renderAll();
+      renderHellDieProbs();
+      hell.nextTurnIfComputer();
     } else {
+      // rolling, ready, or unknown: reset current player's turn to ready
       s.phase = 'ready';
       p.dice = [-1, -1, -1];
       p.saved = [false, false, false];
@@ -4276,7 +4600,7 @@
     const sum = p.dice[0] + p.dice[1] + p.dice[2];
     const sl = $('h-status-line');
     sl.classList.remove('hit', 'schrott');
-    sl.textContent = `${sum} — Würfel tippen zum Saven, oder neu würfeln`;
+    sl.textContent = tf('game.sumTapToSave', sum);
     $('h-roll-btn').style.display = 'none';
     $('h-reroll-btn').style.display = '';
     $('h-prob-panel').style.display = '';
@@ -4321,9 +4645,9 @@
     const btn = $('h-reroll-btn');
     const savedCount = p.saved.filter(s => s).length;
     const diceToRoll = 3 - savedCount;
-    btn.textContent = savedCount === 0 ? 'Alle 3 neu würfeln'
-      : savedCount === 1 ? '2 neu würfeln · 1 behalten'
-      : '1 neu würfeln · 2 behalten';
+    btn.textContent = savedCount === 0 ? t('roll.all3')
+      : savedCount === 1 ? t('roll.2new')
+      : t('roll.1new');
   };
 
   hell.rollDice = function() {
@@ -4398,7 +4722,7 @@
       });
       sl.classList.remove('schrott');
       sl.classList.add('hit');
-      sl.textContent = `Höllenpasch! ${shortName(p.name)} ${before} → ${p.score}${bonus ? ` · Treffer` : ''}`;
+      sl.textContent = tf('score.hellpaschResult', shortName(p.name), before, p.score, bonus || 0);
       hell.renderDice();
       renderHellSide();
       showScorePop(0, { hell: true, total: p.score, before });
@@ -4423,7 +4747,7 @@
       });
       sl.classList.remove('schrott');
       sl.classList.add('hit');
-      sl.textContent = `${shortName(p.name)} trifft im ${p.rollsUsed}. Wurf! +${bonus}`;
+      sl.textContent = tf('score.hitInRoll', shortName(p.name), p.rollsUsed, bonus);
       hell.renderDice();
       renderHellSide();
       showScorePop(bonus, { hitRoll: p.rollsUsed, human: p.isHuman });
@@ -4448,8 +4772,8 @@
       sl.classList.remove('hit');
       sl.classList.add('schrott');
       sl.textContent = pasch
-        ? `Pasch ${p.dice[0]}-${p.dice[1]}-${p.dice[2]} — keine Minuspunkte`
-        : `Summe ${sum} — Ziel ${target}, −${dist}`;
+        ? tf('score.paschSum', `${p.dice[0]}-${p.dice[1]}-${p.dice[2]}`)
+        : tf('score.missSum', sum, target, dist);
       hell.renderDice();
       renderHellSide();
       if (pasch) showScorePop(0, { pasch: true });
@@ -4531,7 +4855,7 @@
     next.lockedSave = undefined;
     hell.state.phase = 'ready';
     hell.renderAll();
-    if (next.isHuman && hellHumanCount() > 1) showToast(shortName(next.name), 'ist dran · Gerät weitergeben', { duration: 1300 });
+    if (next.isHuman && hellHumanCount() > 1) showToast(shortName(next.name), t('toast.isTurn'), { duration: 1300 });
     hell.nextTurnIfComputer();
   };
 
@@ -4542,7 +4866,7 @@
     }
     hell.state.phase = 'roundEnd';
     updateHellRollWait();
-    showToast(`Runde ${hell.state.round + 1}`, `Ziel: ${hell.state.target + 1}`);
+    showToast(tf('toast.roundTarget', hell.state.round + 1), tf('toast.targetIs', hell.state.target + 1));
     setTimeout(() => {
       hell.state.round++;
       hell.state.target++;
@@ -4592,10 +4916,10 @@
     if (btnVisible || !hell.state) { w.style.display = 'none'; return; }
     const p = hell.state.players[hell.state.currentIdx];
     let txt;
-    if (hell.state.phase === 'roundEnd') txt = 'Nächste Runde';
-    else if (hell.state.phase === 'gameEnd') txt = 'Partie vorbei';
-    else if (p && !p.isHuman) txt = `<b>${shortName(p.name)}</b>würfelt`;
-    else txt = 'Würfel rollen';
+    if (hell.state.phase === 'roundEnd') txt = t('game.nextRound');
+    else if (hell.state.phase === 'gameEnd') txt = t('game.gameOver');
+    else if (p && !p.isHuman) txt = tf('game.xIsPlaying', `<b>${esc(shortName(p.name))}</b>`);
+    else txt = t('game.rollDice');
     w.innerHTML = `<span>${txt}</span><span class="dots"><span></span><span></span><span></span></span>`;
     w.style.display = '';
   }
@@ -4614,7 +4938,7 @@
     const p = hell.state.players[hell.state.currentIdx];
     const curEl = $('h-current-name');
     if (p && p.avatar) {
-      curEl.innerHTML = `<img class="avatar-img" src="${p.avatar}" alt="" style="width:48px;height:48px;margin-right:6px;vertical-align:middle">${shortName(p.name)}`;
+      curEl.innerHTML = `<img class="avatar-img" src="${safeAvatarSrc(p.avatar)}" alt="" style="width:48px;height:48px;margin-right:6px;vertical-align:middle">${esc(shortName(p.name))}`;
     } else {
       curEl.textContent = p ? shortName(p.name) : '';
     }
@@ -4632,7 +4956,7 @@
     if (!hell.state) return;
     const p = hell.state.players[hell.state.currentIdx];
     if (!p || !p.isHuman) return;
-    const neu = prompt('Dein Name:', p.name);
+    const neu = prompt(t('prompt.yourName'), p.name);
     if (neu === null || !neu.trim() || neu.trim() === p.name) return;
     p.name = neu.trim();
     // Session und localStorage aktualisieren
@@ -4686,7 +5010,7 @@
     const p = hell.state.players[hell.state.currentIdx];
     sl.classList.remove('hit','schrott');
     if (hell.state.phase === 'ready') {
-      sl.textContent = p.isHuman ? hellTurnLabel(p) : `${shortName(p.name)} würfelt …`;
+      sl.textContent = p.isHuman ? hellTurnLabel(p) : tf('game.xIsPlaying', shortName(p.name));
       $('h-roll-btn').style.display = p.isHuman ? '' : 'none';
       $('h-reroll-btn').style.display = 'none';
       // Trefferchancen-Panel mit Schalter ist immer sichtbar; vor dem Wurf zeigt es die Chancen des Ziels
@@ -4705,7 +5029,7 @@
     const nm = (p) => chartName(p.name);
     // Spielstand nach Platzierung (bei Gleichstand gilt die Würfelreihenfolge)
     const ranked = st.players.map((p, i) => i).sort((a, b) => (st.players[b].score - st.players[a].score) || (ord.indexOf(a) - ord.indexOf(b)));
-    let html = '<div class="cside-header">Spielstand</div>';
+    let html = `<div class="cside-header">${t('ui.scoreboard')}</div>`;
     ranked.forEach((idx, pos) => {
       const p = st.players[idx];
       // gleiche Punkte = gleicher Platz
@@ -4717,10 +5041,10 @@
       // Kleiner Punkt: in dieser Runde noch nicht gewürfelt (kommt nach dem aktuellen Spieler dran)
       const turnPos = typeof st.turnPos === 'number' ? st.turnPos : ord.indexOf(st.currentIdx);
       const pending = st.phase !== 'roundEnd' && st.phase !== 'gameEnd' && ord.indexOf(idx) > turnPos;
-      const avHtml = p.avatar ? `<img class="avatar-img" src="${p.avatar}" alt="">` : '';
+      const avHtml = p.avatar ? `<img class="avatar-img" src="${safeAvatarSrc(p.avatar)}" alt="">` : '';
       html += `<div class="${classes.join(' ')}">
-        <span class="cside-rank">${rank}.${pending ? '<span class="cside-pending" title="noch nicht gewürfelt" aria-label="noch nicht gewürfelt"></span>' : ''}</span>
-        ${avHtml}<span class="cside-name">${nm(p)}</span>
+        <span class="cside-rank">${rank}.${pending ? `<span class="cside-pending" title="${t('game.notRolledYet')}" aria-label="${t('game.notRolledYet')}"></span>` : ''}</span>
+        ${avHtml}<span class="cside-name">${esc(nm(p))}</span>
         <span class="${scoreClass}">${p.score}</span>
       </div>`;
     });
@@ -4728,10 +5052,10 @@
     // Hinter jedem Namen: aktueller Stand der Session-Punkte
     const sessTotals = (hell.session && hell.session.totals) || [];
     const nowAward = hellGameAward(st.players.map(p => p.score));
-    html += `<div class="cside-order"><div class="ord-title">Reihenfolge<small class="ord-legend">Gesamt · <span class="ord-now">+ aktuell</span></small></div>`;
+    html += `<div class="cside-order"><div class="ord-title">${t('stats.order')}<small class="ord-legend">${t('stats.total')} · <span class="ord-now">${t('stats.plusCurrent')}</span></small></div>`;
     ord.forEach((idx, k) => {
-      const oAv = st.players[idx].avatar ? `<img class="avatar-img" src="${st.players[idx].avatar}" alt="" style="width:18px;height:18px">` : '';
-      html += `<div class="ord-row${idx === st.currentIdx ? ' cur' : ''}"><span class="ord-num">${k + 1}.</span>${oAv}<span class="ord-name">${nm(st.players[idx])}</span><span class="ord-sess">(${sessTotals[idx] || 0}<span class="ord-now${nowAward.pts[idx] < 0 ? ' neg' : ''}" title="Session-Punkte (Stufe ${nowAward.tierPts[idx]} + Platz ${nowAward.bonus[idx]}), wenn die Partie jetzt enden würde"> · ${sgn(nowAward.pts[idx])}</span>)</span></div>`;
+      const oAv = st.players[idx].avatar ? `<img class="avatar-img" src="${safeAvatarSrc(st.players[idx].avatar)}" alt="" style="width:18px;height:18px">` : '';
+      html += `<div class="ord-row${idx === st.currentIdx ? ' cur' : ''}"><span class="ord-num">${k + 1}.</span>${oAv}<span class="ord-name">${esc(nm(st.players[idx]))}</span><span class="ord-sess">(${sessTotals[idx] || 0}<span class="ord-now${nowAward.pts[idx] < 0 ? ' neg' : ''}" title="${tf('stats.sessionPtsTooltip', nowAward.tierPts[idx], nowAward.bonus[idx])}"> · ${sgn(nowAward.pts[idx])}</span>)</span></div>`;
     });
     html += '</div>';
     wrap.innerHTML = html;
@@ -4757,7 +5081,7 @@
     if (sess) {
       sess.games.forEach((g, gi) => {
         views.push({
-          label: `Partie ${gi + 1}`, live: false, hasRounds: !!g.hist,
+          label: tf('save.gameN', gi + 1), live: false, hasRounds: !!g.hist,
           players: names.map((n, i) => ({ name: n, isHuman: !!humans[i], score: g.finals[i] })),
           history: unpackHellHistory(g.hist), roundsShown: HELL_MAX_ROUNDS, tiers: g.tiers, pts: g.pts, tierPts: g.tierPts, bonus: g.bonus,
         });
@@ -4766,7 +5090,7 @@
     if (hell.state.phase !== 'gameEnd' || !sess || !sess.games.length) {
       const n = (sess ? sess.games.length : 0) + 1;
       views.push({
-        label: `Partie ${n}`, live: hell.state.phase !== 'gameEnd', hasRounds: true,
+        label: tf('save.gameN', n), live: hell.state.phase !== 'gameEnd', hasRounds: true,
         players: hell.state.players, history: hell.history || [], roundsShown: hell.state.round,
       });
     }
@@ -4775,8 +5099,8 @@
 
   function openHellStats() {
     if (!hell.state) return;
-    $('modal-title').textContent = 'Statistik · Little Hell';
-    $('modal-subtitle').textContent = `Runde ${hell.state.round} / ${HELL_MAX_ROUNDS} · Ziel ${hell.state.target}`;
+    $('modal-title').textContent = t('stats.title');
+    $('modal-subtitle').textContent = tf('stats.roundTarget', hell.state.round, HELL_MAX_ROUNDS, hell.state.target);
     hellStatsIdx = null; // beim Öffnen immer die aktuelle Partie zeigen
     if (hellTargetFilter !== null && hellTargetFilter >= hell.state.players.length) hellTargetFilter = null;
     $('modal-content').innerHTML = buildHellStatsHTML();
@@ -4900,7 +5224,7 @@
       }
       return { name: chartName(p.name), color: CHART_COLORS[pi % CHART_COLORS.length], values, strong: p.isHuman };
     });
-    return svgLineChart({ series, xMax: HELL_MAX_ROUNDS, xStep: 2, xLabel: 'Runde', ariaLabel: 'Punkteverlauf der Partie je Runde und Spieler' });
+    return svgLineChart({ series, xMax: HELL_MAX_ROUNDS, xStep: 2, xLabel: t('stats.round'), ariaLabel: t('chart.scoreProgress') });
   }
   function buildHellSessionChart() {
     const players = hell.state.players;
@@ -4917,11 +5241,11 @@
       return { name: chartName(p.name), color: CHART_COLORS[pi % CHART_COLORS.length], values };
     });
     const n = games.length;
-    const xOpts = { xMax: Math.max(n, 1), xStep: n > 10 ? Math.ceil(n / 8) : 1, xLabel: 'Partie' };
-    return chartTitle('Session-Punkte')
-      + svgLineChart({ series, ...xOpts, ariaLabel: 'Session-Punkte kumuliert je Partie und Spieler' })
-      + chartTitle('Partie-Punkte aufsummiert')
-      + svgLineChart({ series: series2.map((sr, i) => ({ ...sr, strong: series[i].strong })), ...xOpts, ariaLabel: 'Tatsächliche Partie-Punkte kumuliert je Partie und Spieler' });
+    const xOpts = { xMax: Math.max(n, 1), xStep: n > 10 ? Math.ceil(n / 8) : 1, xLabel: t('stats.game2') };
+    return chartTitle(t('chart.sessionPts'))
+      + svgLineChart({ series, ...xOpts, ariaLabel: t('chart.sessionPts') })
+      + chartTitle(t('chart.gamePtsSum'))
+      + svgLineChart({ series: series2.map((sr, i) => ({ ...sr, strong: series[i].strong })), ...xOpts, ariaLabel: t('chart.gamePtsSum') });
   }
   function chartTitle(t) {
     return `<div class="chart-title">${t}</div>`;
@@ -4933,14 +5257,14 @@
     const history = v.history || [];
     // Navigation
     let html = `<div class="stat-nav">
-      <button type="button" class="stat-nav-btn" data-statnav="-1" ${idx === 0 ? 'disabled' : ''} aria-label="Vorherige Partie">‹</button>
-      <div class="stat-nav-label">${v.label}${v.live ? ' <span class="resume-tag">läuft</span>' : ''}<small>${idx + 1} von ${views.length}</small></div>
-      <button type="button" class="stat-nav-btn" data-statnav="1" ${idx === views.length - 1 ? 'disabled' : ''} aria-label="Nächste Partie">›</button>
+      <button type="button" class="stat-nav-btn" data-statnav="-1" ${idx === 0 ? 'disabled' : ''} aria-label="${t('stats.prevGame')}">‹</button>
+      <div class="stat-nav-label">${v.label}${v.live ? ` <span class="resume-tag">${t('stats.running')}</span>` : ''}<small>${tf('stats.xOfY', idx + 1, views.length)}</small></div>
+      <button type="button" class="stat-nav-btn" data-statnav="1" ${idx === views.length - 1 ? 'disabled' : ''} aria-label="${t('stats.nextGame')}">›</button>
     </div>`;
     if (!v.hasRounds) {
-      html += '<p class="rules-note" style="text-align:center">Für diese Partie sind nur Endstand und Session-Punkte gespeichert.</p>';
+      html += `<p class="rules-note" style="text-align:center">${t('stats.historyOnly')}</p>`;
     } else {
-      html += chartTitle('Punkteverlauf') + buildHellGameChart(players, history);
+      html += chartTitle(t('chart.scoreProgress')) + buildHellGameChart(players, history);
     }
     const roundsShown = v.roundsShown;
     if (v.hasRounds) {
@@ -4948,7 +5272,7 @@
     html += '<table class="hell-stats-table">';
     html += '<thead><tr>';
     html += '<th class="player">Rd</th>';
-    html += '<th>Ziel</th>';
+    html += `<th>${t('stats.targetCol')}</th>`;
     players.forEach(p => {
       let name = p.name;
       if (name.length > 8) {
@@ -4971,9 +5295,9 @@
         if (!entry) {
           html += `<td class="empty ${youCls}">·</td>`;
         } else if (entry.hell) {
-          html += `<td class="hit ${youCls}">→${entry.totalAfter}<span class="prob-cell">6-6-6 · Höllenpasch</span></td>`;
+          html += `<td class="hit ${youCls}">→${entry.totalAfter}<span class="prob-cell">${t('stats.hellpasch')}</span></td>`;
         } else if (entry.pasch) {
-          html += `<td class="${youCls}">0<span class="prob-cell">Pasch · Σ${entry.sum}</span></td>`;
+          html += `<td class="${youCls}">0<span class="prob-cell">${tf('stats.paschSum', entry.sum)}</span></td>`;
         } else if (entry.hit) {
           html += `<td class="hit ${youCls}">+${entry.delta}<span class="prob-cell">${entry.rollNo}. · ${entry.prob} %</span></td>`;
         } else {
@@ -4986,7 +5310,7 @@
     // Summenreihe
     if (v.hasRounds) {
       html += '<tr class="total-row">';
-      html += '<td colspan="2" style="text-align:right;padding-right:8px;font-size:9px;letter-spacing:0.2em;color:var(--gold-light);text-transform:uppercase;font-family:\'Cinzel\',serif">Summe</td>';
+      html += `<td colspan="2" style="text-align:right;padding-right:8px;font-size:9px;letter-spacing:0.2em;color:var(--gold-light);text-transform:uppercase;font-family:'Cinzel',serif">${t('stats.summary')}</td>`;
       players.forEach(p => {
         const style = p.score < 0 ? 'color:var(--red-text)' : '';
         html += `<td style="${style}">${p.score}</td>`;
@@ -4997,7 +5321,7 @@
 
     // Bilanz je Spieler
     html += '<div style="padding:12px 0 4px;border-top:1px solid var(--gold-deep);margin-top:8px">';
-    html += `<div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.25em;color:var(--gold-light);text-transform:uppercase;margin-bottom:8px;text-align:center">${v.live ? 'Zwischenbilanz' : 'Bilanz'}</div>`;
+    html += `<div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.25em;color:var(--gold-light);text-transform:uppercase;margin-bottom:8px;text-align:center">${v.live ? t('stats.interimSummary') : t('stats.finalSummary')}</div>`;
     players.forEach((p, pi) => {
       const entries = history.filter(h => h.playerIdx === pi);
       const hits = entries.filter(h => h.hit);
@@ -5007,16 +5331,16 @@
       const hits2 = hits.filter(h => h.rollNo === 2).length;
       const hits3 = hits.filter(h => h.rollNo === 3).length;
       const nameColor = p.isHuman ? 'var(--gold-light)' : 'var(--cream)';
-      const tierTxt = v.tiers ? ` <span style="font-family:'Cinzel',serif;font-size:10px;color:var(--cream-dim)">${HELL_TIER_LABELS[v.tiers[pi]]} · ${sgn(v.pts[pi])}${v.bonus ? ` <span style="font-size:9px">(${v.tierPts[pi]} + Platz ${v.bonus[pi]})</span>` : ''}</span>` : '';
+      const tierTxt = v.tiers ? ` <span style="font-family:'Cinzel',serif;font-size:10px;color:var(--cream-dim)">${HELL_TIER_LABELS[v.tiers[pi]]} · ${sgn(v.pts[pi])}${v.bonus ? ` <span style="font-size:9px">${tf('stats.tierPlusRank', v.tierPts[pi], v.bonus[pi])}</span>` : ''}</span>` : '';
       html += `<div style="padding:6px 8px;margin-bottom:4px;background:rgba(0,0,0,0.2);border:1px solid rgba(212,175,55,0.15);border-radius:3px">
         <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;gap:8px">
           <span style="font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:${nameColor}">${p.name}${tierTxt}</span>
           <span style="font-family:'Limelight',serif;font-size:18px;color:${p.score < 0 ? 'var(--red-text)' : 'var(--gold)'}">${p.score}</span>
         </div>
         ${v.hasRounds ? `<div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.1em;color:var(--cream-dim);display:flex;gap:12px;flex-wrap:wrap">
-          <span>Trefferquote <span style="color:var(--gold-light)">${hitPct} %</span></span>
-          <span>Ø/Runde <span style="color:var(--gold-light)">${avgRound}</span></span>
-          <span>Treffer 1./2./3. <span style="color:var(--gold-light)">${hits1}·${hits2}·${hits3}</span></span>
+          <span>${t('stats.hitRate')} <span style="color:var(--gold-light)">${hitPct} %</span></span>
+          <span>${t('stats.avgPerRound')} <span style="color:var(--gold-light)">${avgRound}</span></span>
+          <span>${t('stats.hitByRoll')} <span style="color:var(--gold-light)">${hits1}·${hits2}·${hits3}</span></span>
         </div>` : ''}
       </div>`;
     });
@@ -5033,9 +5357,9 @@
       };
       const ratingTxt = humans.length > 1
         ? humans.map(pl => `${shortName(pl.name)}: ${ratingSpan(pl)}`).join(' · ')
-        : `Dein Lauf: ${ratingSpan(humans[0] || players[0])}`;
+        : tf('stats.yourRun', ratingSpan(humans[0] || players[0]));
       html += `<div style="text-align:center;margin-top:12px;padding:8px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:var(--cream-dim)">
-        Nach ${roundsDone} Runden · ${ratingTxt}
+        ${tf('stats.afterNRounds', roundsDone, ratingTxt)}
       </div>`;
     }
     return html;
@@ -5058,16 +5382,16 @@
     const entries = hellAllHistories().flat().filter(e => hellTargetFilter === null || e.playerIdx === hellTargetFilter);
     const games = hellAllHistories().length;
     let html = '<div class="hit-filter">';
-    html += `<button type="button" class="hit-chip${hellTargetFilter === null ? ' on' : ''}" data-hitfilter="all">Alle</button>`;
+    html += `<button type="button" class="hit-chip${hellTargetFilter === null ? ' on' : ''}" data-hitfilter="all">${t('stats.allPlayers')}</button>`;
     players.forEach((p, i) => {
       html += `<button type="button" class="hit-chip${hellTargetFilter === i ? ' on' : ''}" data-hitfilter="${i}">${chartName(p.name)}</button>`;
     });
     html += '</div>';
     if (!entries.length) {
-      return html + '<p class="rules-note" style="text-align:center">Noch keine gespielten Runden.</p>';
+      return html + `<p class="rules-note" style="text-align:center">${t('stats.noRoundsYet')}</p>`;
     }
     html += '<div style="overflow-x:auto;margin:0 -4px"><table class="hell-stats-table hit-table"><thead><tr>';
-    html += '<th class="player">Ziel</th><th>Züge</th><th>1. Wurf</th><th>2. Wurf</th><th>3. Wurf</th><th>daneben</th><th>Treffer</th>';
+    html += `<th class="player">${t('stats.targetCol')}</th><th>${t('stats.turns')}</th><th>${t('stats.roll1')}</th><th>${t('stats.roll2Col')}</th><th>${t('stats.roll3Col')}</th><th>${t('stats.missed')}</th><th>${t('stats.hits')}</th>`;
     html += '</tr></thead><tbody>';
     const tot = { n: 0, w: [0, 0, 0, 0], miss: 0 };
     for (let t = 3; t <= 18; t++) {
@@ -5087,7 +5411,7 @@
       html += `<td class="${w[2] ? 'hit' : (n ? '' : 'empty')}">${cell(w[2])}</td>`;
       html += `<td class="${w[3] ? 'hit' : (n ? '' : 'empty')}">${cell(w[3])}</td>`;
       html += `<td class="${n ? 'miss' : 'empty'}">${cell(miss)}</td>`;
-      html += `<td class="${hitCls}">${n ? pct(hits) + ' %' : '·'}<span class="prob-cell">erw. ${String(exp).replace('.', ',')} %</span></td></tr>`;
+      html += `<td class="${hitCls}">${n ? pct(hits) + ' %' : '·'}<span class="prob-cell">${tf('stats.expected', String(exp).replace('.', currentLang === 'en' ? '.' : ','))}</span></td></tr>`;
     }
     const tp = x => tot.n ? Math.round(x / tot.n * 100) : 0;
     html += `<tr class="total-row"><td class="round">Σ</td><td>${tot.n}</td>`;
@@ -5095,7 +5419,7 @@
     html += `<td>${tot.miss}<span class="prob-cell">${tp(tot.miss)} %</span></td>`;
     html += `<td>${tp(tot.w[1] + tot.w[2] + tot.w[3])} %</td></tr>`;
     html += '</tbody></table></div>';
-    html += `<p class="rules-note" style="text-align:center">Aus ${games} ${games === 1 ? 'Partie' : 'Partien'} · „erw.“ = Trefferchance bei bestem Saven</p>`;
+    html += `<p class=”rules-note” style=”text-align:center”>${tf('stats.fromGames', games, games === 1 ? t('stats.game') : t('stats.games'))}</p>`;
     return html;
   }
 
@@ -5105,18 +5429,18 @@
     const idx = hellStatsIdx === null ? views.length - 1 : Math.min(hellStatsIdx, views.length - 1);
     let html = `<div id="hell-game-section">${buildHellGameSection(views, idx)}</div>`;
     html += '<div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--gold-deep)">';
-    html += chartTitle('Treffer je Ziel');
+    html += chartTitle(t('chart.hitsPerTarget'));
     html += `<div id="hell-target-stats">${buildHellTargetStats()}</div></div>`;
 
     // Session-Übersicht (nur wenn mehr als 0 abgeschlossene Partien)
     if (hell.session && hell.session.games.length > 0) {
       html += '<div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--gold-deep)">';
       html += buildHellSessionChart();
-      html += '<div style="font-family:\'Cinzel\',serif;font-size:11px;letter-spacing:0.25em;color:var(--gold-light);text-transform:uppercase;margin:14px 0 10px;text-align:center">Session · Partie für Partie</div>';
+      html += `<div style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.25em;color:var(--gold-light);text-transform:uppercase;margin:14px 0 10px;text-align:center">${t('stats.sessionByGame')}</div>`;
       html += '<div style="overflow-x:auto;margin:0 -4px">';
       html += '<table class="hell-stats-table">';
       html += '<thead><tr>';
-      html += '<th class="player">Partie</th>';
+      html += `<th class="player">${t('stats.game2')}</th>`;
       players.forEach(p => {
         let name = p.name;
         if (name.length > 8) {
@@ -5154,7 +5478,7 @@
       const sorted = hell.session.totals.map((t, i) => ({ t, i })).sort((a, b) => b.t - a.t);
       const myRank = sorted.findIndex(x => x.i === myIdx) + 1;
       html += `<div style="text-align:center;margin-top:10px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;color:var(--cream-dim)">
-        Deine Session-Position: <span style="color:var(--gold);font-weight:600">Platz ${myRank} von ${players.length}</span>
+        ${I18N.t('stats.sessionPos')} <span style="color:var(--gold);font-weight:600">${I18N.tf('stats.rankOf', myRank, players.length)}</span>
       </div>`;
       html += '</div>';
     }
@@ -5162,9 +5486,21 @@
     return html;
   }
 
+  // P0-06: track finalized games to prevent double scoring
+  const _finalizedGameIds = new Set();
+
   hell.endGame = function() {
     hell.state.phase = 'gameEnd';
     const players = hell.state.players;
+
+    // P0-06: generate a unique gameId for idempotent scoring
+    const gameId = (hell.state.saveId || '') + '_game_' + (hell.session ? hell.session.games.length : 0);
+    if (_finalizedGameIds.has(gameId)) {
+      // Already finalized this game — just render the end screen
+      hell.renderEnd();
+      return;
+    }
+    _finalizedGameIds.add(gameId);
 
     // Session-Punkte vergeben
     const finals = players.map(p => p.score);
@@ -5190,12 +5526,12 @@
     const top = sorted[0];
     const tied = sorted.filter(p => p.score === top.score);
     if (tied.length > 1) {
-      $('h-winner-name').textContent = 'Unentschieden';
-      $('h-winner-score').textContent = tied.map(p => p.name).join(' · ') + ` · ${top.score} Punkte`;
+      $('h-winner-name').textContent = t('end.draw');
+      $('h-winner-score').textContent = tied.map(p => p.name).join(' · ') + ' · ' + tf('end.points', top.score);
     } else {
       $('h-winner-name').textContent = top.name;
       const topIdx = players.indexOf(top);
-      $('h-winner-score').textContent = `${top.score} Punkte · ${sgn(pts[topIdx])} Session`;
+      $('h-winner-score').textContent = tf('end.pointsSession', top.score, sgn(pts[topIdx]));
     }
     const wrap = $('h-final-board');
     wrap.innerHTML = '';
@@ -5207,11 +5543,11 @@
       const row = document.createElement('div');
       row.className = 'player-row';
       if (p.isHuman) row.classList.add('you');
-      const avEnd = p.avatar ? `<img class="avatar-img" src="${p.avatar}" alt="" style="width:28px;height:28px;margin-right:6px">` : '';
+      const avEnd = p.avatar ? `<img class="avatar-img" src="${safeAvatarSrc(p.avatar)}" alt="" style="width:28px;height:28px;margin-right:6px">` : '';
       row.innerHTML = `
-        ${avEnd}<div class="player-name" style="flex:1">${p.name}</div>
+        ${avEnd}<div class="player-name" style="flex:1">${esc(p.name)}</div>
         <div style="font-family:'Cinzel',serif;font-size:9px;color:var(--cream-dim);letter-spacing:0.08em;text-align:right;min-width:72px;line-height:1.3">
-          <span style="${earned < 0 ? 'color:var(--red-text)' : ''}">${sgn(earned)}</span><br><span style="font-size:8px;letter-spacing:0.05em">${HELL_TIER_LABELS[tier]} ${tierPts[pIdx]} · Platz ${bonus[pIdx]}</span>
+          <span style="${earned < 0 ? 'color:var(--red-text)' : ''}">${sgn(earned)}</span><br><span style="font-size:8px;letter-spacing:0.05em">${HELL_TIER_LABELS[tier]} ${tierPts[pIdx]} · ${tf('end.rank', bonus[pIdx])}</span>
         </div>
         <div class="player-score"${p.score < 0 ? ' style="color:var(--red-text);min-width:40px;text-align:right"' : ' style="min-width:40px;text-align:right"'}>${p.score}</div>
         <div style="font-family:'Limelight',serif;font-size:20px;color:${sessionTotal < 0 ? 'var(--red-text)' : 'var(--gold-light)'};min-width:46px;text-align:right">${sessionTotal}</div>`;
@@ -5220,13 +5556,13 @@
     const gamesPlayed = hell.session ? hell.session.games.length : 1;
     const summary = document.createElement('div');
     summary.style.cssText = 'text-align:center;margin-top:12px;font-family:\'Cinzel\',serif;font-size:10px;letter-spacing:0.2em;color:var(--gold-light);text-transform:uppercase';
-    summary.textContent = `Session · ${gamesPlayed} ${gamesPlayed === 1 ? 'Partie' : 'Partien'} · Rechts = Session-Punkte`;
+    summary.textContent = tf('end.sessionSummary', gamesPlayed, gamesPlayed === 1 ? t('stats.game') : t('stats.games'));
     wrap.appendChild(summary);
     showScreen('hellEnd');
   };
 
   // ═══════════════════════════════════════════════════════════════════════
-  // MULTIPLAYER — Firebase + Glicko-2 + Room Codes + Echtzeit-Sync
+  // 7. MULTIPLAYER — Firebase transport, room lifecycle, Glicko-2, sync
   // ═══════════════════════════════════════════════════════════════════════
 
   const MP = {};
@@ -5428,7 +5764,7 @@
 
   MP.createRoom = async function() {
     if (!MP.uid) await MP.signIn();
-    if (!MP.uid) { showToast('Fehler', 'Verbindung fehlgeschlagen'); return null; }
+    if (!MP.uid) { showToast(t('toast.error'), t('toast.connectionFailed')); return null; }
 
     // Code generieren, Kollision prüfen
     let code, attempts = 0;
@@ -5443,7 +5779,7 @@
       attempts++;
     } while (attempts < 10);
 
-    if (!code) { showToast('Fehler', 'Kein freier Code – bitte erneut versuchen'); return null; }
+    if (!code) { showToast(t('toast.error'), t('toast.noFreeCode')); return null; }
 
     const profile = MP.profile;
     const roomData = {
@@ -5452,7 +5788,7 @@
       status: 'waiting',  // waiting → playing → finished
       players: {
         [MP.uid]: {
-          name: profile.name || 'Spieler 1',
+          name: profile.name || tf('ui.defaultPlayer', 1),
           avatar: profile.avatar,
           rating: profile.rating,
           rd: profile.rd,
@@ -5465,8 +5801,10 @@
 
     await MP.db.ref('rooms/' + code).set(roomData);
 
-    // Presence: aufräumen wenn Verbindung verloren
-    MP.db.ref('rooms/' + code + '/players/' + MP.uid + '/online').onDisconnect().set(false);
+    // P1-11: Presence — mark offline on disconnect, store ref for clean cancel
+    const presenceRef = MP.db.ref('rooms/' + code + '/players/' + MP.uid + '/online');
+    presenceRef.onDisconnect().set(false);
+    MP._presenceRef = presenceRef;
 
     MP.roomCode = code;
     MP.roomRef = MP.db.ref('rooms/' + code);
@@ -5476,24 +5814,32 @@
 
   MP.joinRoom = async function(code) {
     code = (code || '').toUpperCase().trim();
-    if (code.length !== 4) { showToast('Fehler', 'Code muss 4 Buchstaben haben'); return false; }
+    if (code.length !== 4) { showToast(t('toast.error'), t('toast.codeLength')); return false; }
     if (!MP.uid) await MP.signIn();
-    if (!MP.uid) { showToast('Fehler', 'Verbindung fehlgeschlagen'); return false; }
+    if (!MP.uid) { showToast(t('toast.error'), t('toast.connectionFailed')); return false; }
 
     const snap = await MP.db.ref('rooms/' + code).once('value');
-    if (!snap.exists()) { showToast('Unbekannt', 'Kein Tisch mit diesem Code'); return false; }
+    if (!snap.exists()) { showToast(t('toast.unknown'), t('toast.noTable')); return false; }
 
     const room = snap.val();
-    if (room.status !== 'waiting') { showToast('Besetzt', 'Partie läuft bereits'); return false; }
+    if (room.status !== 'waiting') { showToast(t('toast.occupied'), t('toast.gameRunning')); return false; }
 
     const playerCount = room.players ? Object.keys(room.players).length : 0;
-    if (playerCount >= 2) { showToast('Voll', 'Tisch ist bereits besetzt'); return false; }
+    if (playerCount >= 2) { showToast(t('toast.full'), t('toast.tableFull')); return false; }
 
-    if (room.players && room.players[MP.uid]) { showToast('Hm', 'Du sitzt bereits an diesem Tisch'); return false; }
+    if (room.players && room.players[MP.uid]) { showToast(t('toast.hm'), t('toast.alreadySeated')); return false; }
+
+    // P1-11: Check if room is stale (host offline for >2min) — don't join dead rooms
+    const hostUid = room.host;
+    const hostPlayer = room.players && room.players[hostUid];
+    if (hostPlayer && !hostPlayer.online) {
+      showToast(t('toast.error'), t('toast.hostOffline'));
+      return false;
+    }
 
     const profile = MP.profile;
     await MP.db.ref('rooms/' + code + '/players/' + MP.uid).set({
-      name: profile.name || 'Spieler 2',
+      name: profile.name || tf('ui.defaultPlayer', 2),
       avatar: profile.avatar,
       rating: profile.rating,
       rd: profile.rd,
@@ -5501,7 +5847,10 @@
       joinedAt: firebase.database.ServerValue.TIMESTAMP
     });
 
-    MP.db.ref('rooms/' + code + '/players/' + MP.uid + '/online').onDisconnect().set(false);
+    // P1-11: Presence — mark offline on disconnect, store ref for clean cancel
+    const presenceRef = MP.db.ref('rooms/' + code + '/players/' + MP.uid + '/online');
+    presenceRef.onDisconnect().set(false);
+    MP._presenceRef = presenceRef;
 
     MP.roomCode = code;
     MP.roomRef = MP.db.ref('rooms/' + code);
@@ -5513,17 +5862,26 @@
 
   MP.leaveRoom = async function() {
     MP.stopListening();
+    // P1-11: Cancel onDisconnect handler — we're leaving cleanly
+    if (MP._presenceRef) {
+      try { MP._presenceRef.onDisconnect().cancel(); } catch (e) {}
+      MP._presenceRef = null;
+    }
     if (MP.roomRef && MP.uid) {
       try {
-        if (MP.isHost) {
-          // Host löscht den ganzen Raum
+        // P1-11: During active game, don't delete room — just mark offline
+        if (MP.mpActive) {
+          await MP.roomRef.child('players/' + MP.uid + '/online').set(false);
+        } else if (MP.isHost) {
+          // In lobby: Host deletes the whole room
           await MP.roomRef.remove();
         } else {
-          // Gast entfernt nur sich
+          // In lobby: Guest removes themselves
           await MP.roomRef.child('players/' + MP.uid).remove();
         }
       } catch (e) {}
     }
+    MP.mpActive = false;
     MP.roomRef = null;
     MP.roomCode = null;
     MP.isHost = false;
@@ -5532,6 +5890,8 @@
   // ── Echtzeit-Listener ──────────────────────────────────────────────
 
   MP.stopListening = function() {
+    // P1-10: Increment timer epoch to cancel all pending async callbacks
+    timerEpoch++;
     MP.listeners.forEach(({ ref, evt, fn }) => ref.off(evt, fn));
     MP.listeners = [];
   };
@@ -5549,11 +5909,17 @@
     MP.listeners.push({ ref: playersRef, evt: 'value', fn: onPlayers });
 
     // Raumstatus beobachten (für Spielstart)
+    // P1-07: Guard against re-triggering startMultiplayerGame via matchId
+    MP._initializedMatchId = null;
     const statusRef = MP.roomRef.child('status');
-    const onStatus = statusRef.on('value', snap => {
+    const onStatus = statusRef.on('value', async snap => {
       const status = snap.val();
       if (status === 'playing' && !MP.isHost) {
-        // Gast: Spiel wurde gestartet
+        // P1-07: Check matchId to prevent duplicate initialization
+        const mSnap = await MP.roomRef.child('matchId').once('value');
+        const matchId = mSnap.val();
+        if (matchId && matchId === MP._initializedMatchId) return;
+        MP._initializedMatchId = matchId;
         MP.startMultiplayerGame();
       } else if (status === 'finished') {
         MP.onGameFinished();
@@ -5571,18 +5937,50 @@
     });
     MP.listeners.push({ ref: gsRef, evt: 'value', fn: onGameState });
 
-    // Raum gelöscht? (Host hat verlassen)
+    // Raum gelöscht? (Host hat verlassen während Lobby)
     const roomRef = MP.roomRef;
     const onRoomRemoved = roomRef.on('value', snap => {
       if (!snap.exists() && MP.roomCode) {
-        showToast('Aufgelöst', 'Der Tisch wurde geschlossen');
+        showToast(t('toast.dissolved'), t('toast.tableClosed'));
         MP.stopListening();
+        MP.mpActive = false;
         MP.roomRef = null;
         MP.roomCode = null;
         showScreen('mpLobby');
       }
     });
     MP.listeners.push({ ref: roomRef, evt: 'value', fn: onRoomRemoved });
+
+    // P1-11: Monitor opponent online status during gameplay
+    MP._opponentWasOffline = false;
+    const allPlayersRef = MP.roomRef.child('players');
+    const onPlayerOnline = allPlayersRef.on('value', snap => {
+      if (!MP.mpActive) return; // Only during gameplay
+      const players = snap.val();
+      if (!players) return;
+      const opponentUids = Object.keys(players).filter(u => u !== MP.uid);
+      const anyOffline = opponentUids.some(u => players[u] && !players[u].online);
+      if (anyOffline && !MP._opponentWasOffline) {
+        MP._opponentWasOffline = true;
+        const offName = opponentUids.map(u => players[u] && !players[u].online ? esc(players[u].name || '?') : null).filter(Boolean).join(', ');
+        showToast('⚠️', tf('toast.opponentOffline', offName), { duration: 4000 });
+      } else if (!anyOffline && MP._opponentWasOffline) {
+        MP._opponentWasOffline = false;
+        showToast('✓', t('toast.opponentReconnected'), { duration: 2000 });
+      }
+    });
+    MP.listeners.push({ ref: allPlayersRef, evt: 'value', fn: onPlayerOnline });
+
+    // P1-11: Monitor own connection status via Firebase .info/connected
+    if (MP.db) {
+      const connRef = MP.db.ref('.info/connected');
+      const onConn = connRef.on('value', snap => {
+        if (snap.val() === false && MP.mpActive) {
+          showToast('⚠️', t('toast.connectionLost'), { duration: 3000 });
+        }
+      });
+      MP.listeners.push({ ref: connRef, evt: 'value', fn: onConn });
+    }
   };
 
   // ── Spieler im Warteraum rendern ───────────────────────────────────
@@ -5600,10 +5998,10 @@
       row.className = 'mp-player-row';
       const statusDot = p.online ? '🟢' : '🔴';
       row.innerHTML = `
-        <img src="${p.avatar || 'avatars/m1.webp'}" alt="" style="width:36px;height:36px;border-radius:50%;border:2px solid var(--gold-deep)">
+        <img src="${safeAvatarSrc(p.avatar || 'avatars/m1.webp')}" alt="" style="width:36px;height:36px;border-radius:50%;border:2px solid var(--gold-deep)">
         <div style="flex:1;margin-left:10px">
-          <div style="font-family:'Cinzel',serif;font-size:14px;color:var(--cream)">${p.name || 'Unbekannt'}${isMe ? ' (Du)' : ''}</div>
-          <div style="font-size:12px;color:var(--cream-dim)">Rating: ${p.rating || 1500} · ${statusDot}</div>
+          <div style="font-family:'Cinzel',serif;font-size:14px;color:var(--cream)">${esc(p.name || 'Unbekannt')}${isMe ? ' (Du)' : ''}</div>
+          <div style="font-size:12px;color:var(--cream-dim)">Rating: ${parseInt(p.rating) || 1500} · ${statusDot}</div>
         </div>`;
       list.appendChild(row);
     });
@@ -5634,8 +6032,8 @@
     if (!fbPlayers) return;
 
     MP.mpUids = Object.keys(fbPlayers);
-    // Host immer Index 0
-    MP.mpUids.sort((a, b) => (a === MP.roomRef.parent ? -1 : 1));
+    // P1-07 fix: removed bogus a === MP.roomRef.parent comparison (that's a Reference, not a UID string).
+    // Use hostUid from DB to sort host to index 0.
     const hostSnap = await MP.roomRef.child('host').once('value');
     const hostUid = hostSnap.val();
     MP.mpUids.sort((a, b) => {
@@ -5650,7 +6048,7 @@
       const isMe = uid === MP.uid;
       MP.mpPlayerMap[uid] = i;
       return {
-        name: fb.name || ('Spieler ' + (i + 1)),
+        name: fb.name || tf('ui.defaultPlayer', i + 1),
         score: 0,
         isHuman: isMe,       // Nur der lokale Spieler ist „human"
         dice: [-1, -1, -1],
@@ -5662,9 +6060,15 @@
       };
     });
 
+    // P0-02: Read matchId from room for consistent identification
+    const matchSnap = await MP.roomRef.child('matchId').once('value');
+    MP._matchId = matchSnap.val() || (MP.roomCode + '_' + Date.now());
+    MP._localRevision = 0;
+    MP._lastAppliedRevision = 0;
+
     // Session erstellen
     hell.session = {
-      saveId: 'mp_' + MP.roomCode + '_' + Date.now(),
+      saveId: 'mp_' + MP._matchId,
       playerNames: players.map(p => p.name),
       humans: players.map((_, i) => i),    // Alle "menschlich" im MP
       aiKeys: players.map(() => null),
@@ -5705,20 +6109,37 @@
       return 0;
     });
 
-    await MP.roomRef.update({
-      status: 'playing',
-      gameState: {
-        round: 1,
-        target: 3,
-        turnUid: uids[0],
-        turnPos: 0,
-        phase: 'ready',
-        order: uids,
-        scores: Object.fromEntries(uids.map(u => [u, 0])),
+    // P0-02: Generate unique matchId for this game
+    const matchId = MP.roomCode + '_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+
+    // P0-02: Write full authoritative initial state with matchId
+    const initialPlayerStates = {};
+    uids.forEach(u => {
+      initialPlayerStates[u] = {
+        score: 0,
         dice: [-1, -1, -1],
         saved: [false, false, false],
         rollsUsed: 0,
+        lockedSave: null
+      };
+    });
+
+    await MP.roomRef.update({
+      status: 'playing',
+      matchId: matchId,
+      gameState: {
+        matchId: matchId,
+        revision: 0,
+        phase: 'ready',
+        round: 1,
+        target: 3,
+        order: uids,
+        turnPos: 0,
+        currentIdx: 0,
+        turnUid: uids[0],
+        playerStates: initialPlayerStates,
         lastAction: 'start',
+        actorUid: MP.uid,
         timestamp: firebase.database.ServerValue.TIMESTAMP
       }
     });
@@ -5728,69 +6149,109 @@
   };
 
   // ── Echtzeit-Sync ──────────────────────────────────────────────────
-  // Jeder Zug wird nach DB geschrieben und vom Gegner gelesen
+  // P0-02: Single authoritative match state in Firebase.
+  // Every push writes a complete, serializable snapshot that both clients render from.
+  // Revision is monotonic per actor; onRemoteStateUpdate applies full snapshots idempotently.
 
-  MP.pushState = async function(action) {
-    if (!MP.roomRef || !MP.mpActive) return;
+  MP._localRevision = 0;
+  MP._lastAppliedRevision = 0;
+  MP._matchId = null;          // P0-02: unique match identifier
+  // P0-05: action lock to prevent double-clicks and concurrent pushes
+  MP._actionInFlight = false;
+
+  // P0-02: Build a complete authoritative state snapshot from local hell.state
+  MP._buildSnapshot = function(action) {
     const s = hell.state;
-    const p = s.players[s.currentIdx];
-
-    const update = {
+    // Per-player state keyed by UID for Firebase-friendly structure
+    const playerStates = {};
+    s.players.forEach((pl, i) => {
+      const uid = MP.mpUids[i];
+      playerStates[uid] = {
+        score: pl.score,
+        dice: pl.dice.slice(),
+        saved: pl.saved.map(v => v ? true : false),
+        rollsUsed: pl.rollsUsed,
+        lockedSave: pl.lockedSave !== undefined ? pl.lockedSave : null
+      };
+    });
+    return {
+      matchId: MP._matchId,
+      revision: MP._localRevision,
+      phase: s.phase,
       round: s.round,
       target: s.target,
-      turnUid: p.mpUid || MP.mpUids[s.currentIdx],
+      order: (s.order || s.players.map((_, i) => i)).map(idx => MP.mpUids[idx]),
       turnPos: s.turnPos,
-      phase: s.phase,
       currentIdx: s.currentIdx,
-      scores: Object.fromEntries(s.players.map((pl, i) => [MP.mpUids[i], pl.score])),
-      dice: p.dice.slice(),
-      saved: p.saved.slice(),
-      rollsUsed: p.rollsUsed,
+      turnUid: MP.mpUids[s.currentIdx],
+      playerStates: playerStates,
       lastAction: action,
       actorUid: MP.uid,
       timestamp: firebase.database.ServerValue.TIMESTAMP
     };
+  };
 
+  MP.pushState = async function(action) {
+    if (!MP.roomRef || !MP.mpActive) return;
+
+    MP._localRevision++;
+    const snapshot = MP._buildSnapshot(action);
+
+    MP._actionInFlight = true;
     try {
-      await MP.roomRef.child('gameState').update(update);
+      await MP.roomRef.child('gameState').set(snapshot);
     } catch (e) {
       console.warn('Push state failed:', e);
+    } finally {
+      MP._actionInFlight = false;
     }
   };
 
-  // Empfangener Spielzustand vom Gegner
+  // P0-02: Receive authoritative state snapshot from Firebase.
+  // Idempotently adopt the full snapshot, ignoring stale or own echoes.
   MP.onRemoteStateUpdate = function(gs) {
     if (!MP.mpActive || !hell.state) return;
-    // Nur Aktionen des Gegners verarbeiten
-    if (gs.actorUid === MP.uid) return;
+
+    // P0-02: Ignore snapshots from a different match
+    if (gs.matchId && MP._matchId && gs.matchId !== MP._matchId) return;
+
+    // Revision-based deduplication: skip own echoes unless reconnect brings newer data
+    const rev = gs.revision || 0;
+    if (gs.actorUid === MP.uid && rev <= MP._lastAppliedRevision) return;
+    MP._lastAppliedRevision = rev;
 
     const s = hell.state;
-    const remoteIdx = MP.mpPlayerMap[gs.actorUid];
-    if (remoteIdx === undefined) return;
 
-    const p = s.players[remoteIdx];
-
-    // Scores synchronisieren
-    if (gs.scores) {
+    // P0-02: Full authoritative snapshot adoption — all state fields from server
+    if (gs.playerStates) {
+      // Adopt per-player state from authoritative snapshot
       MP.mpUids.forEach((uid, i) => {
-        if (gs.scores[uid] !== undefined) s.players[i].score = gs.scores[uid];
+        const ps = gs.playerStates[uid];
+        if (!ps) return;
+        const pl = s.players[i];
+        pl.score = ps.score;
+        if (gs.actorUid !== MP.uid || rev > MP._localRevision) {
+          // Only overwrite dice/saved from remote actions, not our own echoes
+          pl.dice = ps.dice ? ps.dice.slice() : pl.dice;
+          pl.saved = ps.saved ? ps.saved.map(v => !!v) : pl.saved;
+          pl.rollsUsed = ps.rollsUsed !== undefined ? ps.rollsUsed : pl.rollsUsed;
+          pl.lockedSave = ps.lockedSave !== undefined && ps.lockedSave !== null ? ps.lockedSave : undefined;
+        }
       });
     }
 
-    // Spielzustand updaten
+    // Adopt global state fields
     if (gs.currentIdx !== undefined) s.currentIdx = gs.currentIdx;
     if (gs.round !== undefined) s.round = gs.round;
     if (gs.target !== undefined) s.target = gs.target;
     if (gs.turnPos !== undefined) s.turnPos = gs.turnPos;
 
-    // Würfel und Phase des entfernten Spielers
-    if (gs.dice) p.dice = gs.dice.slice();
-    if (gs.saved) p.saved = gs.saved.slice();
-    if (gs.rollsUsed !== undefined) p.rollsUsed = gs.rollsUsed;
+    // Phase-specific rendering (animations for remote actions)
+    const remoteIdx = gs.actorUid ? MP.mpPlayerMap[gs.actorUid] : undefined;
+    const p = remoteIdx !== undefined ? s.players[remoteIdx] : null;
 
-    // Phase-spezifische Aktionen
-    if (gs.lastAction === 'roll') {
-      // Gegner hat gewürfelt → Animation zeigen
+    if (gs.lastAction === 'roll' && p && gs.actorUid !== MP.uid) {
+      // Opponent rolled — show animation, then adopt phase
       s.phase = 'rolling';
       const dieIds = ['h-die-1', 'h-die-2', 'h-die-3'];
       SFX.dice(p.dice.filter((d, i) => !p.saved[i]).length || 1);
@@ -5814,15 +6275,13 @@
       return;
     }
 
-    if (gs.lastAction === 'choose') {
-      // Gegner hat Würfel ausgewählt
+    if (gs.lastAction === 'choose' && gs.actorUid !== MP.uid) {
       hell.renderDice();
     }
 
     if (gs.lastAction === 'turnEnd') {
-      // Gegner hat seinen Zug beendet → nächster Spieler
       s.phase = gs.phase || 'ready';
-      if (gs.phase === 'ready') {
+      if (s.phase === 'ready') {
         const nextIdx = gs.currentIdx;
         const next = s.players[nextIdx];
         next.dice = [-1, -1, -1];
@@ -5835,11 +6294,8 @@
     }
 
     if (gs.lastAction === 'roundEnd') {
-      s.round = gs.round;
-      s.target = gs.target;
-      s.turnPos = 0;
-      s.currentIdx = gs.currentIdx;
-      s.phase = 'ready';
+      // P0-02: Round transition is atomic — all values already set above from snapshot
+      s.phase = gs.phase || 'ready';
       s.players.forEach(pl => {
         pl.dice = [-1, -1, -1];
         pl.saved = [false, false, false];
@@ -5850,7 +6306,7 @@
         $(id).classList.remove('banked','tappable');
         renderDie(id, -1, { unrolled: true });
       });
-      showToast(`Runde ${s.round}`, `Ziel: ${s.target}`);
+      showToast(tf('toast.roundTarget', s.round), tf('toast.targetIs', s.target));
       hell.renderAll();
       MP.syncTurnUI();
     }
@@ -5862,11 +6318,14 @@
       hell.renderEnd();
     }
 
-    hell.renderAll();
+    if (!['roll', 'gameEnd'].includes(gs.lastAction)) {
+      hell.renderAll();
+    }
   };
 
   // ── Turn-UI: Buttons nur zeigen wenn man selbst dran ist ───────────
 
+  // P1-08: Enhanced syncTurnUI covering all phases and ensuring only active player can interact
   MP.syncTurnUI = function() {
     if (!MP.mpActive || !hell.state) return;
     const s = hell.state;
@@ -5880,16 +6339,27 @@
       // Gegner am Zug → Buttons verstecken, Statustext setzen
       rollBtn.style.display = 'none';
       rerollBtn.style.display = 'none';
-      $('h-status-line').textContent = `${shortName(p.name)} würfelt …`;
+      $('h-status-line').textContent = tf('game.xIsPlaying', shortName(p.name));
       updateHellRollWait();
-      // Würfel nicht anklickbar
+      // P1-08: Dice never tappable during remote turn
       ['h-die-1','h-die-2','h-die-3'].forEach(id => $(id).classList.remove('tappable'));
     } else {
-      // Mein Zug
+      // Mein Zug — show controls based on phase
       if (s.phase === 'ready') {
         rollBtn.style.display = '';
         rerollBtn.style.display = 'none';
-        $('h-status-line').textContent = 'Du bist dran!';
+        $('h-status-line').textContent = t('game.yourTurn') + '!';
+        ['h-die-1','h-die-2','h-die-3'].forEach(id => $(id).classList.remove('tappable'));
+      } else if (s.phase === 'choose') {
+        rollBtn.style.display = 'none';
+        rerollBtn.style.display = '';
+        ['h-die-1','h-die-2','h-die-3'].forEach((id, i) => {
+          if (p.dice[i] >= 0) $(id).classList.add('tappable');
+        });
+      } else if (s.phase === 'rolling') {
+        rollBtn.style.display = 'none';
+        rerollBtn.style.display = 'none';
+        ['h-die-1','h-die-2','h-die-3'].forEach(id => $(id).classList.remove('tappable'));
       }
     }
   };
@@ -5897,11 +6367,20 @@
   // ── MP-Hooks in Spiellogik ─────────────────────────────────────────
   // Wir wrappen die relevanten Funktionen
 
+  // P1-08: Central MP turn authorization check
+  MP.isMyTurn = function() {
+    if (!MP.mpActive || !hell.state) return false;
+    const p = hell.state.players[hell.state.currentIdx];
+    return p && !p.mpRemote && (p.mpUid === MP.uid || !p.mpUid);
+  };
+
   const _origRollDice = hell.rollDice;
   hell.rollDice = function() {
     if (MP.mpActive) {
-      const p = hell.state.players[hell.state.currentIdx];
-      if (p.mpRemote) return; // Gegner-Zug: nicht lokal würfeln
+      // P1-08: Only authorized active player can roll
+      if (!MP.isMyTurn()) return;
+      // P0-05: prevent double-roll while a push is in flight
+      if (MP._actionInFlight) return;
     }
     _origRollDice.call(hell);
   };
@@ -5916,6 +6395,10 @@
 
   const _origAdvanceTurn = hell.advanceTurn;
   hell.advanceTurn = function() {
+    // P1-08: Only authorized player can advance turn
+    if (MP.mpActive && !MP.isMyTurn()) return;
+    // P0-05: prevent double advance while a push is in flight
+    if (MP.mpActive && MP._actionInFlight) return;
     _origAdvanceTurn.call(hell);
     if (MP.mpActive) {
       MP.pushState('turnEnd');
@@ -5931,6 +6414,9 @@
     }
     _origEndOfRound.call(hell);
     if (MP.mpActive) {
+      // P0-02: Push roundEnd AFTER local endOfRound has incremented round/target/reset players.
+      // The 1400ms setTimeout in endOfRound does the local state mutation; we push after it completes.
+      // Use 1500ms to ensure local state is already advanced before building the snapshot.
       setTimeout(() => {
         MP.pushState('roundEnd');
         MP.syncTurnUI();
@@ -5943,16 +6429,29 @@
     const wasMp = MP.mpActive;
     _origEndGame.call(hell);
     if (wasMp) {
-      MP.mpActive = false;
-      MP.pushState('gameEnd');
+      // P0-03 fix: pushState BEFORE setting mpActive=false,
+      // otherwise pushState's guard (!MP.mpActive) returns early
+      // and the opponent never receives the gameEnd action.
+      MP.pushState('gameEnd').then(() => {
+        MP.mpActive = false;
+        MP.onGameFinished();
+      });
       MP.updateRatings();
     }
   };
 
   // ── Glicko-2 Update nach Spielende ─────────────────────────────────
 
+  // P0-06: track rated matches to prevent double rating updates
+  MP._ratedMatchIds = new Set();
+
   MP.updateRatings = async function() {
     if (!hell.state) return;
+    // P0-06: idempotent — only rate once per match
+    const matchId = (hell.state.saveId || '') + '_' + (hell.session ? hell.session.games.length : 0);
+    if (MP._ratedMatchIds.has(matchId)) return;
+    MP._ratedMatchIds.add(matchId);
+
     const players = hell.state.players;
     const myIdx = players.findIndex(p => !p.mpRemote);
     const oppIdx = players.findIndex(p => p.mpRemote);
@@ -5969,6 +6468,9 @@
     const oppRating = oppData.rating || 1500;
     const oppRd = oppData.rd || 350;
 
+    // P0-06 fix: capture own old rating before update
+    const prevOwnRating = MP.profile.rating;
+
     const newRating = MP.glicko2.update(
       MP.profile.rating, MP.profile.rd, MP.profile.vol,
       oppRating, oppRd, result
@@ -5982,10 +6484,10 @@
     MP.profile.lastActive = Date.now();
     MP.saveProfile(MP.profile);
 
-    // Rating im Endbildschirm anzeigen
-    const ratingChange = newRating.rating - (oppData.rating || 1500);
+    // P0-06 fix: ratingChange = new own rating - previous own rating (was: minus opponent rating)
+    const ratingChange = Math.round(newRating.rating - prevOwnRating);
     const rDir = result === 1 ? '↑' : result === 0 ? '↓' : '→';
-    showToast('Glicko-2', `${rDir} Rating: ${newRating.rating} (±${Math.round(newRating.rd)})`);
+    showToast('Glicko-2', `${rDir} ${ratingChange > 0 ? '+' : ''}${ratingChange} → ${tf('mp.ratingDisplay', newRating.rating, Math.round(newRating.rd))}`);
   };
 
   MP.onGameFinished = function() {
@@ -6002,15 +6504,15 @@
     // Firebase initialisieren falls nötig
     if (!MP.app) {
       if (!MP.init()) {
-        showToast('Fehler', 'Firebase konnte nicht geladen werden');
+        showToast(t('toast.error'), t('toast.firebaseError'));
         return;
       }
     }
     // Anonym einloggen
-    showToast('Verbinde', 'Anonyme Anmeldung …', { duration: 1200 });
+    showToast(t('toast.connecting'), t('toast.anonLogin'), { duration: 1200 });
     const uid = await MP.signIn();
     if (!uid) {
-      showToast('Fehler', 'Anmeldung fehlgeschlagen — bitte Internetverbindung prüfen');
+      showToast(t('toast.error'), t('toast.loginFailed'));
       return;
     }
 
@@ -6019,7 +6521,7 @@
     $('mp-name').value = profile.name;
     $('mp-avatar').src = profile.avatar;
     const rdDisplay = Math.round(profile.rd);
-    $('mp-rating-display').textContent = `Rating: ${profile.rating} ± ${rdDisplay}`;
+    $('mp-rating-display').textContent = tf('mp.ratingDisplay', profile.rating, rdDisplay);
 
     showScreen('mpLobby');
   });
@@ -6044,15 +6546,15 @@
   // Tisch eröffnen
   $('mp-create-btn').addEventListener('click', async () => {
     if (!MP.profile.name) {
-      showToast('Name fehlt', 'Bitte gib deinen Spielernamen ein');
+      showToast(t('toast.nameMissing'), t('toast.enterName'));
       $('mp-name').focus();
       return;
     }
     $('mp-create-btn').disabled = true;
-    $('mp-create-btn').textContent = 'Erstelle …';
+    $('mp-create-btn').textContent = t('mp.creating');
     const code = await MP.createRoom();
     $('mp-create-btn').disabled = false;
-    $('mp-create-btn').textContent = 'Neuen Tisch eröffnen';
+    $('mp-create-btn').textContent = t('mp.createTable');
     if (code) {
       $('mp-room-code').textContent = code;
       showScreen('mpRoom');
@@ -6063,7 +6565,7 @@
   // Beitreten
   $('mp-join-btn').addEventListener('click', async () => {
     if (!MP.profile.name) {
-      showToast('Name fehlt', 'Bitte gib deinen Spielernamen ein');
+      showToast(t('toast.nameMissing'), t('toast.enterName'));
       $('mp-name').focus();
       return;
     }
@@ -6099,17 +6601,17 @@
     const code = MP.roomCode;
     if (!code) return;
     const url = location.origin + location.pathname + '?code=' + code;
-    const text = `Spiel mit mir Würfelhalle! Code: ${code}`;
+    const text = tf('share.playWithMe', code);
     if (navigator.share) {
-      try { await navigator.share({ title: 'Würfelhalle – Einladung', text, url }); }
+      try { await navigator.share({ title: t('share.title'), text, url }); }
       catch (e) { /* user cancelled */ }
     } else {
       // Fallback: Copy to clipboard
       try {
         await navigator.clipboard.writeText(url);
-        showToast('Link kopiert', 'Einladungslink in der Zwischenablage');
+        showToast(t('toast.linkCopied'), t('toast.inviteClipboard'));
       } catch (e) {
-        showToast('Code: ' + code, 'Teile diesen Code mit deinem Gegner');
+        showToast(tf('toast.codeIs', code), t('toast.shareCode'));
       }
     }
   });
@@ -6124,25 +6626,21 @@
   // wir müssen nur den Save-State nach Firebase pushen.
 
   const _origSavedHandler = (() => {
-    // Patche die save-Toggle Logik
-    const dieIds = ['h-die-1','h-die-2','h-die-3'];
-    dieIds.forEach((id, i) => {
-      const el = $(id);
-      // Zusätzlicher Listener der den Save-State pushed
-      el.addEventListener('click', () => {
-        if (MP.mpActive && hell.state) {
-          const p = hell.state.players[hell.state.currentIdx];
-          if (!p.mpRemote) {
-            // Kurze Verzögerung damit der originale Handler erst greift
-            setTimeout(() => MP.pushState('choose'), 50);
-          }
-        }
-      });
-    });
+    // P0-02/P0-05: Push choose directly from toggleSave wrapper, not from a separate DOM listener.
+    // The original toggleSave mutates state synchronously, so we push after it returns.
+    const _origToggleSave = hell.toggleSave;
+    hell.toggleSave = function(idx) {
+      // P1-08: Block save toggle during remote turn
+      if (MP.mpActive && !MP.isMyTurn()) return;
+      _origToggleSave.call(hell, idx);
+      if (MP.mpActive && hell.state) {
+        MP.pushState('choose');
+      }
+    };
   })();
 
   // ═══════════════════════════════════════════════════════════════════════
-  // i18n — Internationalization Module
+  // 8. I18N — Internationalization: LANGS dictionaries, t()/tf(), applyLang()
   // ═══════════════════════════════════════════════════════════════════════
   const I18N = (() => {
     const SETTINGS_KEY = 'wuerfelhalle_settings';
@@ -6155,6 +6653,7 @@
         'sound.master': '🔊 Gesamt', 'sound.music': '🎵 Musik', 'sound.ambience': '🍺 Hintergrund',
         'sound.reaction': '🎉 Reaktionen', 'sound.dice': '🎲 Würfel', 'sound.random': '🍻 Zufallsgeräusche',
         'sound.test': 'Probe hören', 'sound.reset': 'Reset',
+        'sound.soundLabel': 'Ton',
         // Settings
         'settings.theme': 'Darstellung', 'settings.nightMode': 'Nachtmodus', 'settings.language': 'Sprache',
         // Setup
@@ -6200,6 +6699,10 @@
         'toast.unknown': 'Unbekannt', 'toast.noTable': 'Kein Tisch mit diesem Code',
         'toast.occupied': 'Besetzt', 'toast.gameRunning': 'Partie läuft bereits',
         'toast.dissolved': 'Aufgelöst', 'toast.tableClosed': 'Der Tisch wurde geschlossen',
+        'toast.hostOffline': 'Der Gastgeber ist offline',
+        'toast.opponentOffline': '{0} ist offline gegangen',
+        'toast.opponentReconnected': 'Gegner ist wieder online',
+        'toast.connectionLost': 'Verbindung verloren — versuche Wiederverbindung …',
         'toast.connecting': 'Verbinde', 'toast.anonLogin': 'Anonyme Anmeldung …',
         'toast.loginFailed': 'Anmeldung fehlgeschlagen — bitte Internetverbindung prüfen',
         'toast.codeLength': 'Code muss 4 Buchstaben haben',
@@ -6208,6 +6711,119 @@
         'toast.firebaseError': 'Firebase konnte nicht geladen werden',
         'toast.orderDrawn': 'Reihenfolge ausgelost',
         'toast.isTurn': 'ist dran · Gerät weitergeben',
+        'toast.roundTarget': 'Runde {0}', 'toast.targetIs': 'Ziel: {0}',
+        'toast.gameNStart': 'Partie {0} · Sieger beginnt',
+        'toast.hm': 'Hm',
+        'toast.linkCopied': 'Link kopiert', 'toast.inviteClipboard': 'Einladungslink in der Zwischenablage',
+        'toast.codeIs': 'Code: {0}', 'toast.shareCode': 'Teile diesen Code mit deinem Gegner',
+        'toast.invitation': 'Einladung', 'toast.inviteJoin': 'Code {0} — gib deinen Namen ein und tritt bei!',
+        // Audio state
+        'sound.audioState': 'Audio: ', 'sound.notStarted': 'nicht gestartet', 'sound.running': 'läuft',
+        // Game status
+        'game.banner': 'Little Hell · 3 Würfel · 3 Würfe', 'game.paschOnlyNeg': 'wirkt nur im Minus',
+        'game.xIsTurn': '{0} ist dran', 'game.xIsPlaying': '{0} würfelt …', 'game.nextRound': 'Nächste Runde', 'game.gameOver': 'Partie vorbei',
+        'game.xRolls': '{0} würfelt', 'game.rollDice': 'Würfel rollen',
+        'game.sumTapToSave': '{0} — Würfel tippen zum Saven, oder neu würfeln',
+        'game.held': 'gehalten', 'game.discard': 'Verwerfen?', 'game.notRolledYet': 'noch nicht gewürfelt',
+        // Probability panel
+        'prob.onlyHeld': 'Nur den gehaltenen', 'prob.allThreeNew': 'Alle 3 neu',
+        'prob.roll1pctTotal': '1. Wurf {0} · gesamt {1}', 'prob.allNew': 'alle neu: {0} · {1}',
+        'prob.onlyHeldDie': 'nur gehaltenen', 'prob.allNewDice': 'alle neu',
+        'prob.target': 'Ziel {0}', 'prob.chance': 'Chance', 'prob.pts': 'Pkt',
+        'prob.total': 'insgesamt', 'prob.perRoll': 'je Wurf, 3 neue Würfel',
+        'prob.pasch': 'Pasch', 'prob.hellpasch': 'Höllenpasch 6‑6‑6',
+        'prob.roll2': 'Wurf 2', 'prob.roll3': 'Wurf 3', 'prob.overall': 'gesamt',
+        'prob.nextRollYourChoice': 'nächster Wurf, deine Auswahl',
+        // Score results
+        'score.hellpasch': 'Höllenpasch 6-6-6', 'score.paschNoMinus': 'Pasch – kein Minus',
+        'score.hellpaschResult': 'Höllenpasch! {0} {1} → {2} (+{3})',
+        'score.hitInRoll': '{0} trifft im {1}. Wurf! +{2}',
+        'score.paschSum': 'Pasch {0} — keine Minuspunkte', 'score.missSum': 'Summe {0} — Ziel {1}, −{2}',
+        // Statistics modal
+        'stats.title': 'Statistik · Little Hell', 'stats.roundTarget': 'Runde {0} / {1} · Ziel {2}',
+        'stats.order': 'Reihenfolge', 'stats.total': 'Gesamt', 'stats.plusCurrent': '+ aktuell',
+        'stats.historyOnly': 'Für diese Partie sind nur Endstand und Session-Punkte gespeichert.',
+        'stats.paschSum': 'Pasch · Σ{0}', 'stats.hitRate': 'Trefferquote', 'stats.hitByRoll': 'Treffer 1./2./3.', 'stats.avgPerRound': 'Ø/Runde',
+        'stats.noRoundsYet': 'Noch keine gespielten Runden.',
+        'stats.fromGames': 'Aus {0} {1} · „erw." = Trefferchance bei bestem Saven',
+        'stats.game': 'Partie', 'stats.games': 'Partien',
+        'stats.sessionByGame': 'Session · Partie für Partie',
+        'stats.sessionPos': 'Deine Session-Position:', 'stats.rankOf': 'Platz {0} von {1}',
+        'stats.sessionPtsTooltip': 'Session-Punkte (Stufe {0} + Platz {1}), wenn die Partie jetzt enden würde',
+        'stats.tierPlusRank': '({0} + Platz {1})',
+        // End screen
+        'end.draw': 'Unentschieden', 'end.points': '{0} Punkte',
+        'end.pointsSession': '{0} Punkte · {1} Session',
+        'end.sessionSummary': 'Session · {0} {1} · Rechts = Session-Punkte', 'end.rank': 'Platz {0}',
+        // Resume / Save
+        'resume.title': 'Gespeicherte Partien', 'resume.savedAt': 'gespeichert {0}',
+        'resume.maxSaves': 'Bis zu {0} Spielstände je Spielart · danach fällt der älteste weg, beendete zuerst',
+        'resume.resumeFailed': 'Fortsetzen fehlgeschlagen', 'resume.saveDamaged': 'Spielstand beschädigt',
+        'resume.activeSession': 'Laufende Session · {0} {1} · {2}',
+        'resume.continueSession': 'Session fortsetzen', 'resume.resetSession': 'Session zurücksetzen',
+        // Setup extras
+        'setup.opponent': 'Gegner {0}', 'setup.avatar': 'Avatar', 'setup.defaultPlayer': 'Spieler {0}',
+        // Avatar
+        'avatar.noStory': '<em>Keine Geschichte</em>',
+        'avatar.story.m1': 'Wuchs in den Gassen von Little Italy auf und hat schon mit 14 beim Craps hinter der Fleischerei mehr verdient als sein Vater im Laden.',
+        'avatar.story.m2': 'Kam mit nichts aus Memphis nach Chicago und hat sich als Pianist in Speakeasies hochgespielt — bis ihm die Würfel lieber wurden als die Tasten.',
+        'avatar.story.m3': 'Wuchs als Sohn eines Hafenarbeiters in Brooklyn auf und hat schon drei Kneipen beim Würfeln übernommen — und zwei davon wieder verloren.',
+        'avatar.story.m4': 'Stammt aus einer Cajun-Familie in New Orleans und hat sein Glück auf den Dampfern des Mississippi gefunden — am Würfeltisch im Unterdeck.',
+        'avatar.story.f1': 'Wuchs hinter der Bühne eines Vaudeville-Theaters auf und hat schon als Garderobiere gelernt, dass man mit einem Lächeln mehr gewinnt als mit einem Ass.',
+        'avatar.story.f2': 'Kam aus Havanna nach Chicago und hat im Hinterzimmer ihres Onkels gelernt, dass Würfel keine Sprache brauchen — nur Nerven.',
+        'avatar.story.f3': 'Tochter eines polnischen Stahlarbeiters aus Gary, Indiana. Hat ihren Spitznamen bekommen, nachdem sie in einer Nacht drei Tische leergeräumt hat.',
+        'avatar.story.f4': 'Wuchs auf einer Farm in Mississippi auf und hat auf dem Weg nach Norden an jedem Truckstop gewürfelt — bis Chicago sie nicht mehr losgelassen hat.',
+        // MP extras
+        'mp.creating': 'Erstelle …', 'mp.ratingDisplay': 'Rating: {0} ± {1}',
+        // Share
+        'share.playWithMe': 'Spiel mit mir Würfelhalle! Code: {0}', 'share.title': 'Würfelhalle – Einladung',
+        // Settings labels
+        'settings.settingsLabel': 'Einstellungen', 'settings.changeName': 'Name ändern',
+        'settings.hitPointsHint': 'Treffer-Punkte für Wurf 1 · 2 · 3',
+        // Tier labels
+        'tier.0': 'katastrophal', 'tier.1': 'bitterer Abend', 'tier.2': 'Pechsträhne', 'tier.3': 'leicht unter Schnitt',
+        'tier.4': 'solide', 'tier.5': 'guter Lauf', 'tier.6': 'sehr stark', 'tier.7': 'Glückssträhne', 'tier.8': 'Höllenritt',
+        // Hit cheers
+        'cheer.1': 'Volltreffer!', 'cheer.2': 'Treffer!', 'cheer.3': 'Gerade noch!',
+        // Dice save labels
+        'dice.save': '{0} saven', 'dice.saveAdd': '+ {0} saven',
+        // Roll button
+        'roll.all3': 'Alle 3 neu würfeln', 'roll.2new': '2 neu würfeln · 1 behalten', 'roll.1new': '1 neu würfeln · 2 behalten',
+        // Persist / save status
+        'persist.cloudFull': 'Konto-Speicher voll oder fehlerhaft · nur dieses Gerät',
+        'persist.cloudOk': 'Gespeichert in deinem Konto · auf allen Geräten',
+        'persist.cloudPending': 'Verbinde Konto-Speicher …',
+        'persist.localOnly': 'Gespeichert auf diesem Gerät',
+        // Scoreboard
+        'ui.scoreboard': 'Spielstand', 'ui.discardSave': 'Spielstand verwerfen',
+        'ui.save': 'Speichern', 'ui.cancel': 'Abbrechen',
+        // Stats / charts
+        'chart.scoreProgress': 'Punkteverlauf', 'chart.sessionPts': 'Session-Punkte',
+        'chart.gamePtsSum': 'Partie-Punkte aufsummiert', 'chart.hitsPerTarget': 'Treffer je Ziel',
+        'stats.round': 'Runde', 'stats.target': 'Ziel', 'stats.game2': 'Partie',
+        'stats.summary': 'Summe', 'stats.interimSummary': 'Zwischenbilanz', 'stats.finalSummary': 'Bilanz',
+        'stats.prevGame': 'Vorherige Partie', 'stats.nextGame': 'Nächste Partie',
+        'stats.running': 'läuft', 'stats.xOfY': '{0} von {1}',
+        'stats.allPlayers': 'Alle',
+        'stats.targetCol': 'Ziel', 'stats.turns': 'Züge',
+        'stats.roll1': '1. Wurf', 'stats.roll2Col': '2. Wurf', 'stats.roll3Col': '3. Wurf',
+        'stats.missed': 'daneben', 'stats.hits': 'Treffer',
+        'stats.expected': 'erw. {0} %',
+        'stats.yourRun': 'Dein Lauf: {0}', 'stats.afterNRounds': 'Nach {0} Runden · {1}',
+        // Save info
+        'save.ended': 'Beendet · Sieg {0} ({1}) · Session {2} {3}',
+        'save.roundInfo': 'Runde {0} / {1} · Ziel {2}',
+        'save.gameN': 'Partie {0}',
+        // Date format
+        'date.today': 'heute',
+        // Name prompt
+        'prompt.yourName': 'Dein Name:',
+        // Default player name
+        'ui.defaultPlayer': 'Spieler {0}',
+        // Hellpasch in stats table
+        'stats.hellpasch': '6-6-6 · Höllenpasch',
+        // Modal
+        'modal.rules': 'Regeln',
       },
       en: {
         'topbar.back': '← New Game', 'topbar.stats': 'Stats', 'topbar.rules': 'Rules',
@@ -6215,6 +6831,7 @@
         'sound.master': '🔊 Master', 'sound.music': '🎵 Music', 'sound.ambience': '🍺 Ambience',
         'sound.reaction': '🎉 Reactions', 'sound.dice': '🎲 Dice', 'sound.random': '🍻 Random sounds',
         'sound.test': 'Preview', 'sound.reset': 'Reset',
+        'sound.soundLabel': 'Sound',
         'settings.theme': 'Appearance', 'settings.nightMode': 'Night mode', 'settings.language': 'Language',
         'setup.yourName': 'Your Name', 'setup.opponents': 'Number of opponents',
         'setup.hotseatHint': 'For each opponent: AI or human (hot-seat, pass the device around).',
@@ -6253,6 +6870,10 @@
         'toast.unknown': 'Unknown', 'toast.noTable': 'No table with this code',
         'toast.occupied': 'Occupied', 'toast.gameRunning': 'Game already in progress',
         'toast.dissolved': 'Dissolved', 'toast.tableClosed': 'The table has been closed',
+        'toast.hostOffline': 'The host is offline',
+        'toast.opponentOffline': '{0} went offline',
+        'toast.opponentReconnected': 'Opponent is back online',
+        'toast.connectionLost': 'Connection lost — attempting to reconnect …',
         'toast.connecting': 'Connecting', 'toast.anonLogin': 'Anonymous login …',
         'toast.loginFailed': 'Login failed — please check your internet connection',
         'toast.codeLength': 'Code must be 4 letters',
@@ -6261,6 +6882,94 @@
         'toast.firebaseError': 'Firebase could not be loaded',
         'toast.orderDrawn': 'Play order drawn',
         'toast.isTurn': '\'s turn · pass the device',
+        'toast.roundTarget': 'Round {0}', 'toast.targetIs': 'Target: {0}',
+        'toast.gameNStart': 'Game {0} · winner starts',
+        'toast.hm': 'Hm',
+        'toast.linkCopied': 'Link copied', 'toast.inviteClipboard': 'Invite link copied to clipboard',
+        'toast.codeIs': 'Code: {0}', 'toast.shareCode': 'Share this code with your opponent',
+        'toast.invitation': 'Invitation', 'toast.inviteJoin': 'Code {0} — enter your name and join!',
+        'sound.audioState': 'Audio: ', 'sound.notStarted': 'not started', 'sound.running': 'running',
+        'game.banner': 'Little Hell · 3 Dice · 3 Rolls', 'game.paschOnlyNeg': 'only in negative',
+        'game.xIsTurn': '{0}\'s turn', 'game.xIsPlaying': '{0} is rolling …', 'game.nextRound': 'Next round', 'game.gameOver': 'Game over',
+        'game.xRolls': '{0} rolls', 'game.rollDice': 'Roll dice',
+        'game.sumTapToSave': '{0} — Tap dice to save, or roll again',
+        'game.held': 'held', 'game.discard': 'Discard?', 'game.notRolledYet': 'not rolled yet',
+        'prob.onlyHeld': 'Only the held one', 'prob.allThreeNew': 'All 3 new',
+        'prob.roll1pctTotal': '1st roll {0} · total {1}', 'prob.allNew': 'all new: {0} · {1}',
+        'prob.onlyHeldDie': 'only held', 'prob.allNewDice': 'all new',
+        'prob.target': 'Target {0}', 'prob.chance': 'Chance', 'prob.pts': 'Pts',
+        'prob.total': 'total', 'prob.perRoll': 'per roll, 3 new dice',
+        'prob.pasch': 'Pair', 'prob.hellpasch': 'Hell pair 6‑6‑6',
+        'prob.roll2': 'Roll 2', 'prob.roll3': 'Roll 3', 'prob.overall': 'total',
+        'prob.nextRollYourChoice': 'next roll, your choice',
+        'score.hellpasch': 'Hell pair 6-6-6', 'score.paschNoMinus': 'Pair – no penalty',
+        'score.hellpaschResult': 'Hell pair! {0} {1} → {2} (+{3})',
+        'score.hitInRoll': '{0} hits on roll {1}! +{2}',
+        'score.paschSum': 'Pair {0} — no penalty', 'score.missSum': 'Sum {0} — Target {1}, −{2}',
+        'stats.title': 'Stats · Little Hell', 'stats.roundTarget': 'Round {0} / {1} · Target {2}',
+        'stats.order': 'Order', 'stats.total': 'Total', 'stats.plusCurrent': '+ current',
+        'stats.historyOnly': 'Only final score and session points are saved for this game.',
+        'stats.paschSum': 'Pair · Σ{0}', 'stats.hitRate': 'Hit rate', 'stats.hitByRoll': 'Hits 1st/2nd/3rd', 'stats.avgPerRound': 'Ø/round',
+        'stats.noRoundsYet': 'No rounds played yet.',
+        'stats.fromGames': 'From {0} {1} · "exp." = hit chance with best saving',
+        'stats.game': 'game', 'stats.games': 'games',
+        'stats.sessionByGame': 'Session · game by game',
+        'stats.sessionPos': 'Your session position:', 'stats.rankOf': 'Rank {0} of {1}',
+        'stats.sessionPtsTooltip': 'Session points (tier {0} + rank {1}), if the game ended now',
+        'stats.tierPlusRank': '({0} + rank {1})',
+        'end.draw': 'Draw', 'end.points': '{0} points',
+        'end.pointsSession': '{0} points · {1} session',
+        'end.sessionSummary': 'Session · {0} {1} · Right = session points', 'end.rank': 'Rank {0}',
+        'resume.title': 'Saved Games', 'resume.savedAt': 'saved {0}',
+        'resume.maxSaves': 'Up to {0} saves per game type · then the oldest is removed, finished first',
+        'resume.resumeFailed': 'Resume failed', 'resume.saveDamaged': 'Save data damaged',
+        'resume.activeSession': 'Active session · {0} {1} · {2}',
+        'resume.continueSession': 'Continue session', 'resume.resetSession': 'Reset session',
+        'setup.opponent': 'Opponent {0}', 'setup.avatar': 'Avatar', 'setup.defaultPlayer': 'Player {0}',
+        'avatar.noStory': '<em>No story</em>',
+        'avatar.story.m1': 'Grew up in the alleys of Little Italy and by 14 was making more money at craps behind the butcher shop than his father made in the store.',
+        'avatar.story.m2': 'Came to Chicago from Memphis with nothing and worked his way up as a speakeasy pianist — until he grew fonder of the dice than the keys.',
+        'avatar.story.m3': 'Grew up as a dockworker\'s son in Brooklyn and has already won three pubs at dice — and lost two of them back.',
+        'avatar.story.m4': 'Comes from a Cajun family in New Orleans and found his fortune on Mississippi steamboats — at the dice table below deck.',
+        'avatar.story.f1': 'Grew up backstage at a vaudeville theater and learned as a wardrobe girl that a smile wins more than an ace.',
+        'avatar.story.f2': 'Came from Havana to Chicago and learned in her uncle\'s back room that dice need no language — just nerves.',
+        'avatar.story.f3': 'Daughter of a Polish steelworker from Gary, Indiana. Got her nickname after clearing three tables in one night.',
+        'avatar.story.f4': 'Grew up on a farm in Mississippi and rolled dice at every truck stop on the way north — until Chicago wouldn\'t let her go.',
+        'mp.creating': 'Creating …', 'mp.ratingDisplay': 'Rating: {0} ± {1}',
+        'share.playWithMe': 'Play Dice Hall with me! Code: {0}', 'share.title': 'Dice Hall – Invitation',
+        'settings.settingsLabel': 'Settings', 'settings.changeName': 'Change name',
+        'settings.hitPointsHint': 'Hit points for roll 1 · 2 · 3',
+        'tier.0': 'catastrophic', 'tier.1': 'bitter night', 'tier.2': 'losing streak', 'tier.3': 'slightly below average',
+        'tier.4': 'solid', 'tier.5': 'good run', 'tier.6': 'very strong', 'tier.7': 'lucky streak', 'tier.8': 'hell ride',
+        'cheer.1': 'Bullseye!', 'cheer.2': 'Hit!', 'cheer.3': 'Just barely!',
+        'dice.save': 'save {0}', 'dice.saveAdd': '+ save {0}',
+        'roll.all3': 'Roll all 3 new', 'roll.2new': 'Roll 2 new · keep 1', 'roll.1new': 'Roll 1 new · keep 2',
+        'persist.cloudFull': 'Account storage full or faulty · this device only',
+        'persist.cloudOk': 'Saved in your account · on all devices',
+        'persist.cloudPending': 'Connecting account storage …',
+        'persist.localOnly': 'Saved on this device',
+        'ui.scoreboard': 'Score', 'ui.discardSave': 'Discard save',
+        'ui.save': 'Save', 'ui.cancel': 'Cancel',
+        'chart.scoreProgress': 'Score progress', 'chart.sessionPts': 'Session points',
+        'chart.gamePtsSum': 'Game points cumulative', 'chart.hitsPerTarget': 'Hits per target',
+        'stats.round': 'Round', 'stats.target': 'Target', 'stats.game2': 'Game',
+        'stats.summary': 'Total', 'stats.interimSummary': 'Interim', 'stats.finalSummary': 'Summary',
+        'stats.prevGame': 'Previous game', 'stats.nextGame': 'Next game',
+        'stats.running': 'live', 'stats.xOfY': '{0} of {1}',
+        'stats.allPlayers': 'All',
+        'stats.targetCol': 'Target', 'stats.turns': 'Turns',
+        'stats.roll1': '1st roll', 'stats.roll2Col': '2nd roll', 'stats.roll3Col': '3rd roll',
+        'stats.missed': 'missed', 'stats.hits': 'Hits',
+        'stats.expected': 'exp. {0} %',
+        'stats.yourRun': 'Your run: {0}', 'stats.afterNRounds': 'After {0} rounds · {1}',
+        'save.ended': 'Ended · Winner {0} ({1}) · Session {2} {3}',
+        'save.roundInfo': 'Round {0} / {1} · Target {2}',
+        'save.gameN': 'Game {0}',
+        'date.today': 'today',
+        'prompt.yourName': 'Your name:',
+        'ui.defaultPlayer': 'Player {0}',
+        'stats.hellpasch': '6-6-6 · Hell pair',
+        'modal.rules': 'Rules',
       },
       es: {
         'topbar.back': '← Nuevo juego', 'topbar.stats': 'Estadísticas', 'topbar.rules': 'Reglas',
@@ -6268,6 +6977,7 @@
         'sound.master': '🔊 General', 'sound.music': '🎵 Música', 'sound.ambience': '🍺 Ambiente',
         'sound.reaction': '🎉 Reacciones', 'sound.dice': '🎲 Dados', 'sound.random': '🍻 Sonidos aleatorios',
         'sound.test': 'Escuchar', 'sound.reset': 'Reiniciar',
+        'sound.soundLabel': 'Sonido',
         'settings.theme': 'Apariencia', 'settings.nightMode': 'Modo noche', 'settings.language': 'Idioma',
         'setup.yourName': 'Tu nombre', 'setup.opponents': 'Número de oponentes',
         'setup.hotseatHint': 'Para cada oponente: IA o humano (hot-seat, pasen el dispositivo).',
@@ -6306,6 +7016,10 @@
         'toast.unknown': 'Desconocido', 'toast.noTable': 'No hay mesa con este código',
         'toast.occupied': 'Ocupada', 'toast.gameRunning': 'Partida ya en curso',
         'toast.dissolved': 'Cerrada', 'toast.tableClosed': 'La mesa ha sido cerrada',
+        'toast.hostOffline': 'El anfitrión está desconectado',
+        'toast.opponentOffline': '{0} se ha desconectado',
+        'toast.opponentReconnected': 'El oponente volvió a conectarse',
+        'toast.connectionLost': 'Conexión perdida — intentando reconectar …',
         'toast.connecting': 'Conectando', 'toast.anonLogin': 'Inicio de sesión anónimo …',
         'toast.loginFailed': 'Inicio de sesión fallido — verifica tu conexión a Internet',
         'toast.codeLength': 'El código debe tener 4 letras',
@@ -6314,6 +7028,94 @@
         'toast.firebaseError': 'No se pudo cargar Firebase',
         'toast.orderDrawn': 'Orden de juego sorteado',
         'toast.isTurn': ' juega · pasa el dispositivo',
+        'toast.roundTarget': 'Ronda {0}', 'toast.targetIs': 'Objetivo: {0}',
+        'toast.gameNStart': 'Partida {0} · el ganador empieza',
+        'toast.hm': 'Hm',
+        'toast.linkCopied': 'Enlace copiado', 'toast.inviteClipboard': 'Enlace de invitación copiado',
+        'toast.codeIs': 'Código: {0}', 'toast.shareCode': 'Comparte este código con tu oponente',
+        'toast.invitation': 'Invitación', 'toast.inviteJoin': 'Código {0} — ¡ingresa tu nombre y únete!',
+        'sound.audioState': 'Audio: ', 'sound.notStarted': 'no iniciado', 'sound.running': 'en ejecución',
+        'game.banner': 'Little Hell · 3 Dados · 3 Tiros', 'game.paschOnlyNeg': 'solo en negativo',
+        'game.xIsTurn': 'Turno de {0}', 'game.xIsPlaying': '{0} está tirando …', 'game.nextRound': 'Siguiente ronda', 'game.gameOver': 'Partida terminada',
+        'game.xRolls': '{0} tira', 'game.rollDice': 'Tirar dados',
+        'game.sumTapToSave': '{0} — Toca los dados para guardar, o vuelve a tirar',
+        'game.held': 'guardado', 'game.discard': 'Descartar?', 'game.notRolledYet': 'aún no ha tirado',
+        'prob.onlyHeld': 'Solo el guardado', 'prob.allThreeNew': 'Los 3 nuevos',
+        'prob.roll1pctTotal': '1er tiro {0} · total {1}', 'prob.allNew': 'todos nuevos: {0} · {1}',
+        'prob.onlyHeldDie': 'solo guardado', 'prob.allNewDice': 'todos nuevos',
+        'prob.target': 'Objetivo {0}', 'prob.chance': 'Probabilidad', 'prob.pts': 'Pts',
+        'prob.total': 'total', 'prob.perRoll': 'por tiro, 3 dados nuevos',
+        'prob.pasch': 'Par', 'prob.hellpasch': 'Par infernal 6‑6‑6',
+        'prob.roll2': 'Tiro 2', 'prob.roll3': 'Tiro 3', 'prob.overall': 'total',
+        'prob.nextRollYourChoice': 'siguiente tiro, tu elección',
+        'score.hellpasch': 'Par infernal 6-6-6', 'score.paschNoMinus': 'Par – sin penalización',
+        'score.hellpaschResult': '¡Par infernal! {0} {1} → {2} (+{3})',
+        'score.hitInRoll': '¡{0} acierta en el tiro {1}! +{2}',
+        'score.paschSum': 'Par {0} — sin penalización', 'score.missSum': 'Suma {0} — Objetivo {1}, −{2}',
+        'stats.title': 'Estadísticas · Little Hell', 'stats.roundTarget': 'Ronda {0} / {1} · Objetivo {2}',
+        'stats.order': 'Orden', 'stats.total': 'Total', 'stats.plusCurrent': '+ actual',
+        'stats.historyOnly': 'Solo se guardaron el resultado final y los puntos de sesión.',
+        'stats.paschSum': 'Par · Σ{0}', 'stats.hitRate': 'Aciertos', 'stats.hitByRoll': 'Aciertos 1°/2°/3°', 'stats.avgPerRound': 'Ø/ronda',
+        'stats.noRoundsYet': 'Aún no hay rondas jugadas.',
+        'stats.fromGames': 'De {0} {1} · "esp." = probabilidad con mejor guardado',
+        'stats.game': 'partida', 'stats.games': 'partidas',
+        'stats.sessionByGame': 'Sesión · partida por partida',
+        'stats.sessionPos': 'Tu posición en la sesión:', 'stats.rankOf': 'Puesto {0} de {1}',
+        'stats.sessionPtsTooltip': 'Puntos de sesión (nivel {0} + puesto {1}), si la partida terminara ahora',
+        'stats.tierPlusRank': '({0} + puesto {1})',
+        'end.draw': 'Empate', 'end.points': '{0} puntos',
+        'end.pointsSession': '{0} puntos · {1} sesión',
+        'end.sessionSummary': 'Sesión · {0} {1} · Derecha = puntos de sesión', 'end.rank': 'Puesto {0}',
+        'resume.title': 'Partidas guardadas', 'resume.savedAt': 'guardado {0}',
+        'resume.maxSaves': 'Hasta {0} partidas guardadas por tipo · luego se elimina la más antigua, terminadas primero',
+        'resume.resumeFailed': 'Error al reanudar', 'resume.saveDamaged': 'Datos de guardado dañados',
+        'resume.activeSession': 'Sesión activa · {0} {1} · {2}',
+        'resume.continueSession': 'Continuar sesión', 'resume.resetSession': 'Reiniciar sesión',
+        'setup.opponent': 'Oponente {0}', 'setup.avatar': 'Avatar', 'setup.defaultPlayer': 'Jugador {0}',
+        'avatar.noStory': '<em>Sin historia</em>',
+        'avatar.story.m1': 'Creció en los callejones de Little Italy y a los 14 ya ganaba más en los dados detrás de la carnicería que su padre en la tienda.',
+        'avatar.story.m2': 'Llegó a Chicago desde Memphis sin nada y se abrió camino como pianista en speakeasies — hasta que los dados le gustaron más que las teclas.',
+        'avatar.story.m3': 'Creció como hijo de un estibador en Brooklyn y ya se ha quedado con tres bares en los dados — y ha perdido dos de vuelta.',
+        'avatar.story.m4': 'Viene de una familia cajún de Nueva Orleans y encontró su fortuna en los vapores del Mississippi — en la mesa de dados bajo cubierta.',
+        'avatar.story.f1': 'Creció entre bastidores de un teatro de vodevil y aprendió como vestuarista que una sonrisa gana más que un as.',
+        'avatar.story.f2': 'Llegó de La Habana a Chicago y aprendió en la trastienda de su tío que los dados no necesitan idioma — solo nervios.',
+        'avatar.story.f3': 'Hija de un trabajador siderúrgico polaco de Gary, Indiana. Se ganó su apodo después de vaciar tres mesas en una noche.',
+        'avatar.story.f4': 'Creció en una granja en Mississippi y jugó a los dados en cada parada de camiones camino al norte — hasta que Chicago no la dejó ir.',
+        'mp.creating': 'Creando …', 'mp.ratingDisplay': 'Rating: {0} ± {1}',
+        'share.playWithMe': '¡Juega Sala de dados conmigo! Código: {0}', 'share.title': 'Sala de dados – Invitación',
+        'settings.settingsLabel': 'Ajustes', 'settings.changeName': 'Cambiar nombre',
+        'settings.hitPointsHint': 'Puntos de acierto para tiro 1 · 2 · 3',
+        'tier.0': 'catastrófico', 'tier.1': 'noche amarga', 'tier.2': 'mala racha', 'tier.3': 'ligeramente bajo',
+        'tier.4': 'sólido', 'tier.5': 'buena racha', 'tier.6': 'muy fuerte', 'tier.7': 'racha de suerte', 'tier.8': 'carrera infernal',
+        'cheer.1': '¡Diana!', 'cheer.2': '¡Acierto!', 'cheer.3': '¡Por poco!',
+        'dice.save': 'guardar {0}', 'dice.saveAdd': '+ guardar {0}',
+        'roll.all3': 'Tirar los 3 de nuevo', 'roll.2new': 'Tirar 2 nuevos · guardar 1', 'roll.1new': 'Tirar 1 nuevo · guardar 2',
+        'persist.cloudFull': 'Almacenamiento de cuenta lleno o defectuoso · solo este dispositivo',
+        'persist.cloudOk': 'Guardado en tu cuenta · en todos los dispositivos',
+        'persist.cloudPending': 'Conectando almacenamiento de cuenta …',
+        'persist.localOnly': 'Guardado en este dispositivo',
+        'ui.scoreboard': 'Puntuación', 'ui.discardSave': 'Descartar partida guardada',
+        'ui.save': 'Guardar', 'ui.cancel': 'Cancelar',
+        'chart.scoreProgress': 'Progreso de puntos', 'chart.sessionPts': 'Puntos de sesión',
+        'chart.gamePtsSum': 'Puntos de partida acumulados', 'chart.hitsPerTarget': 'Aciertos por objetivo',
+        'stats.round': 'Ronda', 'stats.target': 'Objetivo', 'stats.game2': 'Partida',
+        'stats.summary': 'Total', 'stats.interimSummary': 'Parcial', 'stats.finalSummary': 'Resumen',
+        'stats.prevGame': 'Partida anterior', 'stats.nextGame': 'Siguiente partida',
+        'stats.running': 'en curso', 'stats.xOfY': '{0} de {1}',
+        'stats.allPlayers': 'Todos',
+        'stats.targetCol': 'Objetivo', 'stats.turns': 'Turnos',
+        'stats.roll1': '1er tiro', 'stats.roll2Col': '2do tiro', 'stats.roll3Col': '3er tiro',
+        'stats.missed': 'fallado', 'stats.hits': 'Aciertos',
+        'stats.expected': 'esp. {0} %',
+        'stats.yourRun': 'Tu racha: {0}', 'stats.afterNRounds': 'Tras {0} rondas · {1}',
+        'save.ended': 'Finalizada · Ganador {0} ({1}) · Sesión {2} {3}',
+        'save.roundInfo': 'Ronda {0} / {1} · Objetivo {2}',
+        'save.gameN': 'Partida {0}',
+        'date.today': 'hoy',
+        'prompt.yourName': 'Tu nombre:',
+        'ui.defaultPlayer': 'Jugador {0}',
+        'stats.hellpasch': '6-6-6 · Pasch infernal',
+        'modal.rules': 'Reglas',
       },
     };
 
@@ -6334,6 +7136,12 @@
       const dict = LANGS[currentLang] || LANGS.de;
       return dict[key] || LANGS.de[key] || key;
     }
+    // Translate with positional arguments: tf('key', arg0, arg1, ...)
+    function tf(key, ...args) {
+      let s = t(key);
+      args.forEach((a, i) => { s = s.replace('{' + i + '}', a); });
+      return s;
+    }
 
     // Apply translations to all data-i18n elements
     function applyLang() {
@@ -6345,6 +7153,16 @@
         } else {
           el.textContent = val;
         }
+      });
+      // Standalone data-i18n-html (key in attribute value, no data-i18n)
+      document.querySelectorAll('[data-i18n-html]:not([data-i18n])').forEach(el => {
+        const key = el.getAttribute('data-i18n-html');
+        el.innerHTML = t(key);
+      });
+      // Title attributes
+      document.querySelectorAll('[data-i18n-title]').forEach(el => {
+        const key = el.getAttribute('data-i18n-title');
+        el.title = t(key);
       });
       // Placeholders
       document.querySelectorAll('[data-i18n-ph]').forEach(el => {
@@ -6372,6 +7190,13 @@
         $('header-title').textContent = HEADERS[g].title;
         if ($('header-sub').style.display !== 'none') $('header-sub').textContent = HEADERS[g].sub;
       }
+      // Aria-labels
+      const soundPop = $('sound-pop');
+      if (soundPop) soundPop.setAttribute('aria-label', t('sound.soundLabel'));
+      const settingsBtn = $('settings-btn');
+      if (settingsBtn) { settingsBtn.setAttribute('aria-label', t('settings.settingsLabel')); settingsBtn.setAttribute('title', t('settings.settingsLabel')); }
+      const settingsPop = $('settings-pop');
+      if (settingsPop) settingsPop.setAttribute('aria-label', t('settings.settingsLabel'));
       // HTML lang attribute
       document.documentElement.lang = currentLang;
     }
@@ -6451,11 +7276,12 @@
       });
     }
 
-    return { init, t, setLang, setTheme, applyLang, get lang() { return currentLang; } };
+    return { init, t, tf, setLang, setTheme, applyLang, get lang() { return currentLang; } };
   })();
 
   // Global shortcut for translations
   const t = I18N.t;
+  const tf = I18N.tf;
 
   // ═══════════════════════════════════════════════════════════════════════
   // INIT
@@ -6482,7 +7308,7 @@
         if (!$('mp-name').value.trim()) {
           $('mp-name').value = MP.profile.name || '';
         }
-        showToast('Einladung', `Code ${urlCode} — gib deinen Namen ein und tritt bei!`);
+        showToast(t('toast.invitation'), tf('toast.inviteJoin', urlCode));
       }, 500);
     }
   } catch (e) {}
