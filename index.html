@@ -3289,7 +3289,7 @@
     $('header-sub').style.display = inMenu ? '' : 'none';
     $('topbar').style.display = inMenu ? 'none' : 'flex';
     $('back-menu-btn').style.display = (name === 'hellGame' || name === 'hellEnd') ? '' : 'none';
-    $('stats-btn').style.display = (name === 'hellGame') ? '' : 'none';
+    $('stats-btn').style.display = (name === 'hellSetup' || name === 'hellGame') ? '' : 'none';
     $('rules-btn').style.display = inHof ? 'none' : '';
     activeGame = inMenu ? null : g;
     if (inMenu || name === 'hellSetup') refreshMenuSummary();
@@ -3673,14 +3673,26 @@
   $('modal-overlay').addEventListener('click', (e) => {
     if (e.target === $('modal-overlay')) closeRules();
   });
-  $('rules-btn').addEventListener('click', () => { if (activeGame) openRules(activeGame); });
+  $('rules-btn').addEventListener('click', () => openRules(activeGame || 'littlehell'));
   $('back-menu-btn').addEventListener('click', () => showScreen('hellSetup'));
   $('stats-btn').addEventListener('click', () => {
-    if (hell.state && screens.hellGame.classList.contains('active')) {
+    if (hell.state) {
       openHellStats();
       return;
     }
-    // (only Little Hell stats)
+    // Setup screen: show session stats if available
+    if (hell.session && hell.session.games.length > 0) {
+      // Build a temporary state from session data for the stats view
+      const names = hell.session.playerNames;
+      const humans = hell.session.humans || names.map(() => true);
+      const lastGame = hell.session.games[hell.session.games.length - 1];
+      hell.state = {
+        players: names.map((n, i) => ({ name: n, isHuman: !!humans[i], score: lastGame.finals[i] })),
+        round: HELL_MAX_ROUNDS, target: 18, phase: 'gameEnd',
+      };
+      openHellStats();
+      hell.state = null;
+    }
   });
 
 
@@ -7251,35 +7263,35 @@
         b.classList.toggle('active', b.dataset.lang === currentLang);
       });
       applyLang();
-
-      // Settings button toggle
-      $('settings-btn').addEventListener('click', (e) => {
-        e.stopPropagation();
-        const pop = $('settings-pop');
-        const wasOpen = pop.classList.contains('open');
-        // Close sound popup if open
-        $('sound-pop').classList.remove('open');
-        pop.classList.toggle('open', !wasOpen);
-      });
-
-      // Close settings popup on outside click
-      document.addEventListener('click', (e) => {
-        if (!e.target.closest('#settings-pop') && !e.target.closest('#settings-btn')) {
-          $('settings-pop').classList.remove('open');
-        }
-      });
-
-      // Theme toggle
-      $('theme-toggle').addEventListener('change', (e) => {
-        setTheme(e.target.checked);
-      });
-
-      // Language buttons
-      $('lang-grid').addEventListener('click', (e) => {
-        const btn = e.target.closest('.lang-btn');
-        if (btn) setLang(btn.dataset.lang);
-      });
     }
+
+    // Settings button toggle — registered outside init() so it always works
+    $('settings-btn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      const pop = $('settings-pop');
+      const wasOpen = pop.classList.contains('open');
+      // Close sound popup if open
+      $('sound-pop').classList.remove('open');
+      pop.classList.toggle('open', !wasOpen);
+    });
+
+    // Close settings popup on outside click
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#settings-pop') && !e.target.closest('#settings-btn')) {
+        $('settings-pop').classList.remove('open');
+      }
+    });
+
+    // Theme toggle
+    $('theme-toggle').addEventListener('change', (e) => {
+      setTheme(e.target.checked);
+    });
+
+    // Language buttons
+    $('lang-grid').addEventListener('click', (e) => {
+      const btn = e.target.closest('.lang-btn');
+      if (btn) setLang(btn.dataset.lang);
+    });
 
     return { init, t, tf, setLang, setTheme, applyLang, get lang() { return currentLang; } };
   })();
