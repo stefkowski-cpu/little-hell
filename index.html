@@ -2020,6 +2020,10 @@
   // ║  with matchId + monotonic revision for idempotent sync.        ║
   // ╚══════════════════════════════════════════════════════════════════╝
 
+  // Forward-declared i18n shortcuts (assigned when I18N module loads in section 8)
+  var t = (k) => k;   // fallback: return key until I18N.init()
+  var tf = (k) => k;
+
   // ===== 1. CORE INFRA: TIMER-EPOCHE =====
   // Alle Spiel-Timer laufen über diese Wrapper. Beim Fortsetzen oder Neustart wird die Epoche erhöht,
   // damit Timer einer alten Partie nicht in die neue hineinfeuern.
@@ -7279,9 +7283,9 @@
     return { init, t, tf, setLang, setTheme, applyLang, get lang() { return currentLang; } };
   })();
 
-  // Global shortcut for translations
-  const t = I18N.t;
-  const tf = I18N.tf;
+  // Assign i18n shortcuts now that I18N module is ready
+  t = I18N.t;
+  tf = I18N.tf;
 
   // ═══════════════════════════════════════════════════════════════════════
   // INIT
