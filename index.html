@@ -1733,7 +1733,7 @@
   </header>
 
   <div class="topbar" id="topbar" style="display:none">
-    <button class="icon-btn" id="back-menu-btn" data-i18n="topbar.back">← Neues Spiel</button>
+    <button class="icon-btn" id="back-menu-btn" data-i18n="topbar.back" style="display:none">← Menü</button>
     <button class="icon-btn" id="stats-btn" style="display:none" data-i18n="topbar.stats">Statistik</button>
     <button class="icon-btn" id="rules-btn" data-i18n="topbar.rules">Regeln</button>
     <button class="icon-btn sound-btn" id="sound-btn" aria-label="Ton und Hintergrund" title="Ton">
@@ -3085,7 +3085,7 @@
   function fmtSavedAt(ts) {
     const d = new Date(ts);
     const now = new Date();
-    const loc = currentLang === 'en' ? 'en-US' : currentLang === 'es' ? 'es-ES' : 'de-DE';
+    const loc = I18N.lang === 'en' ? 'en-US' : I18N.lang === 'es' ? 'es-ES' : 'de-DE';
     const hm = d.toLocaleTimeString(loc, { hour: '2-digit', minute: '2-digit' });
     if (d.toDateString() === now.toDateString()) return t('date.today') + ' ' + hm;
     return d.toLocaleDateString(loc, { day: '2-digit', month: '2-digit' }) + ' ' + hm;
@@ -3288,6 +3288,7 @@
     // Untertitel nur im Hauptmenü; in den Spielen entfällt er, damit alles nach oben rückt
     $('header-sub').style.display = inMenu ? '' : 'none';
     $('topbar').style.display = inMenu ? 'none' : 'flex';
+    $('back-menu-btn').style.display = (name === 'hellGame' || name === 'hellEnd') ? '' : 'none';
     $('stats-btn').style.display = (name === 'hellGame') ? '' : 'none';
     $('rules-btn').style.display = inHof ? 'none' : '';
     activeGame = inMenu ? null : g;
@@ -3661,7 +3662,7 @@
 
   function openRules(game) {
     const r = RULES[game]; if (!r) return;
-    const lang = r[currentLang] || r.de;
+    const lang = r[I18N.lang] || r.de;
     $('modal-title').textContent = lang.title;
     $('modal-subtitle').textContent = lang.subtitle;
     $('modal-content').innerHTML = lang.html;
@@ -5415,7 +5416,7 @@
       html += `<td class="${w[2] ? 'hit' : (n ? '' : 'empty')}">${cell(w[2])}</td>`;
       html += `<td class="${w[3] ? 'hit' : (n ? '' : 'empty')}">${cell(w[3])}</td>`;
       html += `<td class="${n ? 'miss' : 'empty'}">${cell(miss)}</td>`;
-      html += `<td class="${hitCls}">${n ? pct(hits) + ' %' : '·'}<span class="prob-cell">${tf('stats.expected', String(exp).replace('.', currentLang === 'en' ? '.' : ','))}</span></td></tr>`;
+      html += `<td class="${hitCls}">${n ? pct(hits) + ' %' : '·'}<span class="prob-cell">${tf('stats.expected', String(exp).replace('.', I18N.lang === 'en' ? '.' : ','))}</span></td></tr>`;
     }
     const tp = x => tot.n ? Math.round(x / tot.n * 100) : 0;
     html += `<tr class="total-row"><td class="round">Σ</td><td>${tot.n}</td>`;
@@ -6651,7 +6652,7 @@
     const LANGS = {
       de: {
         // Topbar
-        'topbar.back': '← Neues Spiel', 'topbar.stats': 'Statistik', 'topbar.rules': 'Regeln',
+        'topbar.back': '← Menü', 'topbar.stats': 'Statistik', 'topbar.rules': 'Regeln',
         // Sound
         'sound.on': 'Ton an', 'sound.off': 'Ton aus',
         'sound.master': '🔊 Gesamt', 'sound.music': '🎵 Musik', 'sound.ambience': '🍺 Hintergrund',
@@ -6830,7 +6831,7 @@
         'modal.rules': 'Regeln',
       },
       en: {
-        'topbar.back': '← New Game', 'topbar.stats': 'Stats', 'topbar.rules': 'Rules',
+        'topbar.back': '← Menu', 'topbar.stats': 'Stats', 'topbar.rules': 'Rules',
         'sound.on': 'Sound on', 'sound.off': 'Sound off',
         'sound.master': '🔊 Master', 'sound.music': '🎵 Music', 'sound.ambience': '🍺 Ambience',
         'sound.reaction': '🎉 Reactions', 'sound.dice': '🎲 Dice', 'sound.random': '🍻 Random sounds',
@@ -6976,7 +6977,7 @@
         'modal.rules': 'Rules',
       },
       es: {
-        'topbar.back': '← Nuevo juego', 'topbar.stats': 'Estadísticas', 'topbar.rules': 'Reglas',
+        'topbar.back': '← Menú', 'topbar.stats': 'Estadísticas', 'topbar.rules': 'Reglas',
         'sound.on': 'Sonido activado', 'sound.off': 'Sonido desactivado',
         'sound.master': '🔊 General', 'sound.music': '🎵 Música', 'sound.ambience': '🍺 Ambiente',
         'sound.reaction': '🎉 Reacciones', 'sound.dice': '🎲 Dados', 'sound.random': '🍻 Sonidos aleatorios',
