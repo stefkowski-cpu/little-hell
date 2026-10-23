@@ -3788,12 +3788,19 @@
   // Summe über 16 Runden ≈ −11 (laut Spielanalyse)
   const HELL_ROUND_EV = { 3: -3.7, 4: -1.7, 5: -0.9, 6: -0.3, 7: 0.1, 8: 0.3, 9: 0.3, 10: 0.4 };
   // Prognose: erwartete Endpunktzahl ab aktuellem Stand
+  // Gleiche Logik wie im Chart: lastRound/lastScore aus History (totalAfter)
   function hellForecast(state, history) {
+    history = history || [];
     const results = [];
     for (let pi = 0; pi < state.players.length; pi++) {
-      let expected = state.players[pi].score;
-      const playerEntries = (history || []).filter(h => h.playerIdx === pi);
-      const lastRound = playerEntries.length ? Math.max(...playerEntries.map(h => h.round)) : 0;
+      let lastRound = 0, lastScore = 0;
+      for (let r = 1; r <= HELL_MAX_ROUNDS; r++) {
+        const e = history.find(h => h.round === r && h.playerIdx === pi);
+        if (!e) break;
+        lastRound = r;
+        lastScore = e.totalAfter;
+      }
+      let expected = lastScore;
       for (let r = lastRound + 1; r <= HELL_MAX_ROUNDS; r++) {
         const target = r + 2;
         const tn = target <= 10 ? target : 21 - target;
