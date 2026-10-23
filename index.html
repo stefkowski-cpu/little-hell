@@ -648,9 +648,11 @@
   .cside-order .ord-sess { flex-basis: 100%; padding-left: 20px; margin-top: -2px; font-family: 'Cinzel', serif; font-size: 10px; line-height: 1.2; color: var(--cream-dim); font-variant-numeric: tabular-nums; white-space: nowrap; }
   .cside-order .ord-now { color: var(--gold); }
   .cside-order .ord-now.neg { color: var(--red-text); }
+  .cside-order .ord-fcst { color: var(--cream-dim); font-style: italic; opacity: 0.75; }
   .rules-table.tiers tr.zeroline td { border-top: 2px solid var(--gold); }
   .cside-order .ord-title .ord-legend { font-family: 'Cinzel', serif; font-style: normal; font-size: 8px; letter-spacing: 0.08em; text-transform: none; color: var(--cream-dim); margin-top: 1px; }
   .cside-order .ord-title .ord-legend .ord-now { color: var(--gold); }
+  .cside-order .ord-title .ord-legend .ord-fcst { font-style: italic; opacity: 0.75; }
   .cside-order .ord-row.cur { background: rgba(212,175,55,0.18); color: var(--gold-light); }
   #h-side-scoreboard { border: 1px solid var(--gold-deep); border-radius: 3px; background: rgba(0,0,0,0.25); overflow: hidden; }
 
@@ -3782,6 +3784,26 @@
   // Legacy accessor kept for brevity where index is known
   const HELL_TIER_LABELS = new Proxy([], { get: (_, k) => typeof k === 'string' && /^\d+$/.test(k) ? hellTierLabel(+k) : undefined });
 
+  // Erwarteter Punktegewinn pro Runde je Zielzahl (optimales Spiel, inkl. Pasch-Regel)
+  // Summe über 16 Runden ≈ −11 (laut Spielanalyse)
+  const HELL_ROUND_EV = { 3: -3.7, 4: -1.7, 5: -0.9, 6: -0.3, 7: 0.1, 8: 0.3, 9: 0.3, 10: 0.4 };
+  // Prognose: erwartete Endpunktzahl ab aktuellem Stand
+  function hellForecast(state, history) {
+    const results = [];
+    for (let pi = 0; pi < state.players.length; pi++) {
+      let expected = state.players[pi].score;
+      const playerEntries = (history || []).filter(h => h.playerIdx === pi);
+      const lastRound = playerEntries.length ? Math.max(...playerEntries.map(h => h.round)) : 0;
+      for (let r = lastRound + 1; r <= HELL_MAX_ROUNDS; r++) {
+        const target = r + 2;
+        const tn = target <= 10 ? target : 21 - target;
+        expected += HELL_ROUND_EV[tn];
+      }
+      results.push(Math.round(expected));
+    }
+    return results;
+  }
+
   // Große Punkte-Anzeige nach jedem gewerteten Zug
   let scorePopTimer = null;
   // Konfetti: kurzer Ausbruch aus der Bildmitte, Menge nach Wurf (1. Wurf am meisten)
@@ -5069,10 +5091,13 @@
     // Hinter jedem Namen: aktueller Stand der Session-Punkte
     const sessTotals = (hell.session && hell.session.totals) || [];
     const nowAward = hellGameAward(st.players.map(p => p.score));
-    html += `<div class="cside-order"><div class="ord-title">${t('stats.order')}<small class="ord-legend">${t('stats.total')} · <span class="ord-now">${t('stats.plusCurrent')}</span></small></div>`;
+    const isLive = st.phase !== 'gameEnd';
+    const forecast = isLive ? hellForecast(st, hell.history) : null;
+    html += `<div class="cside-order"><div class="ord-title">${t('stats.order')}<small class="ord-legend">${t('stats.total')} / <span class="ord-now">${t('stats.plusCurrent')}</span>${isLive ? ` / <span class="ord-fcst">${t('stats.forecast')}</span>` : ''}</small></div>`;
     ord.forEach((idx, k) => {
       const oAv = st.players[idx].avatar ? `<img class="avatar-img" src="${safeAvatarSrc(st.players[idx].avatar)}" alt="" style="width:18px;height:18px">` : '';
-      html += `<div class="ord-row${idx === st.currentIdx ? ' cur' : ''}"><span class="ord-num">${k + 1}.</span>${oAv}<span class="ord-name">${esc(nm(st.players[idx]))}</span><span class="ord-sess">(${sessTotals[idx] || 0}<span class="ord-now${nowAward.pts[idx] < 0 ? ' neg' : ''}" title="${tf('stats.sessionPtsTooltip', nowAward.tierPts[idx], nowAward.bonus[idx])}"> · ${sgn(nowAward.pts[idx])}</span>)</span></div>`;
+      const fcstHtml = forecast ? `<span class="ord-fcst"> / ~${forecast[idx]}</span>` : '';
+      html += `<div class="ord-row${idx === st.currentIdx ? ' cur' : ''}"><span class="ord-num">${k + 1}.</span>${oAv}<span class="ord-name">${esc(nm(st.players[idx]))}</span><span class="ord-sess">(${sessTotals[idx] || 0}<span class="ord-now${nowAward.pts[idx] < 0 ? ' neg' : ''}" title="${tf('stats.sessionPtsTooltip', nowAward.tierPts[idx], nowAward.bonus[idx])}"> / ${sgn(nowAward.pts[idx])}</span>${fcstHtml})</span></div>`;
     });
     html += '</div>';
     wrap.innerHTML = html;
@@ -5208,9 +5233,12 @@
       const pts = [];
       sr.values.forEach((v, x) => { if (v !== null && v !== undefined) pts.push([X(x), Y(v)]); });
       if (!pts.length) return;
-      lines += `<polyline points="${pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ')}" fill="none" stroke="${sr.color}" stroke-width="${sr.strong ? 2.6 : 1.8}" stroke-linejoin="round" stroke-linecap="round"/>`;
-      const last = pts[pts.length - 1];
-      lines += `<circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="3.2" fill="${sr.color}" stroke="#082016" stroke-width="1"/>`;
+      const dashAttr = sr.dash ? ' stroke-dasharray="4 3" opacity="0.7"' : '';
+      lines += `<polyline points="${pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ')}" fill="none" stroke="${sr.color}" stroke-width="${sr.dash ? 1.5 : (sr.strong ? 2.6 : 1.8)}"${dashAttr} stroke-linejoin="round" stroke-linecap="round"/>`;
+      if (!sr.dash) {
+        const last = pts[pts.length - 1];
+        lines += `<circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="3.2" fill="${sr.color}" stroke="#082016" stroke-width="1"/>`;
+      }
     });
     if (series2) {
       series2.forEach(sr => {
@@ -5223,6 +5251,7 @@
     const lastOf = (arr) => { const vals = arr.filter(v => v !== null && v !== undefined); return vals.length ? vals[vals.length - 1] : 0; };
     let legend = '<div class="chart-legend">';
     series.forEach((sr, i) => {
+      if (sr.noLegend) return;
       const extra = series2 && series2[i] ? ` <small>(${lastOf(series2[i].values)})</small>` : '';
       legend += `<span class="lg"><span class="sw" style="background:${sr.color}"></span>${sr.name} <b>${lastOf(sr.values)}</b>${extra}</span>`;
     });
@@ -5230,7 +5259,7 @@
     if (note) legend += `<div class="chart-note">${note}</div>`;
     return `<figure class="stats-chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${ariaLabel}">${g}${lines}</svg>${legend}</figure>`;
   }
-  function buildHellGameChart(players, history) {
+  function buildHellGameChart(players, history, live) {
     history = history || [];
     const series = players.map((p, pi) => {
       const values = [0];
@@ -5241,6 +5270,24 @@
       }
       return { name: chartName(p.name), color: CHART_COLORS[pi % CHART_COLORS.length], values, strong: p.isHuman };
     });
+    if (live) {
+      players.forEach((p, pi) => {
+        const mainValues = series[pi].values;
+        const lastRound = mainValues.length - 1;
+        if (lastRound >= HELL_MAX_ROUNDS) return; // already complete
+        const lastScore = mainValues[mainValues.length - 1];
+        const forecastValues = new Array(HELL_MAX_ROUNDS + 1).fill(null);
+        forecastValues[lastRound] = lastScore;
+        let cum = lastScore;
+        for (let r = lastRound + 1; r <= HELL_MAX_ROUNDS; r++) {
+          const target = r + 2;
+          const tn = target <= 10 ? target : 21 - target;
+          cum += HELL_ROUND_EV[tn];
+          forecastValues[r] = Math.round(cum);
+        }
+        series.push({ name: '', color: CHART_COLORS[pi % CHART_COLORS.length], values: forecastValues, dash: true, noLegend: true });
+      });
+    }
     return svgLineChart({ series, xMax: HELL_MAX_ROUNDS, xStep: 2, xLabel: t('stats.round'), ariaLabel: t('chart.scoreProgress') });
   }
   function buildHellSessionChart() {
@@ -5281,7 +5328,7 @@
     if (!v.hasRounds) {
       html += `<p class="rules-note" style="text-align:center">${t('stats.historyOnly')}</p>`;
     } else {
-      html += chartTitle(t('chart.scoreProgress')) + buildHellGameChart(players, history);
+      html += chartTitle(t('chart.scoreProgress')) + buildHellGameChart(players, history, v.live);
     }
     const roundsShown = v.roundsShown;
     if (v.hasRounds) {
@@ -6758,7 +6805,7 @@
         'score.paschSum': 'Pasch {0} — keine Minuspunkte', 'score.missSum': 'Summe {0} — Ziel {1}, −{2}',
         // Statistics modal
         'stats.title': 'Statistik · Little Hell', 'stats.roundTarget': 'Runde {0} / {1} · Ziel {2}',
-        'stats.order': 'Reihenfolge', 'stats.total': 'Gesamt', 'stats.plusCurrent': '+ aktuell',
+        'stats.order': 'Reihenfolge', 'stats.total': 'Ges', 'stats.plusCurrent': 'Akt', 'stats.forecast': 'Progn',
         'stats.historyOnly': 'Für diese Partie sind nur Endstand und Session-Punkte gespeichert.',
         'stats.paschSum': 'Pasch · Σ{0}', 'stats.hitRate': 'Trefferquote', 'stats.hitByRoll': 'Treffer 1./2./3.', 'stats.avgPerRound': 'Ø/Runde',
         'stats.noRoundsYet': 'Noch keine gespielten Runden.',
@@ -6924,7 +6971,7 @@
         'score.hitInRoll': '{0} hits on roll {1}! +{2}',
         'score.paschSum': 'Pair {0} — no penalty', 'score.missSum': 'Sum {0} — Target {1}, −{2}',
         'stats.title': 'Stats · Little Hell', 'stats.roundTarget': 'Round {0} / {1} · Target {2}',
-        'stats.order': 'Order', 'stats.total': 'Total', 'stats.plusCurrent': '+ current',
+        'stats.order': 'Order', 'stats.total': 'Tot', 'stats.plusCurrent': 'Cur', 'stats.forecast': 'Fcst',
         'stats.historyOnly': 'Only final score and session points are saved for this game.',
         'stats.paschSum': 'Pair · Σ{0}', 'stats.hitRate': 'Hit rate', 'stats.hitByRoll': 'Hits 1st/2nd/3rd', 'stats.avgPerRound': 'Ø/round',
         'stats.noRoundsYet': 'No rounds played yet.',
@@ -7070,7 +7117,7 @@
         'score.hitInRoll': '¡{0} acierta en el tiro {1}! +{2}',
         'score.paschSum': 'Par {0} — sin penalización', 'score.missSum': 'Suma {0} — Objetivo {1}, −{2}',
         'stats.title': 'Estadísticas · Little Hell', 'stats.roundTarget': 'Ronda {0} / {1} · Objetivo {2}',
-        'stats.order': 'Orden', 'stats.total': 'Total', 'stats.plusCurrent': '+ actual',
+        'stats.order': 'Orden', 'stats.total': 'Tot', 'stats.plusCurrent': 'Act', 'stats.forecast': 'Pron',
         'stats.historyOnly': 'Solo se guardaron el resultado final y los puntos de sesión.',
         'stats.paschSum': 'Par · Σ{0}', 'stats.hitRate': 'Aciertos', 'stats.hitByRoll': 'Aciertos 1°/2°/3°', 'stats.avgPerRound': 'Ø/ronda',
         'stats.noRoundsYet': 'Aún no hay rondas jugadas.',
