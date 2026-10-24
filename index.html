@@ -5103,7 +5103,7 @@
     html += `<div class="cside-order"><div class="ord-title">${t('stats.order')}<small class="ord-legend">${t('stats.total')} / <span class="ord-now">${t('stats.plusCurrent')}</span>${isLive ? ` / <span class="ord-fcst">${t('stats.forecast')}</span>` : ''}</small></div>`;
     ord.forEach((idx, k) => {
       const oAv = st.players[idx].avatar ? `<img class="avatar-img" src="${safeAvatarSrc(st.players[idx].avatar)}" alt="" style="width:18px;height:18px">` : '';
-      const fcstHtml = forecast ? `<span class="ord-fcst"> / ~${forecast[idx]}</span>` : '';
+      const fcstHtml = forecast ? `<span class="ord-fcst"> / ${forecast[idx] > 0 ? '+' : ''}${forecast[idx]}</span>` : '';
       html += `<div class="ord-row${idx === st.currentIdx ? ' cur' : ''}"><span class="ord-num">${k + 1}.</span>${oAv}<span class="ord-name">${esc(nm(st.players[idx]))}</span><span class="ord-sess">(${sessTotals[idx] || 0}<span class="ord-now${nowAward.pts[idx] < 0 ? ' neg' : ''}" title="${tf('stats.sessionPtsTooltip', nowAward.tierPts[idx], nowAward.bonus[idx])}"> / ${sgn(nowAward.pts[idx])}</span>${fcstHtml})</span></div>`;
     });
     html += '</div>';
@@ -5278,19 +5278,35 @@
       return { name: chartName(p.name), color: CHART_COLORS[pi % CHART_COLORS.length], values, strong: p.isHuman };
     });
     if (live) {
+      // Prognoselinie: für jede Runde r den Prognosewert VOR dem Wurf
+      // (Score nach r-1 + Summe HELL_ROUND_EV für Runden r..16)
+      function remainingEV(fromRound) {
+        let ev = 0;
+        for (let r = fromRound; r <= HELL_MAX_ROUNDS; r++) {
+          const t = r + 2, tn = t <= 10 ? t : 21 - t;
+          ev += HELL_ROUND_EV[tn];
+        }
+        return ev;
+      }
       players.forEach((p, pi) => {
         const mainValues = series[pi].values;
         const lastRound = mainValues.length - 1;
-        if (lastRound >= HELL_MAX_ROUNDS) return; // already complete
-        const lastScore = mainValues[mainValues.length - 1];
         const forecastValues = new Array(HELL_MAX_ROUNDS + 1).fill(null);
-        forecastValues[lastRound] = lastScore;
-        let cum = lastScore;
-        for (let r = lastRound + 1; r <= HELL_MAX_ROUNDS; r++) {
-          const target = r + 2;
-          const tn = target <= 10 ? target : 21 - target;
-          cum += HELL_ROUND_EV[tn];
-          forecastValues[r] = Math.round(cum);
+        // Historische Prognosen: vor jeder gespielten Runde
+        for (let r = 1; r <= lastRound; r++) {
+          const scoreBefore = mainValues[r - 1]; // Score nach Runde r-1
+          forecastValues[r] = Math.round(scoreBefore + remainingEV(r));
+        }
+        // Aktuelle + zukünftige Prognose
+        if (lastRound < HELL_MAX_ROUNDS) {
+          const lastScore = mainValues[lastRound];
+          forecastValues[lastRound] = Math.round(lastScore + remainingEV(lastRound + 1));
+          let cum = lastScore;
+          for (let r = lastRound + 1; r <= HELL_MAX_ROUNDS; r++) {
+            const t = r + 2, tn = t <= 10 ? t : 21 - t;
+            cum += HELL_ROUND_EV[tn];
+            forecastValues[r] = Math.round(cum);
+          }
         }
         series.push({ name: '', color: CHART_COLORS[pi % CHART_COLORS.length], values: forecastValues, dash: true, noLegend: true });
       });
